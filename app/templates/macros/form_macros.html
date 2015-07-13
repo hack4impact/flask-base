@@ -1,0 +1,113 @@
+{# WTForms macros heavily inspired by Flask-Bootstrap.
+ # Consult their docs if you are confused about anything here:
+ # http://pythonhosted.org/Flask-Bootstrap/macros.html?highlight=quick_form#quick_form #}
+
+{# Render a flask.ext.wtforms.Form object.
+   Parameters:
+        form          – The form to output.
+        method        – <form> method attribute (default 'POST')
+        extra_classes – The classes to add to the <form>.
+        enctype       – <form> enctype attribute. If None, will automatically be set to
+                        multipart/form-data if a FileField is present in the form. #}
+{% macro render_form(form, method='POST', extra_classes='', enctype=None) %}
+    {% set flashes = {
+        'error':   get_flashed_messages(category_filter=['form-error']),
+        'warning': get_flashed_messages(category_filter=['form-check-email']),
+        'info':    get_flashed_messages(category_filter=['form-info']),
+        'success': get_flashed_messages(category_filter=['form-success'])
+    } %}
+
+    {{ begin_form(form, flashes, method=method, extra_classes=extra_classes, enctype=enctype) }}
+        {% for field in form if not (is_hidden_field(field) or field.type == 'SubmitField') %}
+            {{ render_form_field(field) }}
+        {% endfor %}
+
+        {{ form_message(flashes['error'], header='Something went wrong.', class='error') }}
+        {{ form_message(flashes['warning'], header='Check your email.', class='warning') }}
+        {{ form_message(flashes['info'], header='Information', class='info') }}
+        {{ form_message(flashes['success'], header='Success!', class='success') }}
+
+        {% for field in form | selectattr('type', 'equalto', 'SubmitField') %}
+            {{ render_form_field(field) }}
+        {% endfor %}
+    {{ end_form(form) }}
+{% endmacro %}
+
+{# Set up the form, including hidden fields and error states #}
+{% macro begin_form(form, flashes, method='POST', extra_classes='', enctype=None) %}
+    {# Set proper enctype #}
+    {% if enctype is none and (form | selectattr('type', 'equalto', 'FileField') | list | length > 0) %}
+        {% set enctype = 'multipart/form-data' %}
+    {% else %}
+        {% set enctype = '' %}
+    {% endif %}
+
+    <form action="" method="{{ method }}" enctype="{{ enctype }}" class="ui form {{ extra_classes }}
+        {% if form.errors or flashes['error'] %} error
+        {% elif flashes['warning'] %} warning
+        {% elif flashes['info'] %} info
+        {% elif flashes['success'] %} success
+        {% endif %}">
+    {{ form.hidden_tag() }}
+{% endmacro %}
+
+{# Mirrors begin_form #}
+{% macro end_form(form) %}
+    </form>
+{% endmacro %}
+
+{# Render a message for the form #}
+{% macro form_message(messages, header=none, class='') %}
+    {% if messages %}
+        <div class="ui {{ class }} message">
+            {% if header is not none %}
+                <div class="header">{{ header }}</div>
+            {% endif %}
+            {% if messages %}
+                <ul class="list">
+                    {% for message in messages %}
+                        <li>{{ message | safe }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{# Render a field for the form #}
+{% macro render_form_field(field, extra_classes='') %}
+    {% if field.type == 'Radio Field' %}
+        {% set extra_classes = extra_classes + ' grouped fields' %}
+    {% endif %}
+    <div class="field {% if field.errors %}error{% endif %} {{ extra_classes }}">
+        {{ render_form_input(field) }}
+        {% if field.errors %}
+            <div class="ui red pointing label">
+                {{ field.errors[0] | safe }}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_form_input(field) %}
+    {% if field.widget.input_type == 'checkbox' %}
+        <div class="ui checkbox">
+            {{ field }}
+            {{ field.label }}
+        </div>
+    {% elif field.type == 'RadioField' %}
+        {% for item in field %}
+            <div class="ui radio checkbox">
+                {{ field }}
+                {{ field.label }}
+            </div>
+        {% endfor %}
+    {% elif field.type == 'SubmitField' %}
+        {{ field(class='ui button') }}
+    {% elif field.type == 'FormField' %}
+        {{ render_form(field) }}
+    {% else %}
+        {{ field.label }}
+        {{ field(placeholder=field.label.text) }}
+    {% endif %}
+{% endmacro %}

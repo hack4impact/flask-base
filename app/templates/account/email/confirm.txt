@@ -1,0 +1,14 @@
+Dear {{ user.full_name() }},
+
+Welcome to Flask-Base!
+
+To confirm your account, please click on the following link:
+
+{{ url_for('account.confirm', token=token, _external=True) }}
+
+Sincerely,
+
+The Flask-Base Team
+
+Note: replies to this email address are not monitored.
+

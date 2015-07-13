@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    {% include 'partials/_head.html' %}
+
+    <body>
+        <nav class="ui grid">
+
+            <!-- Desktop navigation -->
+            <div class="computer tablet only row">
+                <div class="ui fixed main menu">
+                    <div class="ui container">
+                        <a class="header item" href="{{ url_for('main.index') }}">Flask-Base</a>
+                        {% if current_user.is_authenticated() %}
+                            {% set href = url_for(current_user.role.index + '.index') %}
+                            <a class="item" href="{{ href }}">{{ current_user.role.name }}</a>
+                        {% endif %}
+                        <div class="right menu">
+                            {% if current_user.is_authenticated() %}
+                                <a href="{{ url_for('account.manage') }}" class="item">Account</a>
+                                <a href="{{ url_for('account.logout') }}" class="item">Log out</a>
+                            {% else %}
+                                <a href="{{ url_for('account.register') }}" class="item">Register</a>
+                                <a href="{{ url_for('account.login') }}" class="item">Log in</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile navigation -->
+            <div class="mobile only row">
+                <div class="ui fixed menu">
+                    <a class="header item" href="{{ url_for('main.index') }}">Flask-Base</a>
+                    {% if current_user.is_authenticated() %}
+                        <a class="item" href="{{ current_user.role.index }}">{{ current_user.role.name }}</a>
+                    {% endif %}
+                    <div class="right menu">
+                        <a class="icon item" id="open-nav"><i class="sidebar icon"></i></a>
+                    </div>
+                </div>
+                <div class="ui fixed vertical fluid menu">
+                    {% if current_user.is_authenticated() %}
+                        <a href="{{ url_for('account.manage') }}" class="item">Account</a>
+                        <a href="{{ url_for('account.logout') }}" class="item">Log out</a>
+                    {% else %}
+                        <a href="{{ url_for('account.register') }}" class="item">Register</a>
+                        <a href="{{ url_for('account.login') }}" class="item">Log in</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+        <div class="ui grid container">
+            <div class="column">
+                {% include 'partials/_flashes.html' %}
+            </div>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+
+        {# Implement CSRF protection for site #}
+        {% if csrf_token() %}
+            <div style="visibility: hidden; display: none">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            </div>
+        {% endif %}
+    </body>
+</html>

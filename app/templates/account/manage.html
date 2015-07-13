@@ -1,0 +1,51 @@
+{% extends 'layouts/base.html' %}
+{% import 'macros/form_macros.html' as f %}
+
+{% set endpoints = [
+    ('account.manage', 'Account information'),
+    ('account.change_email_request', 'Change email address'),
+    ('account.change_password', 'Change password'),
+    ('account.logout', 'Log out')
+] %}
+
+{% macro navigation(items) %}
+    <div class="ui vertical fluid secondary menu">
+        {% for route, name in items %}
+            {% set href = url_for(route) %}
+            <a class="item {% if request.endpoint == route %}active{% endif %}" href="{{ href }}">
+                {{ name }}
+            </a>
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% macro user_info(user) %}
+    <table class="ui compact definition table">
+        <tr><td>Full name</td><td>{{ '%s %s' % (user.first_name, user.last_name) }}</td></tr>
+        <tr><td>Email address</td><td>{{ user.email }}</td></tr>
+        <tr><td>Account type</td><td>{{ user.role.name }}</td></tr>
+    </table>
+{% endmacro %}
+
+{% block content %}
+    <div class="ui stackable centered grid container">
+        <div class="twelve wide column">
+            <h2 class="ui header">
+                Account Settings
+                <div class="sub header">Manage your account settings and change your login information.</div>
+            </h2>
+        </div>
+        <div class="stretched divided very relaxed row">
+            <div class="four wide column">
+                {{ navigation(endpoints) }}
+            </div>
+            <div class="eight wide column">
+                {% if form %}
+                    {{ f.render_form(form, extra_classes='fluid') }}
+                {% else %}
+                    {{ user_info(user) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

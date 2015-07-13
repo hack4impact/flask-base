@@ -1,0 +1,13 @@
+<p>Dear {{ user.full_name() }},</p>
+
+<p>To confirm your new email address <a href="{{ url_for('account.change_email', token=token, _external=True) }}">click here</a>.</p>
+
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+
+<p>{{ url_for('account.change_email', token=token, _external=True) }}</p>
+
+<p>Sincerely,</p>
+
+<p>The Flask-Base Team</p>
+
+<p><small>Note: replies to this email address are not monitored.</small></p>

@@ -1,0 +1,25 @@
+@media -sass-debug-info{filename{}line{font-family:\000037}}
+nav {
+  margin-bottom: 40px !important;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\0000312}}
+.ui.fixed.main.menu .right.menu > .item:last-of-type {
+  border-right: 1px solid rgba(34, 36, 38, 0.09804);
+}
+
+@media -sass-debug-info{filename{}line{font-family:\0000318}}
+nav .mobile.only.row .ui.vertical.menu {
+  margin-top: 40px;
+  display: none;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\0000325}}
+.flashes > .ui.message:last-of-type {
+  margin-bottom: 2rem;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\0000330}}
+table.selectable tr:hover {
+  cursor: pointer !important;
+}

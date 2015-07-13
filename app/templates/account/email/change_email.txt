@@ -1,0 +1,11 @@
+Dear {{ user.full_name() }},
+
+To confirm your new email address click on the following link:
+
+{{ url_for('account.change_email', token=token, _external=True) }}
+
+Sincerely,
+
+The Flask-Base Team
+
+Note: replies to this email address are not monitored.

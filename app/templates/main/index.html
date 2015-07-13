@@ -1,0 +1,17 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <div class="ui text container">
+        <h1>Hello, world</h1>
+
+        <p>This is <a href="http://hack4impact.org">Hack4Impact</a>'s web application template. We'll use this as a
+        foundation for each of our <a href="http://flask.pocoo.org">Flask</a> projects. The goal is to reduce the work
+        necessary to get a new project off the ground, by providing boilerplate code (such as account management
+        facilities), as well as uncontroversial and extensible defaults. We have integrated an
+        <a href="http://sass-lang.com">SCSS</a>-based asset pipeline based around a (fantastic!) framework
+        called <a href="http://semantic-ui.com">Semantic UI</a>. Much of this code is appropriated from the examples
+        in Miguel Grinberg's book, <a href="http://flaskbook.com"><em>Flask Web Development</em></a>.</p>
+
+        <p>{{ lipsum(6) }}</p>
+    </div>
+{% endblock %}

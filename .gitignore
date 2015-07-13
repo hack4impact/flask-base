@@ -1,0 +1,13 @@
+.webassets-cache/
+webassets-external/
+.DS_Store
+*.pyc
+*.pyo
+env
+venv
+env*
+dist
+*.egg
+*.egg-info
+*.sqlite
+.idea

@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html' %}
+{% import 'macros/form_macros.html' as f %}
+
+{% block content %}
+    <div class="ui text container">
+
+        <div class="ui padded raised segment">
+            <h3>You need to confirm your account before continuing.</h3>
+
+            <p>When you created an account, you should have received an email from us at {{ current_user.email }}
+            with a link to confirm your email address.</p>
+
+            <div class="ui divider"></div>
+
+            <h3>I didn't receive an email!</h3>
+
+            <p>No problem! Just click the button below and we'll send you another one.</p>
+            <a class="ui small button" href="{{ url_for('account.confirm_request') }}">Resend confirmation email</a>
+        </div>
+    </div>
+{% endblock %}
