@@ -1,0 +1,78 @@
+{% macro render_menu_items(endpoints) %}
+    {% for endpoint, name, icon in endpoints %}
+        <a class="item {% if request.endpoint == endpoint %}active{% endif %}" href="{{ url_for(endpoint) }}">
+            {% if icon %}
+                <i class="{{ icon }} icon"></i>
+            {% endif %}
+            {{ name | safe }}
+        </a>
+    {% endfor %}
+{% endmacro %}
+
+{% macro header_items(current_user) %}
+    <a class="header item" href="{{ url_for('main.index') }}">Flask-Base</a>
+    {% if current_user.is_authenticated() %}
+        {% set href = url_for(current_user.role.index + '.index') %}
+        <a class="item" href="{{ href }}">{{ current_user.role.name }}</a>
+    {% endif %}
+{% endmacro %}
+
+{% macro account_items(current_user) %}
+    {% if current_user.is_authenticated() %}
+        <a href="{{ url_for('account.manage') }}" class="item">Account</a>
+        <a href="{{ url_for('account.logout') }}" class="item">Log out</a>
+    {% else %}
+        <a href="{{ url_for('account.register') }}" class="item">Register</a>
+        <a href="{{ url_for('account.login') }}" class="item">Log in</a>
+    {% endif %}
+{% endmacro %}
+
+{% macro mobile_nav(current_user, endpoints=None) %}
+    <div class="mobile only row">
+        <div class="ui fixed inverted black main menu">
+            {{ header_items(current_user) }}
+            <div class="right menu">
+                <a class="icon item" id="open-nav"><i class="sidebar icon"></i></a>
+            </div>
+        </div>
+
+        {# The menu items which will be shown when open-nav is clicked #}
+        <div class="ui fixed vertical fluid menu">
+            {% if endpoints %}
+                {{ render_menu_items(endpoints) }}
+            {% endif %}
+            {{ account_items(current_user) }}
+        </div>
+    </div>
+{% endmacro %}
+
+{# If `count` and `endpoints` are specified, the endpoints will be put into a
+ # secondary menu. `count` should be the string (e.g. 'four') number of endpoints. #}
+{% macro desktop_nav(current_user, endpoints=None, count=None) %}
+    <div class="computer tablet only row">
+        <div class="ui fixed inverted black main menu">
+            <div class="ui container">
+                {{ header_items(current_user) }}
+                <div class="right menu">
+                    {{ account_items(current_user) }}
+                </div>
+            </div>
+        </div>
+
+        {# Endpoints go into a submenu #}
+        {% if endpoints %}
+            <div class="ui fixed {{ count + ' item' }} labeled icon fluid stackable sub menu">
+                <div class="ui stackable container">
+                    {{ render_menu_items(endpoints) }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_nav(current_user, count, endpoints) %}
+    <nav class="ui navigation grid {% if endpoints %}has-submenu{% endif %}">
+        {{ mobile_nav(current_user, endpoints=endpoints) }}
+        {{ desktop_nav(current_user, endpoints=endpoints, count=count) }}
+    </nav>
+{% endmacro %}
