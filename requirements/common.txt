@@ -1,5 +1,6 @@
 Flask==0.10.1
 Flask-Assets==0.10
+Flask-Compress==1.2.1
 Flask-Login==0.2.11
 Flask-Mail==0.9.1
 Flask-Migrate==1.4.0
