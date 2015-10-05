@@ -1,11 +1,22 @@
 from flask import render_template, redirect, request, url_for, flash
-from flask.ext.login import login_required, login_user, logout_user, current_user
+from flask.ext.login import (
+    login_required,
+    login_user,
+    logout_user,
+    current_user
+)
 from . import account
 from .. import db
 from ..email import send_email
 from ..models import User
-from .forms import LoginForm, RegistrationForm, ChangePasswordForm, \
-    ChangeEmailForm, RequestResetPasswordForm, ResetPasswordForm
+from .forms import (
+    LoginForm,
+    RegistrationForm,
+    ChangePasswordForm,
+    ChangeEmailForm,
+    RequestResetPasswordForm,
+    ResetPasswordForm
+)
 
 
 @account.route('/login', methods=['GET', 'POST'])
@@ -28,14 +39,17 @@ def register():
     """Register a new user, and send them a confirmation email."""
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(first_name=form.first_name.data, last_name=form.last_name.data,
-                    email=form.email.data, password=form.password.data, )
+        user = User(first_name=form.first_name.data,
+                    last_name=form.last_name.data,
+                    email=form.email.data,
+                    password=form.password.data)
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm Your Account',
                    'account/email/confirm', user=user, token=token)
-        flash('A confirmation link has been sent to %s.' % user.email, 'warning')
+        flash('A confirmation link has been sent to {}.'.format(user.email),
+              'warning')
         return redirect(url_for('main.index'))
     return render_template('account/register.html', form=form)
 
@@ -66,9 +80,15 @@ def reset_password_request():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             token = user.generate_password_reset_token()
-            send_email(user.email, 'Reset Your Password', 'account/email/reset_password',
-                       user=user, token=token, next=request.args.get('next'))
-        flash('A password reset link has been sent to %s.' % form.email.data, 'warning')
+            send_email(user.email,
+                       'Reset Your Password',
+                       'account/email/reset_password',
+                       user=user,
+                       token=token,
+                       next=request.args.get('next'))
+        flash('A password reset link has been sent to {}.'
+              .format(form.email.data),
+              'warning')
         return redirect(url_for('account.login'))
     return render_template('account/reset_password.html', form=form)
 
@@ -88,7 +108,8 @@ def reset_password(token):
             flash('Your password has been updated.', 'form-success')
             return redirect(url_for('account.login'))
         else:
-            flash('The password reset link is invalid or has expired.', 'form-error')
+            flash('The password reset link is invalid or has expired.',
+                  'form-error')
             return redirect(url_for('main.index'))
     return render_template('account/reset_password.html', form=form)
 
@@ -118,9 +139,13 @@ def change_email_request():
         if current_user.verify_password(form.password.data):
             new_email = form.email.data
             token = current_user.generate_email_change_token(new_email)
-            send_email(new_email, 'Confirm Your New Email',
-                       'account/email/change_email', user=current_user, token=token)
-            flash('A confirmation link has been sent to %r.' % new_email, 'warning')
+            send_email(new_email,
+                       'Confirm Your New Email',
+                       'account/email/change_email',
+                       user=current_user,
+                       token=token)
+            flash('A confirmation link has been sent to {}.'.format(new_email),
+                  'warning')
             return redirect(url_for('main.index'))
         else:
             flash('Invalid email or password.', 'form-error')
@@ -145,7 +170,9 @@ def confirm_request():
     token = current_user.generate_confirmation_token()
     send_email(current_user.email, 'Confirm Your Account',
                'account/email/confirm', user=current_user, token=token)
-    flash('A new confirmation link has been sent to %s.' % current_user.email, 'warning')
+    flash('A new confirmation link has been sent to {}.'.
+          format(current_user.email),
+          'warning')
     return redirect(url_for('main.index'))
 
 
