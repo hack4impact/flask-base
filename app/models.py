@@ -1,7 +1,8 @@
 from flask import current_app
 from flask.ext.login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, \
+    BadSignature, SignatureExpired
 from . import db, login_manager
 
 
@@ -57,7 +58,8 @@ class User(UserMixin, db.Model):
         super(User, self).__init__(**kwargs)
         if self.role is None:
             if self.email == current_app.config['ADMIN_EMAIL']:
-                self.role = Role.query.filter_by(permissions=Permission.ADMINISTER).first()
+                self.role = Role.query.filter_by(
+                    permissions=Permission.ADMINISTER).first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
 
@@ -66,7 +68,7 @@ class User(UserMixin, db.Model):
 
     def can(self, permissions):
         return self.role is not None and \
-               (self.role.permissions & permissions) == permissions
+            (self.role.permissions & permissions) == permissions
 
     def is_admin(self):
         return self.can(Permission.ADMINISTER)
@@ -93,7 +95,9 @@ class User(UserMixin, db.Model):
         return s.dumps({'change_email': self.id, 'new_email': new_email})
 
     def generate_password_reset_token(self, expiration=3600):
-        """Generate a password reset change token to email to an existing user."""
+        """
+        Generate a password reset change token to email to an existing user.
+        """
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'reset': self.id})
 

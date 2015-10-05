@@ -24,10 +24,14 @@ def new_user():
     """Create a new user."""
     form = NewUserForm()
     if form.validate_on_submit():
-        user = User(role=form.role.data, first_name=form.first_name.data, last_name=form.last_name.data,
-                    email=form.email.data, password=form.password.data)
+        user = User(role=form.role.data,
+                    first_name=form.first_name.data,
+                    last_name=form.last_name.data,
+                    email=form.email.data,
+                    password=form.password.data)
         db.session.add(user)
-        flash('User %s successfully created' % user.full_name(), 'form-success')
+        flash('User {} successfully created'.format(user.full_name()),
+              'form-success')
     return render_template('admin/new_user.html', form=form)
 
 
@@ -38,7 +42,8 @@ def registered_users():
     """View all registered users."""
     users = User.query.all()
     roles = Role.query.all()
-    return render_template('admin/registered_users.html', users=users, roles=roles)
+    return render_template('admin/registered_users.html', users=users,
+                           roles=roles)
 
 
 @admin.route('/user/<int:user_id>')
@@ -65,7 +70,9 @@ def change_user_email(user_id):
     if form.validate_on_submit():
         user.email = form.email.data
         db.session.add(user)
-        flash('Email for user %s successfully changed to %s.' % (user.full_name(), user.email), 'form-success')
+        flash('Email for user {} successfully changed to {}.'
+              .format(user.full_name(), user.email),
+              'form-success')
     return render_template('admin/manage_user.html', user=user, form=form)
 
 
@@ -86,7 +93,8 @@ def delete_user_request(user_id):
 def delete_user(user_id):
     """Delete a user's account."""
     if current_user.id == user_id:
-        flash('You cannot delete your own account. Please ask another administrator to do this.', 'error')
+        flash('You cannot delete your own account. Please ask another '
+              'administrator to do this.', 'error')
     else:
         user = User.query.filter_by(id=user_id).first()
         db.session.delete(user)
