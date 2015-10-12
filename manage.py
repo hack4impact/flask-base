@@ -36,11 +36,19 @@ def test():
 
 
 @manager.command
-def setup_dev():
-    """Runs the set-up needed for local development."""
+def recreate_db():
+    """
+    Recreates a local database. You probably should not use this on
+    production.
+    """
     db.drop_all()
     db.create_all()
     db.session.commit()
+
+
+@manager.command
+def setup_dev():
+    """Runs the set-up needed for local development."""
     setup_general()
 
 
