@@ -12,6 +12,7 @@ from ..models import User
 from .forms import (
     LoginForm,
     RegistrationForm,
+    CreatePasswordForm,
     ChangePasswordForm,
     ChangeEmailForm,
     RequestResetPasswordForm,
@@ -123,6 +124,7 @@ def change_password():
         if current_user.verify_password(form.old_password.data):
             current_user.password = form.new_password.data
             db.session.add(current_user)
+            db.session.commit()
             flash('Your password has been updated.', 'form-success')
             return redirect(url_for('main.index'))
         else:
@@ -184,6 +186,35 @@ def confirm(token):
         return redirect(url_for('main.index'))
     if current_user.confirm_account(token):
         flash('Your account has been confirmed.', 'success')
+    else:
+        flash('The confirmation link is invalid or has expired.', 'error')
+    return redirect(url_for('main.index'))
+
+
+@account.route('/join-from-invite/<int:user_id>/<token>',
+               methods=['GET', 'POST'])
+def join_from_invite(user_id, token):
+    """
+    Confirm new user's account with provided token and prompt them to set
+    a password.
+    """
+    if current_user is not None and current_user.is_authenticated():
+        flash('You have already joined.', 'error')
+        return redirect(url_for('main.index'))
+
+    new_user = User.query.filter_by(id=user_id).first()
+    if new_user is None:
+        return redirect(404)
+
+    if new_user.confirm_account(token):
+            form = CreatePasswordForm()
+            if form.validate_on_submit():
+                new_user.password = form.password.data
+                db.session.add(new_user)
+                db.session.commit()
+                flash('Your password has been set.', 'success')
+                return redirect(url_for('account.manage'))
+            return render_template('account/join_invite.html', form=form)
     else:
         flash('The confirmation link is invalid or has expired.', 'error')
     return redirect(url_for('main.index'))
