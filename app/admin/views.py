@@ -29,7 +29,6 @@ def index():
 def new_user():
     """Create a new user."""
     form = NewUserForm()
-    # TODO: Ensure that these accounts can log in
     if form.validate_on_submit():
         user = User(role=form.role.data,
                     first_name=form.first_name.data,
