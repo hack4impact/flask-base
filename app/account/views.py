@@ -199,12 +199,16 @@ def join_from_invite(user_id, token):
     a password.
     """
     if current_user is not None and current_user.is_authenticated():
-        flash('You have already joined.', 'error')
+        flash('You are already logged in.', 'error')
         return redirect(url_for('main.index'))
 
     new_user = User.query.get(user_id)
     if new_user is None:
         return redirect(404)
+
+    if new_user.password_hash is not None:
+        flash('You have already joined.', 'error')
+        return redirect(url_for('main.index'))
 
     if new_user.confirm_account(token):
             form = CreatePasswordForm()
@@ -218,7 +222,15 @@ def join_from_invite(user_id, token):
                 return redirect(url_for('account.login'))
             return render_template('account/join_invite.html', form=form)
     else:
-        flash('The confirmation link is invalid or has expired.', 'error')
+        flash('The confirmation link is invalid or has expired. Another '
+              'invite email with a new link has been sent to you.', 'error')
+        token = new_user.generate_confirmation_token()
+        send_email(new_user.email,
+                   'You Are Invited To Join',
+                   'account/email/invite',
+                   user=new_user,
+                   user_id=new_user.id,
+                   token=token)
     return redirect(url_for('main.index'))
 
 
