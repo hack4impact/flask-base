@@ -29,10 +29,6 @@ class ChangeAccountTypeForm(Form):
                             order_by('permissions'))
     submit = SubmitField('Update role')
 
-    def validate_email(self, field):
-        if User.query.filter_by(email=field.data).first():
-            raise ValidationError('Email already registered.')
-
 
 class InviteUserForm(Form):
     role = QuerySelectField('Account type',

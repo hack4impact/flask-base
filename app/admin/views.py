@@ -120,7 +120,7 @@ def change_account_type(user_id):
               'another administrator to do this.', 'error')
         return redirect(url_for('admin.user_info', user_id=user_id))
 
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.get(user_id)
     if user is None:
         abort(404)
     form = ChangeAccountTypeForm()

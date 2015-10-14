@@ -202,7 +202,7 @@ def join_from_invite(user_id, token):
         flash('You have already joined.', 'error')
         return redirect(url_for('main.index'))
 
-    new_user = User.query.filter_by(id=user_id).first()
+    new_user = User.query.get(user_id)
     if new_user is None:
         return redirect(404)
 
