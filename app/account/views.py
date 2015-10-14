@@ -212,8 +212,10 @@ def join_from_invite(user_id, token):
                 new_user.password = form.password.data
                 db.session.add(new_user)
                 db.session.commit()
-                flash('Your password has been set.', 'success')
-                return redirect(url_for('account.manage'))
+                flash('Your password has been set. After you log in, you can '
+                      'go to the "Your Account" page to review your account '
+                      'information and settings.', 'success')
+                return redirect(url_for('account.login'))
             return render_template('account/join_invite.html', form=form)
     else:
         flash('The confirmation link is invalid or has expired.', 'error')
