@@ -21,7 +21,16 @@ class ChangeUserEmailForm(Form):
             raise ValidationError('Email already registered.')
 
 
-class NewUserForm(Form):
+class ChangeAccountTypeForm(Form):
+    role = QuerySelectField('New account type',
+                            validators=[DataRequired()],
+                            get_label='name',
+                            query_factory=lambda: db.session.query(Role).
+                            order_by('permissions'))
+    submit = SubmitField('Update role')
+
+
+class InviteUserForm(Form):
     role = QuerySelectField('Account type',
                             validators=[DataRequired()],
                             get_label='name',
@@ -33,13 +42,18 @@ class NewUserForm(Form):
                                                      Length(1, 64)])
     email = EmailField('Email', validators=[DataRequired(), Length(1, 64),
                                             Email()])
+    submit = SubmitField('Invite')
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('Email already registered.')
+
+
+class NewUserForm(InviteUserForm):
     password = PasswordField('Password', validators=[
         DataRequired(), EqualTo('password2',
                                 'Passwords must match.')
     ])
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
-    submit = SubmitField('Register')
 
-    def validate_email(self, field):
-        if User.query.filter_by(email=field.data).first():
-            raise ValidationError('Email already registered.')
+    submit = SubmitField('Create')

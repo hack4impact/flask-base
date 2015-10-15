@@ -1,0 +1,16 @@
+Dear {{ user.full_name() }},
+
+You are invited to join Flask-Base!
+
+To set your password, please click on the following link:
+
+{{ url_for('account.join_from_invite', user_id=user_id, token=token, _external=True) }}
+
+Once completed, please log in as {{ user.email }} with the password you set.
+
+Sincerely,
+
+The Flask-Base Team
+
+Note: replies to this email address are not monitored.
+

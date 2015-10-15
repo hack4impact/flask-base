@@ -1,0 +1,17 @@
+<p>Dear {{ user.full_name() }},</p>
+
+<p>You are invited to join <b>Flask-Base</b>!</p>
+
+<p>To set your password, please <a href="{{ url_for('account.join_from_invite', user_id=user_id, token=token, _external=True) }}">click here</a>.</p>
+
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+
+<p>{{ url_for('account.join_from_invite', user_id=user_id, token=token, _external=True) }}</p>
+
+<p>Once completed, please log in as {{ user.email }} with the password you set.</p>
+
+<p>Sincerely,</p>
+
+<p>The Flask-Base Team</p>
+
+<p><small>Note: replies to this email address are not monitored.</small></p>
