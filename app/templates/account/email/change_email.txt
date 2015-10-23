@@ -6,6 +6,6 @@ To confirm your new email address click on the following link:
 
 Sincerely,
 
-The Flask-Base Team
+The {{ config.APP_NAME }} Team
 
 Note: replies to this email address are not monitored.

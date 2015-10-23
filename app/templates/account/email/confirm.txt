@@ -1,6 +1,6 @@
 Dear {{ user.full_name() }},
 
-Welcome to Flask-Base!
+Welcome to {{ config.APP_NAME }}!
 
 To confirm your account, please click on the following link:
 
@@ -8,7 +8,7 @@ To confirm your account, please click on the following link:
 
 Sincerely,
 
-The Flask-Base Team
+The {{ config.APP_NAME }} Team
 
 Note: replies to this email address are not monitored.
 

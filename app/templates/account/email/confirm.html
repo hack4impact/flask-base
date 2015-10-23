@@ -1,6 +1,6 @@
 <p>Dear {{ user.full_name() }},</p>
 
-<p>Welcome to <b>Flask-Base</b>!</p>
+<p>Welcome to <b>{{ config.APP_NAME }}</b>!</p>
 
 <p>To confirm your account, please <a href="{{ url_for('account.confirm', token=token, _external=True) }}">click here</a>.</p>
 
@@ -10,6 +10,6 @@
 
 <p>Sincerely,</p>
 
-<p>The Flask-Base Team</p>
+<p>The {{ config.APP_NAME }} Team</p>
 
 <p><small>Note: replies to this email address are not monitored.</small></p>
