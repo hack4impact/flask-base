@@ -41,12 +41,19 @@ A Flask application template with the boilerplate code already done for you.
 4. Create the database
 
     ```
-    $ python manage.py shell
+    $ python manage.py recreate_db
     ```
 
-    ```python
-    >>> db.create_all()
-    >>> db.session.commit()
+5. Other setup (e.g. creating roles in database)
+
+    ```
+    $ python manage.py setup_dev
+    ```
+
+6. [Optional] Add fake data to the database
+
+    ```
+    $ python manage.py add_fake_data
     ```
 
 ## Running the app
