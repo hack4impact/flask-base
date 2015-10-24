@@ -17,4 +17,4 @@ def register_template_utils(app):
 
 
 def index_for_role(role):
-    return url_for(role.name + '.index')
+    return url_for(role.index)
