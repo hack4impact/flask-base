@@ -1,6 +1,6 @@
 <p>Dear {{ user.full_name() }},</p>
 
-<p>You are invited to join <b>Flask-Base</b>!</p>
+<p>You are invited to join <b>{{ config.APP_NAME }}</b>!</p>
 
 <p>To set your password, please <a href="{{ url_for('account.join_from_invite', user_id=user_id, token=token, _external=True) }}">click here</a>.</p>
 
@@ -12,6 +12,6 @@
 
 <p>Sincerely,</p>
 
-<p>The Flask-Base Team</p>
+<p>The {{ config.APP_NAME }} Team</p>
 
 <p><small>Note: replies to this email address are not monitored.</small></p>
