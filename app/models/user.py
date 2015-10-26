@@ -151,17 +151,18 @@ class User(UserMixin, db.Model):
         """Generate a number of fake users for testing."""
         from sqlalchemy.exc import IntegrityError
         from random import seed, choice
-        import forgery_py
+        from faker import Faker
 
+        fake = Faker()
         roles = Role.query.all()
 
         seed()
         for i in range(count):
             u = User(
-                first_name=forgery_py.name.first_name(),
-                last_name=forgery_py.name.last_name(),
-                email=forgery_py.internet.email_address(),
-                password=forgery_py.lorem_ipsum.word(),
+                first_name=fake.first_name(),
+                last_name=fake.last_name(),
+                email=fake.email(),
+                password=fake.password(),
                 confirmed=True,
                 role=choice(roles),
                 **kwargs
