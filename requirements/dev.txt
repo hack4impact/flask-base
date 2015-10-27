@@ -1,2 +1,2 @@
 -r common.txt
-ForgeryPy==0.1
+fake-factory==0.5.3
