@@ -8,4 +8,5 @@
 
     {% assets 'vendor_js' %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
     {% assets 'app_js' %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
+    <script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
 </head>
