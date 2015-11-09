@@ -6,4 +6,6 @@
         <h1>About</h1>
         {{ page.render_inline_editor(editable_html_obj, current_user) }}
     </div>
+
+    <script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
 {% endblock %}

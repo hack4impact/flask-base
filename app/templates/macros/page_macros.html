@@ -15,6 +15,9 @@
     <script>
     var editorIDName = "editor-{{ editable_html_obj.editor_name }}";
     $(document).ready(function() {
+        {% if current_user.is_admin() %}
+            $(".end-edit").hide();
+        {% endif %}
         $(".start-edit").click(function() {
             CKEDITOR.disableAutoInline = true;
             var editor = CKEDITOR.inline(editorIDName, {
@@ -40,10 +43,6 @@
             $(".start-edit").show();
             $("#" + editorIDName).attr("contenteditable","false");
         });
-
-        {% if current_user.is_admin() %}
-            $(".end-edit").hide();
-        {% endif %}
     });
     </script>
 
