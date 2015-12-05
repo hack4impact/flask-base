@@ -1,4 +1,4 @@
-# flask-base
+# flask-base [![Circle CI](https://circleci.com/gh/hack4impact/flask-base.svg?style=svg)](https://circleci.com/gh/hack4impact/flask-base)
 
 ## Synopsis
 
