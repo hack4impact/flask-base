@@ -2,11 +2,11 @@
 
 <p>You are invited to join <b>{{ config.APP_NAME }}</b>!</p>
 
-<p>To set your password, please <a href="{{ url_for('account.join_from_invite', user_id=user_id, token=token, _external=True) }}">click here</a>.</p>
+<p>To set your password, please <a href="{{ invite_link }}">click here</a>.</p>
 
 <p>Alternatively, you can paste the following link in your browser's address bar:</p>
 
-<p>{{ url_for('account.join_from_invite', user_id=user_id, token=token, _external=True) }}</p>
+<p>{{ invite_link }}</p>
 
 <p>Once completed, please log in as {{ user.email }} with the password you set.</p>
 
