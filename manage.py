@@ -110,17 +110,18 @@ def run_scheduler():
 
     setup_loghandlers('INFO')
     scheduler = Scheduler(connection=conn, interval=60.0)
-    try:
-        scheduler.run()
-    except ValueError, exc:
-        if exc.message == "There's already an active RQ scheduler":
-            scheduler.log.info(
-                "An RQ scheduler instance is already running. Retrying in %d "
-                "seconds.", 10,
-            )
-            time.sleep(10)
-        else:
-            raise
+    for _ in xrange(10):
+        try:
+            scheduler.run()
+        except ValueError, exc:
+            if exc.message == 'There\'s already an active RQ scheduler':
+                scheduler.log.info(
+                    'An RQ scheduler instance is already running. Retrying in '
+                    '%d seconds.', 10,
+                )
+                time.sleep(10)
+            else:
+                raise
 
 if __name__ == '__main__':
     manager.run()
