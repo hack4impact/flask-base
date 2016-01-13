@@ -22,9 +22,9 @@ class Config:
     EMAIL_SENDER = '{app_name} Admin <{email}>'.format(app_name=APP_NAME,
                                                        email=MAIL_USERNAME)
 
-    # TODO: explain what is happening here
     REDIS_URL = os.getenv('REDISTOGO_URL') or 'http://localhost:6379'
 
+    # Parse the REDIS_URL to set RQ config variables
     urlparse.uses_netloc.append('redis')
     url = urlparse.urlparse(REDIS_URL)
 

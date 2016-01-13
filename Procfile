@@ -1,3 +1,3 @@
 web: gunicorn manage:app
-worker: python -u run-worker.py
+worker: python -u manage.py run_worker & python -u manage.py run_scheduler && fg
 
