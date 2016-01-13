@@ -113,7 +113,7 @@ def run_scheduler():
     for _ in xrange(10):
         try:
             scheduler.run()
-        except ValueError, exc:
+        except ValueError as exc:
             if exc.message == 'There\'s already an active RQ scheduler':
                 scheduler.log.info(
                     'An RQ scheduler instance is already running. Retrying in '
@@ -121,7 +121,7 @@ def run_scheduler():
                 )
                 time.sleep(10)
             else:
-                raise
+                raise exc
 
 if __name__ == '__main__':
     manager.run()
