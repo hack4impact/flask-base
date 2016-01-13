@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import time
 from app import create_app, db
 from app.models import User, Role
 from redis import Redis
@@ -109,8 +110,17 @@ def run_scheduler():
 
     setup_loghandlers('INFO')
     scheduler = Scheduler(connection=conn, interval=60.0)
-    scheduler.run()
-
+    try:
+        scheduler.run()
+    except ValueError, exc:
+        if exc.message == "There's already an active RQ scheduler":
+            scheduler.log.info(
+                "An RQ scheduler instance is already running. Retrying in %d "
+                "seconds.", 10,
+            )
+            time.sleep(10)
+        else:
+            raise
 
 if __name__ == '__main__':
     manager.run()
