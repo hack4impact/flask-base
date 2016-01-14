@@ -15,6 +15,7 @@ jsmin==2.1.6
 Mako==1.0.1
 MarkupSafe==0.23
 psycopg2==2.6.1
+raygun4py==3.0.2
 SQLAlchemy==1.0.6
 WTForms==2.0.2
 Werkzeug==0.10.4
