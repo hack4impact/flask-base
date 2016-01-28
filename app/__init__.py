@@ -1,6 +1,4 @@
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
-
 from flask import Flask
 from flask.ext.mail import Mail
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -10,6 +8,8 @@ from flask.ext.wtf import CsrfProtect
 from flask.ext.compress import Compress
 from config import config
 from assets import app_css, app_js, vendor_css, vendor_js
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 mail = Mail()
 db = SQLAlchemy()

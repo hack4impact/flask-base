@@ -1,4 +1,4 @@
-# flask-base
+# flask-base [![Circle CI](https://circleci.com/gh/hack4impact/flask-base.svg?style=svg)](https://circleci.com/gh/hack4impact/flask-base)
 
 ## Synopsis
 
@@ -141,3 +141,6 @@ $ python manage.py runserver
     ├── test_basics.py
     └── test_user_model.py
 ```
+
+## License
+[MIT License](LICENSE.md)
