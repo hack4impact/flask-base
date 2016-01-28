@@ -4,3 +4,4 @@ module (as opposed to just their python files)
 """
 
 from user import *  # noqa
+from miscellaneous import *  # noqa

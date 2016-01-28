@@ -1,0 +1,49 @@
+{% macro render_inline_editor(editable_html_obj, current_user) %}
+    <div id="editor-{{ editable_html_obj.editor_name }}" contenteditable="false">
+        {{ editable_html_obj.value|safe }}
+    </div>
+
+    {% if current_user.is_admin() %}
+       <button class="ui button start-edit">
+        Edit
+       </button>
+       <button class="ui primary button end-edit">
+        Save
+       </button>
+    {% endif %}
+
+    <script>
+    var editorIDName = "editor-{{ editable_html_obj.editor_name }}";
+    $(document).ready(function() {
+        {% if current_user.is_admin() %}
+            $(".end-edit").hide();
+        {% endif %}
+        $(".start-edit").click(function() {
+            CKEDITOR.disableAutoInline = true;
+            var editor = CKEDITOR.inline(editorIDName, {
+                startupFocus: true,
+                autoGrow_onStartup: true
+            });
+            $(".start-edit").hide();
+            $(".end-edit").show();
+            $("#" + editorIDName).attr("contenteditable","true");
+        });
+
+        $(".end-edit").click(function() {
+            if ( CKEDITOR.instances[editorIDName] ) {
+                var json_data = {
+                    csrf_token: "{{ csrf_token() }}",
+                    editor_name: "{{ editable_html_obj.editor_name }}",
+                    edit_data: CKEDITOR.instances[editorIDName].getData(),
+                };
+                $.post("{{ url_for('admin.update_editor_contents') }}", json_data);
+                CKEDITOR.instances[editorIDName].destroy();
+            }
+            $(".end-edit").hide();
+            $(".start-edit").show();
+            $("#" + editorIDName).attr("contenteditable","false");
+        });
+    });
+    </script>
+
+{% endmacro %}
