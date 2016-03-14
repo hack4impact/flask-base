@@ -2,8 +2,10 @@
 
 <!DOCTYPE html>
 <html>
-    {% include 'partials/_head.html' %}
-
+    <head>
+        {% include 'partials/_head.html' %}
+        {% block custom_scripts %}{% endblock %}
+    </head>
     <body>
         {% block nav %}
             {{ nav.render_nav(current_user) }}
