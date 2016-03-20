@@ -4,7 +4,7 @@
 <html>
     <head>
         {% include 'partials/_head.html' %}
-        {% block custom_tags %}{% endblock %}
+        {% block custom_head_tags %}{% endblock %}
     </head>
     <body>
         {% block nav %}
@@ -23,5 +23,4 @@
             </div>
         {% endif %}
     </body>
-    {% block custom_scripts %}{% endblock %}
 </html>
