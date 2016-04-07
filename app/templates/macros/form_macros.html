@@ -30,6 +30,7 @@
         {% for field in form | selectattr('type', 'equalto', 'SubmitField') %}
             {{ render_form_field(field) }}
         {% endfor %}
+
     {{ end_form(form) }}
 {% endmacro %}
 
