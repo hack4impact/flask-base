@@ -1,0 +1,30 @@
+{
+  "name": "flask-base",
+  "version": "1.0.0",
+  "description": "A Flask Application template with the boilerplate code alerdy done for you",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hack4impact/flask-base.git"
+  },
+  "keywords": [
+    "easy",
+    "gulp"
+  ],
+  "author": "Abhinav Suri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hack4impact/flask-base/issues"
+  },
+  "homepage": "https://github.com/hack4impact/flask-base#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-livereload": "^3.8.1"
+  }
+}
