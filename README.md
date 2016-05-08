@@ -65,9 +65,9 @@ Other branches include even more features
     ```
 
 7. [Optional. Only valid on `gulp-static-watcher` branch] Use gulp to live compile your files
-* Install the Live Reload browser plugin from [here](http://livereload.com/)
-* Run `npm install`
-* Run `gulp`
+    * Install the Live Reload browser plugin from [here](http://livereload.com/)
+    * Run `npm install`
+    * Run `gulp`
 
 
 ## Running the app
