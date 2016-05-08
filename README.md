@@ -20,6 +20,7 @@ A Flask application template with the boilerplate code already done for you.
 Other branches include even more features
 
 * `admin-edit-static-pages`: allow administrators to edit static pages using the [ckeditor](http://ckeditor.com/) WYSIWYG editor 
+* `gulp-static-watcher`: quick and easy webpage refresh as static pages and assets are edited. 
 
 ## Setting up
 
@@ -63,10 +64,10 @@ Other branches include even more features
     $ python manage.py add_fake_data
     ```
 
-7. [Optional] Use gulp to live compile your files
-- Install the Live Reload browser plugin from [here](http://livereload.com/)
-- Run `npm install`
-- Run `gulp`
+7. [Optional. Only valid on `gulp-static-watcher` branch] Use gulp to live compile your files
+* Install the Live Reload browser plugin from [here](http://livereload.com/)
+* Run `npm install`
+* Run `gulp`
 
 
 ## Running the app
