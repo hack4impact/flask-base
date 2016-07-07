@@ -1,5 +1,10 @@
 from flask.ext.assets import Bundle
 # See app/__init__.py for details on this
+# context is set as the assets/styles and
+# assetts/scripts folders
+# filter = scss -> convers .scss to css
+# filter = jsmin -> converts to minified
+#                   javascript
 
 app_css = Bundle(
     '*.scss',
