@@ -1,10 +1,21 @@
 #!/usr/bin/env python
+
+# Std Lib
 import os
+# 3rd Party
+from flask.ext.migrate import Migrate, MigrateCommand
+from flask.ext.script import Manager, Shell
+# Our code
 from app import create_app, db
 from app.models import User, Role
-from flask.ext.script import Manager, Shell
-from flask.ext.migrate import Migrate, MigrateCommand
 
+# A note about python manage.py runserver. Runserver is
+# actually located in flask.ext.script. Since we
+# have not specified a runserver command, it defaults to
+# flask.ext.script's Server() method which calls the native
+# flask method app.run(). You can pass in some arguemnts such
+# as changing the port on which the server is run.
+#
 # The following code block will look for a '.env' file which
 # contains environment variables for things like email address
 # and any other env vars. The .env file will be parsed and
@@ -138,6 +149,7 @@ def setup_general():
 # But you would have a tough time executing these commands from cmd line
 # without the Manager init (otherwise you have to deal with argvs and
 # stuff that is frankly tedious).
+
 
 if __name__ == '__main__':
     manager.run()
