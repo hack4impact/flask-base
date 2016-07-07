@@ -2,6 +2,7 @@
 
 {% macro dashboard_option(title, endpoint, description=None, icon=None) %}
     <a class="column" href="{{ url_for(endpoint) }}">
+      {{ index_for_role(current_user.role) }}
         <div class="ui padded segment">
             <h3 class="ui header">
                 {% if icon is not none %}
