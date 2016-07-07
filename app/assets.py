@@ -1,4 +1,5 @@
 from flask.ext.assets import Bundle
+# See app/__init__.py for details on this
 
 app_css = Bundle(
     '*.scss',
