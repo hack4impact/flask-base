@@ -5,6 +5,8 @@ from flask.ext.assets import Bundle
 # filter = scss -> convers .scss to css
 # filter = jsmin -> converts to minified
 #                   javascript
+# Bundle is just the plugin that helps us
+# do this task.
 
 app_css = Bundle(
     '*.scss',

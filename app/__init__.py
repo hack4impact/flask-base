@@ -11,11 +11,8 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.wtf import CsrfProtect
 
 # our code
-from account import account as account_blueprint
-from admin import admin as admin_blueprint
 from assets import app_css, app_js, vendor_css, vendor_js
 from config import config
-from main import main as main_blueprint
 from utils import register_template_utils
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -97,20 +94,21 @@ def create_app(config_name):
 
     register_template_utils(app)
 
-# Set up asset pipeline
-# This one is a bit complex. First an Environment instance is created
-# that holds references to a single path to the 'static' folder. We don't
-# really care about that since the url_for() method allows us to specify
-# access to resources in the static/ directory. But we then append all the
-# folders and files within the 'dirs' array to the environment. This
-# action provides context for the subsequence set of register actions.
-# Looking in app/assets.py there are some Bundle instances created with
-# 3 parameters mainly: what type of file(s) to bundle, a type of filter/
-# transpiler to apply, and then a final output file. E.g. for the
-# app_css bundle, it looks within assets/styles, assets/scripts for any
-# *.scss files, converts them to css with the scss transpiler and then
-# outputs it to the styles/app.css file. See the templates/partials/_head.html
-# file for more information on how to actually include the file.
+    # Set up asset pipeline
+    # This one is a bit complex. First an Environment instance is created
+    # that holds references to a single path to the 'static' folder. We don't
+    # really care about that since the url_for() method allows us to specify
+    # access to resources in the static/ directory. But we then append all the
+    # folders and files within the 'dirs' array to the environment. This
+    # action provides context for the subsequence set of register actions.
+    # Looking in app/assets.py there are some Bundle instances created with
+    # 3 parameters mainly: what type of file(s) to bundle, a type of filter/
+    # transpiler to apply, and then a final output file. E.g. for the
+    # app_css bundle, it looks within assets/styles, assets/scripts for any
+    # *.scss files, converts them to css with the scss transpiler and then
+    # outputs it to the styles/app.css file.
+    # See the templates/partials/_head.html
+    # file for more information on how to actually include the file.
 
     assets_env = Environment(app)
     dirs = ['assets/styles', 'assets/scripts']
@@ -128,32 +126,42 @@ def create_app(config_name):
         from flask.ext.sslify import SSLify
         SSLify(app)
 
-# Create app blueprints
-# Blueprints allow us to set up url prefixes for routes contained
-# within the views file of each of the divisions we specify to be
-# registered with a blueprint. Blueprints are meant to distinguish between
-# the variable different bodies within a large application.
-# In the case of flask-base, we have 'main', 'account', and 'admin'
-# sections. The 'main' section contains error handling and views.
-# The other sections contain mainly just views. The folders for each of
-# these sections also contain an __init__ file which actually creates the
-# Blueprint itself with a name and a default __name__ param as well.
-# After that, the views file and any other files that depend upon the
-# blueprint are imported and can use the variable name assigned to the
-# blueprint to reference things like decorators for routes. e.g. if my
-# blueprint is name 'first_component', I would use the following as
-# a decorator for my routes '@first_component.route'. By specifying
-# the url_prefix, all of the functions and routes etc of the blueprint
-# will be read with the base url_prefix specified. E.g. if I wanted
-# to access the '/blah' route within the 'acount' blueprint, I need only
-# specify @account.router('/blah') def ... as my method in views.py under
-# the account/ directory. But I would be able to access it in the
-# browser with yourdomain.com/accounts/blah
+    # Create app blueprints
+    # Blueprints allow us to set up url prefixes for routes contained
+    # within the views file of each of the divisions we specify to be
+    # registered with a blueprint. Blueprints are meant to distinguish between
+    # the variable different bodies within a large application.
+    # In the case of flask-base, we have 'main', 'account', and 'admin'
+    # sections. The 'main' section contains error handling and views.
+    # The other sections contain mainly just views. The folders for each of
+    # these sections also contain an __init__ file which actually creates the
+    # Blueprint itself with a name and a default __name__ param as well.
+    # After that, the views file and any other files that depend upon the
+    # blueprint are imported and can use the variable name assigned to the
+    # blueprint to reference things like decorators for routes. e.g. if my
+    # blueprint is name 'first_component', I would use the following as
+    # a decorator for my routes '@first_component.route'. By specifying
+    # the url_prefix, all of the functions and routes etc of the blueprint
+    # will be read with the base url_prefix specified. E.g. if I wanted
+    # to access the '/blah' route within the 'acount' blueprint, I need only
+    # specify @account.router('/blah') def ... as my method in views.py under
+    # the account/ directory. But I would be able to access it in the
+    # browser with yourdomain.com/accounts/blah
+    #
+    # A note on why we are importing here: Because stuff will break...and for
+    # a good reason! The account import in turn imports the views.py file under
+    # the account/ directory. The views.py in turn references db
+    # db is the database instance which was created after the import statements
+    # If we had included these import statements at the very top, views.py
+    # under account would have refered to a db instance which was not created!
+    # hence errors...all the errors (at least in files relying upon a created
+    # db instance...and any instance created beyond that.
+    from account import account as account_blueprint
+    from admin import admin as admin_blueprint
+    from main import main as main_blueprint
 
     app.register_blueprint(main_blueprint)
-
     app.register_blueprint(account_blueprint, url_prefix='/account')
-
     app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
     return app
