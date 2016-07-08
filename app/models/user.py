@@ -1,17 +1,85 @@
 from flask import current_app
 from flask.ext.login import UserMixin, AnonymousUserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, \
     BadSignature, SignatureExpired
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from .. import db, login_manager
 
 
 class Permission:
+    # Okay so here is a seemingly simple piece of code I really think is
+    # really cool! First of all we are setting up two enums here.
+    # But they are set to weird hexadecimal numbers 0x01 and 0xff.
+    # If you stick these into a hexadecimal -> decimal converter
+    # you'll find that they represent 1 and 255 respectively. But
+    # in binary they come out to 00000001 and 11111111 (8 ones).
+    # If we do a binary and (&) on these two numbers, we can
+    # actually get some unique properties from these.
+    # So if we do GENERAL & ADMINSTER, it will come out to the following
+    #
+    #   00000001
+    # & 11111111
+    # ----------
+    #   00000001
+    # We get back the exact same value as GENERAL! Similarly if we do
+    # ADMINSTER & GENERAL we get back GENERAL. This is useful for
+    # checking user roles and who is exactly who in this system.
+    # So we can create a method 'check(input, checker)' that will
+    # take an input hex to test and one to text against. We only need
+    # to do '(input & checker) == checker'. But there are some more
+    # interesting applications for this. Let us define, for example,
+    # a set of enums CAN_LIKE = 0x01, CAN_POST = 0x02, CAN_EDIT = 0x04
+    # and CAN_REMOVE = 0x08. These are respectively in binary 00000001,
+    # 00000010, 00000100, 00001000. We can use binary OR (|) to create
+    # composite user permissions e.g. CAN_LIKE | CAN_POST | CAN_EDIT =
+    # 0x07 = 00000111 -> NEW_ROLE. We can run 'check(NEW_ROLE, CAN_LIKE)'
+    # or 'check(NEW_ROLE, CAN_POST)' or 'check(NEW_ROLE, CAN_EDIT)' and
+    # all of these will return True.
+    # For example NEW_ROLE & CAN_EDIT
+    #   00000111
+    # & 00000001
+    # ----------
+    #   00000001 <- equivalent to CAN_EDIT enum
+    # A function similar to the check described above can be found in
+    # as the 'can' method below in the User class. Moving on!
+
     GENERAL = 0x01
     ADMINISTER = 0xff
 
 
 class Role(db.Model):
+    # The Role class instatiates Role model. This is used for the
+    # creation of users such as a general user and an administrator
+    # COLUMN DEFINITIONS:
+    # id serves as the primary key (expects int).
+    #
+    # name is the name of the role itself (expects unique String len 64)
+    #
+    # index is the name of the index route for the route ???? <- CONFIRM?
+    #
+    # default is a T/F value that determines whether a new user created
+    #   has that permission or note (ref insert_roles()). This is indexed
+    #   meaning that a separate table has been created with default as the
+    #   first column and id as the second column. Default in this table
+    #   is sorted and a query for default performs a binary search rather
+    #   than a linear search (reduces search time complexity from O(N) to
+    #   O(log n)
+    #
+    # permissions contains the permissions enum (see Permissions class)
+    #
+    # users is not a column but it sets up a database relation. This case
+    #   is a one-to-many relationship in that for ONE Role record, there are
+    #   MANY associated User objects. The 'backref' param specifies a
+    #   bi-directional relationship between the two tables in that there is
+    #   a new property on both a given Role and User object. E.g. Role.users
+    #   will refer to the User object (i.e. the user table). and User.role
+    #   (role being the string specified with backref) will refer to the
+    #   Role object. Lazy = dynamic specifies to return a Query object
+    #   instead of actually asking the relationship to load all of its child
+    #   elements upon creating the relationship. It is best practice to
+    #   include lazy=dynamic upon the establishment of a relationship.
+
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
@@ -19,6 +87,25 @@ class Role(db.Model):
     default = db.Column(db.Boolean, default=False, index=True)
     permissions = db.Column(db.Integer)
     users = db.relationship('User', backref='role', lazy='dynamic')
+
+    # The staticmethod decorator specifies that insert_roles() must be
+    # be called with a instance of the Role class. E.g. role_obj.insert_roles()
+    # This method is fairly self-explanatory. It specifies a 'roles' dict
+    # This is then iterated through and foreach role in the 'roles' dict
+    # we check to see if it already exists (by name) in the Role object
+    # i.e. the Roles table. If not, then a new Role object is instantiated
+    # After that, the perms, index, default props are set and the the
+    # role object is now added to the db session and then committed.
+    #
+    # A note about sqlalchemy if you haven't noticed already: All changes
+    # are added to a Session object (handled by SQLAlchemy). Unless specified
+    # otherwise, the session object has a merge operation that finds the difs
+    # between the new object (that was created and added to the session object)
+    # and the currently existing (corresponding) object existing in the table
+    # right now. Then a commit() propegates these changes into the database
+    # making as little changes as possible (i.e. every time we update a
+    # record, the record's attribute is changed 'in place' rather than being
+    # deleted and then replaced. Neat :)
 
     @staticmethod
     def insert_roles():

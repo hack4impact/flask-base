@@ -33,6 +33,12 @@ def permission_required(permission):
         return decorated_function
     return decorator
 
+# This is a decorator created by the permission required decorator
+# It checks if the current_user is an admin or not. It takes in a
+# function f as the next action to occur after the check happens
+# however in practice, we only use the decorator @admin_required
+# on routes.
+
 
 def admin_required(f):
     return permission_required(Permission.ADMINISTER)(f)
