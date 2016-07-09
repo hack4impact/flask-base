@@ -79,6 +79,19 @@ class Role(db.Model):
     #   instead of actually asking the relationship to load all of its child
     #   elements upon creating the relationship. It is best practice to
     #   include lazy=dynamic upon the establishment of a relationship.
+    #
+    # Sub-note on lazy-dynamic and backref. Currently, lazy-dynamic will
+    # make the User collection to be loaded in as a Query object (so not
+    # everything is loaded at once). Simiarly (as mentioned above), the
+    # User object can reference the Role object by doing User.role however,
+    # this uses the default collection loading behavior (i.e. load the entire
+    # collection at once). It is fine in this case since the amount of
+    # Roles in the Role collection will be *much* less than the amount of
+    # entries in the User collection. However, we can specify that User.role
+    # uses the lazy-dynamic loading scheme. Simply redefine users here to
+    #
+    # users = db.relationship('User', backref=db.backref('role',
+    #                                       lazy='dynamic'), lazy='dynamic')
 
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
@@ -127,11 +140,52 @@ class Role(db.Model):
             db.session.add(role)
         db.session.commit()
 
+    # this __repr__ method is pretty much optional, but it is helpful in that
+    # it will allow the program to pretty print the user object when you come
+    # across an error
+
     def __repr__(self):
         return '<Role \'%s\'>' % self.name
 
+# The class User represents users... it extends db.Model and
+# UserMixin. Per the flask-login documentation, the User class
+# needs to implement is_authenticated (returns True if the user is
+# authenticated and in turn fulfill login_required), is_active
+# (returns True if the user has been activated i.e. confirmed by
+# email in our case), is_anonymous (returns if a user is Anonymous
+# i.e. is_active = is_authenticated = False, is_anonymous = True,
+# and get_id() = None), get_id() (returns a UNICODE that has the
+# id of the user NOT an int).
+
 
 class User(UserMixin, db.Model):
+    # Initialize a table called 'users'.
+    # Column Descriptions:
+    # id - primary key for the table. Id of the user. i.e. the
+    #   unique identifier for the collection
+    # confirmed - boolean val (default value = False) that is
+    #   an indication of whether the user has confirmed their
+    #   account via email.
+    # first_name - ... string self explanatory
+    # last_name - ... string self explanatory
+    # email - string self explanatory. But we impose the uniqueness
+    #   constraint on this column. It is necessary to check for this
+    #   on the backend before entering an email into the table,
+    #   else there will be some nasty errors produced when the user
+    #   tries to add an existing email into the table.
+    # Note: first_name, last_name, email form an index table for easy
+    #   lookup. See Role for more info
+    # password_hash is a 128 char long string containing the hashed
+    #   password. As always, it is best practice to never include the
+    #   plaintext password on the server. This hashed password is
+    #   checked against when authenticating users.
+    # role_id is the id of the role the user is. It is a foreign key
+    #   and relates to the id's in the Role collection. By default
+    #   the general user is role.id = 1, and role.id = 2 is the
+    #   admin. Also note that we refer to the Role collection with
+    #   'roles' rather than the assigned backref 'role' since we
+    #   are referring to an individual column.
+
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     confirmed = db.Column(db.Boolean, default=False)
@@ -141,6 +195,18 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
+    # When a User object is initiated i.e. an individual user, we call
+    # the constructor for UserMixin and then db.Model per the Method
+    # Resolution Order (MRO). We call the user object with keyword
+    # arguments confirmed, first_name, last_name, email and so on.
+    # ideally the user.role prop should not be defined. If it is not
+    # then we define role (in accordance with the backref def from Role).
+    # We then check the email and see if it matches the ADMIN_EMAIL env
+    # environment variable. If it is, then the user.role is set to
+    # admin record in the Role collection. Otherwise, it finds the first
+    # record with a column value of True in the default column.
+    # Recall that the only record that has this value is the GENERAL user.
+
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
@@ -149,6 +215,36 @@ class User(UserMixin, db.Model):
                     permissions=Permission.ADMINISTER).first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
+
+    # Note that the following methods are actually available in your Jinja
+    # templates since they are attached to the user instance.
+    #
+    # 'full_name' provides the full name of the user given a first and last
+    #   name
+    # 'can' provides a really cool way of determining whether a user has
+    #   given permissions. See the Permissions class for more info.
+    # 'is_admin' is an implementation of 'can' to test a user against
+    #   admin permissions.
+    # 'password' This does not give a password if a user just
+    #   calls the method and throws an AttributeError. However
+    #   if someone chooses to set a password e.g.
+    #   u = User( password = 'test' ) the second definition of
+    #   password method is run, taking the keyword arg (kwarg) as the
+    #   password to then call the generate_password_hash method and
+    #   set the password_hash property of the user to the generated
+    #   password.
+    # 'verify_password' well...verifies a provided user plaintext password
+    #   against the password_hash in the user record. Uses the
+    #   check_password_hash method.
+    # 'generate_confirmation_token' returns a cryptographically signed
+    #   string with encrypted user id under key 'confirm'. This will
+    #   expire in 7 days. Note that Serializer is actually
+    #   TimedJSONWebSerializer when looking for documentation.
+    # 'generate_changed_email_token' also returns a cryptographically
+    #   signed string with encrypted user id under key 'change_email'
+    #   and a encrypted new_email parameter password into the method
+    #   containing the desired new email the user wants to replace the
+    #   old email with.
 
     def full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
