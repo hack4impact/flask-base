@@ -12,7 +12,13 @@ A Flask application template with the boilerplate code already done for you.
 * Flask-WTF for forms
 * Flask-Assets for asset management and SCSS compilation
 * Flask-Mail for sending emails
-* Automatic SSL + gzip compression
+* gzip compression
+
+## Extensions
+
+Other branches include even more features
+
+* `admin-edit-static-pages`: allow administrators to edit static pages using the [ckeditor](http://ckeditor.com/) WYSIWYG editor 
 
 ## Setting up
 
@@ -159,6 +165,10 @@ $ foreman start -f Local
     ├── test_basics.py
     └── test_user_model.py
 ```
+
+## Contributing
+
+Contributions are welcome! Please check out our [Waffle board](https://waffle.io/hack4impact/flask-base) which automatically syncs with this project's GitHub issues.
 
 ## License
 [MIT License](LICENSE.md)
