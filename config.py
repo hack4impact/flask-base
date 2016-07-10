@@ -1,4 +1,5 @@
 import os
+import urlparse
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -20,6 +21,17 @@ class Config:
     EMAIL_SUBJECT_PREFIX = '[{}]'.format(APP_NAME)
     EMAIL_SENDER = '{app_name} Admin <{email}>'.format(app_name=APP_NAME,
                                                        email=MAIL_USERNAME)
+
+    REDIS_URL = os.getenv('REDISTOGO_URL') or 'http://localhost:6379'
+
+    # Parse the REDIS_URL to set RQ config variables
+    urlparse.uses_netloc.append('redis')
+    url = urlparse.urlparse(REDIS_URL)
+
+    RQ_DEFAULT_HOST = url.hostname
+    RQ_DEFAULT_PORT = url.port
+    RQ_DEFAULT_PASSWORD = url.password
+    RQ_DEFAULT_DB = 0
 
     @staticmethod
     def init_app(app):

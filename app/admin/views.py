@@ -2,6 +2,7 @@ from ..decorators import admin_required
 
 from flask import render_template, abort, redirect, flash, url_for
 from flask.ext.login import login_required, current_user
+from flask.ext.rq import get_queue
 
 from forms import (
     ChangeUserEmailForm,
@@ -56,12 +57,16 @@ def invite_user():
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        send_email(user.email,
-                   'You Are Invited To Join',
-                   'account/email/invite',
-                   user=user,
-                   user_id=user.id,
-                   token=token)
+        invite_link = url_for('account.join_from_invite', user_id=user.id,
+                              token=token, _external=True)
+        get_queue().enqueue(
+            send_email,
+            recipient=user.email,
+            subject='You Are Invited To Join',
+            template='account/email/invite',
+            user=user,
+            invite_link=invite_link,
+        )
         flash('User {} successfully invited'.format(user.full_name()),
               'form-success')
     return render_template('admin/new_user.html', form=form)

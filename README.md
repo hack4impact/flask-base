@@ -24,14 +24,14 @@ Other branches include even more features
 
 ## Setting up
 
-1. Clone the repo
+##### Clone the repo
 
     ```
     $ git clone https://github.com/hack4impact/flask-base.git
     $ cd flask-base
     ```
 
-2. Initialize a virtualenv
+##### Initialize a virtualenv
 
     ```
     $ pip install virtualenv
@@ -39,26 +39,46 @@ Other branches include even more features
     $ source env/bin/activate
     ```
 
-3. Install the dependencies
+##### Install the dependencies
 
     ```
     $ pip install -r requirements/common.txt
     $ pip install -r requirements/dev.txt
     ```
 
-4. Create the database
+##### Other dependencies for running locally
+
+You need to install [Foreman](https://ddollar.github.io/foreman/) and [Redis](http://redis.io/). Chances are, these commands will work:
+
+```
+$ gem install foreman
+```
+
+Mac (using [homebrew](http://brew.sh/)):
+
+```
+$ brew install redis
+```
+
+Linux:
+
+```
+$ sudo apt-get install redis-server
+```
+
+##### Create the database
 
     ```
     $ python manage.py recreate_db
     ```
 
-5. Other setup (e.g. creating roles in database)
+##### Other setup (e.g. creating roles in database)
 
     ```
     $ python manage.py setup_dev
     ```
 
-6. [Optional] Add fake data to the database
+##### [Optional] Add fake data to the database
 
     ```
     $ python manage.py add_fake_data
@@ -75,9 +95,7 @@ Other branches include even more features
 
 ```
 $ source env/bin/activate
-$ python manage.py runserver
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
- * Restarting with stat
+$ foreman start -f Local
 ```
 
 ## Project Structure

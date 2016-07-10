@@ -4,7 +4,7 @@ You are invited to join {{ config.APP_NAME }}!
 
 To set your password, please click on the following link:
 
-{{ url_for('account.join_from_invite', user_id=user_id, token=token, _external=True) }}
+{{ invite_link }}
 
 Once completed, please log in as {{ user.email }} with the password you set.
 
