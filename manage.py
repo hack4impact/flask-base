@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 import os
-import time
 from app import create_app, db
 from app.models import User, Role
 from redis import Redis
 from rq import Worker, Queue, Connection
-from rq_scheduler.scheduler import Scheduler
-from rq_scheduler.utils import setup_loghandlers
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 
@@ -96,32 +93,6 @@ def run_worker():
     with Connection(conn):
         worker = Worker(map(Queue, listen))
         worker.work()
-
-
-@manager.command
-def run_scheduler():
-    """Initializes a rq scheduler."""
-    conn = Redis(
-        host=app.config['RQ_DEFAULT_HOST'],
-        port=app.config['RQ_DEFAULT_PORT'],
-        db=0,
-        password=app.config['RQ_DEFAULT_PASSWORD']
-    )
-
-    setup_loghandlers('INFO')
-    scheduler = Scheduler(connection=conn, interval=60.0)
-    for _ in xrange(10):
-        try:
-            scheduler.run()
-        except ValueError as exc:
-            if exc.message == 'There\'s already an active RQ scheduler':
-                scheduler.log.info(
-                    'An RQ scheduler instance is already running. Retrying in '
-                    '%d seconds.', 10,
-                )
-                time.sleep(10)
-            else:
-                raise exc
 
 if __name__ == '__main__':
     manager.run()
