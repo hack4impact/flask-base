@@ -84,7 +84,7 @@ $ sudo apt-get install redis-server
     $ python manage.py add_fake_data
     ```
 
-7. [Optional. Only valid on `gulp-static-watcher` branch] Use gulp to live compile your files
+##### [Optional. Only valid on `gulp-static-watcher` branch] Use gulp to live compile your files
 
 * Install the Live Reload browser plugin from [here](http://livereload.com/)
 * Run `npm install`
