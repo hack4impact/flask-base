@@ -80,6 +80,11 @@ def create_app(config_name):
 
     # Set up extensions
     # init_app(app) are methods in each of these packages
+    # More on init_app. It binds each instance of the respective
+    # application to the flask app. However, we do need to specify
+    # an application context while using things like db, mail,
+    # login_manager, and compress since they are not bound to our
+    # application _exclusively_.
 
     mail.init_app(app)
     db.init_app(app)
