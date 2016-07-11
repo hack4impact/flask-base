@@ -45,7 +45,8 @@ if os.path.exists('.env'):
 # all the manage.py commands. The @manager.command and @manager.option(...)
 # decorators are used to determine what the help output should be
 # on the terminal. Migrate is used to make migration between db instances
-# really easy.
+# really easy. Additionally @manager.command creates an application
+# context for use of plugins that are usually tied to the app.
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
