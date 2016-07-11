@@ -245,6 +245,11 @@ class User(UserMixin, db.Model):
     #   and a encrypted new_email parameter password into the method
     #   containing the desired new email the user wants to replace the
     #   old email with.
+    # 'generate_password_reset_token' operates similarly to 'generate_
+    #   confirmation_token'. Generates token for password reset
+    # NOTE: For context, the generate_..._token methods are used to create
+    # a random string that will be later added to an email (usually) to the
+    # requesting user.
 
     def full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
@@ -285,6 +290,15 @@ class User(UserMixin, db.Model):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'reset': self.id})
 
+    # THe confirm_account method will take in a token (which was presumably
+    # generated from the generate_confirmation_token method) and then return
+    # True if the provided token is valid (and can be decrypted with the
+    # SECRET_KEY and has not expired) AND the decrypted token has the key
+    # 'confirm' with the id of the requesting user. If so, it flips the
+    # 'confirmed' attribute of the requesting user to True.
+    # Will throw BadSignature of the token is invalid, will throw
+    # SignatureExpired if the token is past the expiration time.
+
     def confirm_account(self, token):
         """Verify that the provided token is for this user's id."""
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -298,6 +312,18 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
         return True
+
+    # The change_email method will take in a token (which was presumably
+    # generated from the generate_email_token method) and then return True
+    # True if the token is valid (see above method for explanation of 'valid')
+    # and contains the key 'change_email' with value = user id in addition to
+    # the key 'new_email' with the new email address the user wants to change
+    # their email to. Before the new_email is committed to the session, a
+    # query is performed on the User collection on all the emails to maintain
+    # the unique constraint on the email columns. Then the user's 'email'
+    # attribute is set to the 'new_email' specified in the decrypted token.
+    # will throw BadSignature if invalid token and SignatureExpired if the
+    # token is expired.
 
     def change_email(self, token):
         """Verify the new email for this user."""
@@ -318,6 +344,15 @@ class User(UserMixin, db.Model):
         db.session.commit()
         return True
 
+    # The description of this is more or less the same as above. However, the
+    # token is first verified and a new_password method parameter is passed in
+    # to the method itself rather than the token. This is due to the face that
+    # this method is called when a user forgets their password before they log
+    # in and must have an email sent to them with a link to the reset-password
+    # route in accounts. This route will then request a new_password via a form
+    # field.
+    # Throws BadSignature and SignatureExpired for reasons mentioned in above
+    # methods.
     def reset_password(self, token, new_password):
         """Verify the new password for this user."""
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -331,6 +366,14 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
         return True
+
+    # As usual, the @staticmethod decorator specifies that the
+    # method need only be called with an instance of the class
+    # If a random user is generated that violates the constraints
+    # of the database columns (e.g. has non-unique email) then an
+    # IntegrityError is thrown and the potential user is removed
+    # from the session (db.session.rollback()). Otherwise, the
+    # user is added to the session
 
     @staticmethod
     def generate_fake(count=100, **kwargs):
@@ -362,6 +405,10 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User \'%s\'>' % self.full_name()
 
+# We define a custom AnonymousUser class that represents a non-logged
+# user. It extends the AnonymousUserMixing provided by flask-loginmanager
+# we deny all permissions and affirm that this user is not an admin
+
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, _):
@@ -370,8 +417,15 @@ class AnonymousUser(AnonymousUserMixin):
     def is_admin(self):
         return False
 
+# We then register our custom AnonymousUser class as the default login_manager
+# anonymous user class
 
 login_manager.anonymous_user = AnonymousUser
+
+# This is the default user_loader method for login_manager. This method
+# defines how to query for a user given a user_id from the user SESSION object.
+# It is pretty straightforward, it will query the User table and find the user
+# with ID equal to the user_id provided in the user SESSION
 
 
 @login_manager.user_loader
