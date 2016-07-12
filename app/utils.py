@@ -24,10 +24,7 @@ def register_template_utils(app):
     app.add_template_global(index_for_role)
 
 # Provides the link to the index page for a created role...
-# If it works...
-# which I cannot verify at the moment
-# but it's there. So yay
 
 
 def index_for_role(role):
-    return url_for(role.index)
+    return url_for(role.index + '.index')

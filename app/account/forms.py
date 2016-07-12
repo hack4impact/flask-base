@@ -1,15 +1,23 @@
 from flask import url_for
 from flask.ext.wtf import Form
+from wtforms import ValidationError
 from wtforms.fields import (
-    StringField,
-    PasswordField,
     BooleanField,
+    PasswordField,
+    StringField,
     SubmitField
 )
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import InputRequired, Length, Email, EqualTo
-from wtforms import ValidationError
+from wtforms.validators import (
+    Email,
+    EqualTo,
+    InputRequired,
+    Length
+)
+
 from ..models import User
+
+# The code here is rather self-explanatory
 
 
 class LoginForm(Form):
