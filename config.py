@@ -14,6 +14,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # related things in some parts of the application. Set it as an
 # environment variable or default to our insecure one. This is
 # used in password hashing see app/models/user.py for more info.
+# YOU SHOULD SET THIS AS A CONFIG VAR IN PRODUCTION!!!!
 #
 # SQLALCHEMY_COMMIT_ON_TEARDOWN is used to auto-commit any sessions
 # that are open at the end of the 'app context' or basically the
@@ -30,7 +31,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     APP_NAME = 'Flask-Base'
     SECRET_KEY = os.environ.get('SECRET_KEY') or \
-        'SjefBOa$1FgGco0SkfPO392qqH9%a492'
+        'SECRET_KEY:YOU_SHOULD_NOT_SEE_THIS_IN_PRODUCTION'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SSL_DISABLE = True
 
@@ -47,6 +48,8 @@ class Config:
 
     @staticmethod
     def init_app(app):
+        if os.environ.get('SECRET_KEY') is None:
+            print Config.SECRET_KEY
         pass
 
 # DevelopmentConfig will extend the Config class.
@@ -82,7 +85,8 @@ class ProductionConfig(Config):
     @classmethod
     def init_app(cls, app):
         Config.init_app(app)
-
+        if (os.environ.get('SECRET_KEY') is None):
+            raise RuntimeError('SECRET_KEY IS NOT SET!!!!')
         # Email errors to administators
         import logging
         from logging.handlers import SMTPHandler

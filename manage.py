@@ -25,12 +25,6 @@ from app.models import User, Role
 # this block. Per our running example, os.environ["NAME"] = "VALUE"
 # These environment variables can be accessed with "os.getenv('KEY')"
 
-if os.path.exists('.env'):
-    print('Importing environment from .env file')
-    for line in open('.env'):
-        var = line.strip().split('=')
-        if len(var) == 2:
-            os.environ[var[0]] = var[1]
 
 # Refer to manage.py for more details. Currently the application will
 # look for an environment variable called 'FLASK_CONFIG' or it will
@@ -52,6 +46,12 @@ app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
 
+if os.path.exists('.env'):
+    print('Importing environment from .env file')
+    for line in open('.env'):
+        var = line.strip().split('=')
+        if len(var) == 2:
+            os.environ[var[0]] = var[1]
 # Make shell context doesn't really serve a ton of purpose in most of our
 # development at h4i. However, it is entirely possible to explore the database
 # from the command line with this as seen in the lines below.
