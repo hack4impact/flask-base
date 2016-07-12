@@ -13,14 +13,12 @@ app_js = Bundle(
 )
 
 vendor_css = Bundle(
-    'vendor/semantic.min.css',
+    'vendor/*.css',
     output='styles/vendor.css'
 )
 
 vendor_js = Bundle(
-    'vendor/jquery.min.js',
-    'vendor/semantic.min.js',
-    'vendor/tablesort.min.js',
+    'vendor/*.js',
     filters='jsmin',
     output='scripts/vendor.js'
 )
