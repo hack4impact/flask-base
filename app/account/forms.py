@@ -18,6 +18,9 @@ from wtforms.validators import (
 from ..models import User
 
 # The code here is rather self-explanatory
+# Keep in mind that the rules for defining what gets passed as the
+# value of the field after submission is defined in the wtforms
+# source.
 
 
 class LoginForm(Form):
