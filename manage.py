@@ -5,6 +5,8 @@ import os
 # 3rd Party
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager, Shell
+from redis import Redis
+from rq import Connection, Queue, Worker
 # Our code
 from app import create_app, db
 from app.models import User, Role
@@ -25,7 +27,7 @@ from app.models import User, Role
 # this block. Per our running example, os.environ["NAME"] = "VALUE"
 # These environment variables can be accessed with "os.getenv('KEY')"
 
-
+# Import settings from .env file. Must define FLASK_CONFIG
 if os.path.exists('.env'):
     print('Importing environment from .env file')
     for line in open('.env'):
@@ -140,6 +142,29 @@ def setup_prod():
 def setup_general():
     """Runs the set-up needed for both local development and production."""
     Role.insert_roles()
+
+# The run_worker command will initialize a task queue. This is basically a
+# list of operations stored in memory that the server will get around to doing
+# eventually. This is great for doing asynchronous tasks. The memory store
+# used for holding these tasks is called Redis. We set up a default redis
+# password and then open a connection to the redis DB. We instantiate a worker
+# and add a queue of items that needs to be processed on that worker.
+
+
+@manager.command
+def run_worker():
+    """Initializes a slim rq task queue."""
+    listen = ['default']
+    conn = Redis(
+        host=app.config['RQ_DEFAULT_HOST'],
+        port=app.config['RQ_DEFAULT_PORT'],
+        db=0,
+        password=app.config['RQ_DEFAULT_PASSWORD']
+    )
+
+    with Connection(conn):
+        worker = Worker(map(Queue, listen))
+        worker.work()
 
 # You may/may not know this but the whole
 # if __name__ == '__main__' check is to see if this file is being executed

@@ -2,11 +2,11 @@
 
 <p>Welcome to <b>{{ config.APP_NAME }}</b>!</p>
 
-<p>To confirm your account, please <a href="{{ url_for('account.confirm', token=token, _external=True) }}">click here</a>.</p>
+<p>To confirm your account, please <a href="{{ confirm_link }}">click here</a>.</p>
 
 <p>Alternatively, you can paste the following link in your browser's address bar:</p>
 
-<p>{{ url_for('account.confirm', token=token, _external=True) }}</p>
+<p>{{ confirm_link }}</p>
 
 <p>Sincerely,</p>
 
