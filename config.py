@@ -85,8 +85,7 @@ class ProductionConfig(Config):
     @classmethod
     def init_app(cls, app):
         Config.init_app(app)
-        if (os.environ.get('SECRET_KEY') is None):
-            raise RuntimeError('SECRET_KEY IS NOT SET!!!!')
+        assert os.environ.get('SECRET_KEY'), 'SECRET_KEY IS NOT SET!'
         # Email errors to administators
         import logging
         from logging.handlers import SMTPHandler
