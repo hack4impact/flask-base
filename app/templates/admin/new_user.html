@@ -4,7 +4,7 @@
 
 {% block scripts %}
 {% endblock %}
-
+{# We re-define form_macros here to create a custom arrangement of form fields #}
 {% block content %}
     <div class="ui stackable centered grid container">
         <div class="twelve wide column">
@@ -16,7 +16,6 @@
                 Add New User
                 <div class="sub header">Create a new user account</div>
             </h2>
-
             {% set flashes = {
                 'error':   get_flashed_messages(category_filter=['form-error']),
                 'warning': get_flashed_messages(category_filter=['form-check-email']),
