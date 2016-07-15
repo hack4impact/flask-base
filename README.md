@@ -84,12 +84,6 @@ $ sudo apt-get install redis-server
     $ python manage.py add_fake_data
     ```
 
-##### [Optional. Only valid on `gulp-static-watcher` branch] Use gulp to live compile your files
-
-* Install the Live Reload browser plugin from [here](http://livereload.com/)
-* Run `npm install`
-* Run `gulp`
-
 
 ## Running the app
 
@@ -120,7 +114,8 @@ $ foreman start -f Local
 │   │   │   └── vendor
 │   │   │       ├── jquery.min.js
 │   │   │       ├── semantic.min.js
-│   │   │       └── tablesort.min.js
+│   │   │       ├── tablesort.min.js
+│   │   │       └── zxcvbn.js
 │   │   └── styles
 │   │       ├── app.scss
 │   │       └── vendor
