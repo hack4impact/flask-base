@@ -21,8 +21,6 @@ $(document).ready(function () {
     // Enable dropdowns
     $('.dropdown').dropdown();
     $('select').dropdown();
-
-    // mobile dropdown
     
 });
 
@@ -45,14 +43,15 @@ $(document).ready(function () {
             return icontains(elem, match[3]);
         };
 })(jQuery);
- // mobile dropdown menu state change 
-  var currentState = []
-  function changeMenu(e) {
-    var children = $($(e).children()[1]).html();
-    currentState.push($('.mobile.only .vertical.menu').html());
-    children += '<a class="item" onClick="back()">Back</a><i class="back icon"></i>'
-    $('.mobile.only .vertical.menu').html(children);
-  }
-  function back() {
-    $('.mobile.only .vertical.menu').html(currentState.pop());
-  }
+
+// mobile dropdown menu state change 
+var currentState = []
+function changeMenu(e) {
+  var children = $($(e).children()[1]).html();
+  currentState.push($('.mobile.only .vertical.menu').html());
+  children += '<a class="item" onClick="back()">Back</a><i class="back icon"></i>'
+  $('.mobile.only .vertical.menu').html(children);
+}
+function back() {
+  $('.mobile.only .vertical.menu').html(currentState.pop());
+}
