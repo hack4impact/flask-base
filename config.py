@@ -9,7 +9,6 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or \
         'SjefBOa$1FgGco0SkfPO392qqH9%a492'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
-    SSL_DISABLE = True
 
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
@@ -56,6 +55,7 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    SSL_DISABLE = (os.environ.get('SSL_DISABLE') or 'True') == 'True'
 
     @classmethod
     def init_app(cls, app):
@@ -83,8 +83,6 @@ class ProductionConfig(Config):
 
 
 class HerokuConfig(ProductionConfig):
-    SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
-
     @classmethod
     def init_app(cls, app):
         ProductionConfig.init_app(app)
