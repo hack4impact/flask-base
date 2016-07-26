@@ -1,6 +1,7 @@
 import os
 from flask import render_template
 from flask.ext.mail import Message
+
 from . import mail
 from app import create_app
 

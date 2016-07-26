@@ -2,7 +2,7 @@
 {% import 'macros/form_macros.html' as f %}
 
 {% set deletion_endpoint = 'admin.delete_user_request' %}
-
+{# Note that the navigation(items) macro is very similar to the nav_macros render_menu_items #}
 {% set endpoints = [
     ('admin.user_info', 'User information'),
     ('admin.change_user_email', 'Change email address'),
@@ -28,7 +28,10 @@
         <tr><td>Account type</td><td>{{ user.role.name }}</td></tr>
     </table>
 {% endmacro %}
-
+{# Note in this case that the type of content sections that are rendered here are forms, user_info,
+   or deleting a user. Hence it is logical to just include this all under a single view. Refer to 
+   admin/views.py for more info.
+#}
 {% block content %}
     <div class="ui stackable centered grid container">
         <div class="twelve wide column">

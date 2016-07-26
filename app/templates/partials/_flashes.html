@@ -1,3 +1,10 @@
+{# See the macros/form_macros for extended explanation of the 
+   get_flashed_messages(category_filter) method. This macro renders
+   general flash methods that appear at the top of the page. We render
+   by flash type and create a separate 'ui {{ class }} message' div
+   for each message within a specific flash type. Error = red,
+   warning = yellow, info = blue, success = green.
+#}
 {% macro render_flashes(class) %}
     {% with msgs = get_flashed_messages(category_filter=[class]) %}
         {% for msg in msgs %}

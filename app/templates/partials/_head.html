@@ -1,7 +1,10 @@
 <meta name="charset" content="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block page_title %}{{ config.APP_NAME }}{% endblock %}</title>
-
+{# this method contains all the assett imports (i.e. imports for scripts and styles for the app)
+   Note that the asssets will be contained in the static/webassets-external folder when the app
+   is in debug mode.
+#}
 {% assets 'vendor_css' %}<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">{% endassets %}
 {% assets 'app_css' %}<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">{% endassets %}
 

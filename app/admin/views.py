@@ -1,19 +1,27 @@
-from ..decorators import admin_required
-
-from flask import render_template, abort, redirect, flash, url_for
+from flask import (
+    abort,
+    flash,
+    redirect,
+    render_template,
+    url_for
+)
 from flask.ext.login import login_required, current_user
 from flask.ext.rq import get_queue
 
 from forms import (
     ChangeUserEmailForm,
-    NewUserForm,
     ChangeAccountTypeForm,
     InviteUserForm,
+    NewUserForm
 )
 from . import admin
-from ..models import User, Role
 from .. import db
+from ..decorators import admin_required
 from ..email import send_email
+from ..models import User, Role
+
+# For extended explanation of the construction of routes
+# view the account/views.py file.
 
 
 @admin.route('/')
@@ -137,6 +145,10 @@ def change_account_type(user_id):
               .format(user.full_name(), user.role.name),
               'form-success')
     return render_template('admin/manage_user.html', user=user, form=form)
+
+# This route renders the view for deleting a user on the admin
+# end when clicking on the user info page. The _delete function
+# will actually delete the user.
 
 
 @admin.route('/user/<int:user_id>/delete')

@@ -1,3 +1,7 @@
+{# This macro is called on the user dashboards. In this case the administrator dashboard
+   at the route admin.index
+#}
+
 {% macro render_menu_items(endpoints) %}
     {% for endpoint, name, icon in endpoints %}
         <a class="item {% if request.endpoint == endpoint %}active{% endif %}" href="{{ url_for(endpoint) }}">
@@ -9,25 +13,43 @@
     {% endfor %}
 {% endmacro %}
 
+{# This is called for all users (including anonymous users). It renders the basic left side of the 
+   navigation bar. In the default case, the left hand side will read 'Flask-Base'. In the logged in
+   admin case, there will also be an item that links to admin/ route. I have added an example use of
+   render_menu_items.
+#}
+
 {% macro header_items(current_user) %}
-    <a class="header item" href="{{ url_for('main.index') }}">{{ config.APP_NAME }}</a>
+    {% set endpoints = [
+      ('main.index', config.APP_NAME, 'home')
+    ]%}
+    {% set user = [] %}
     {% if current_user.is_authenticated() %}
-        {% set href = url_for(current_user.role.index + '.index') %}
-        <a class="item" href="{{ href }}">{{ current_user.role.name }} Dashboard</a>
-    {% endif %}
+      {% set user = ([(current_user.role.index + '.index', current_user.role.name + ' Dashboard', 'user')]) %}
+    {% endif %} 
+    {{ render_menu_items( endpoints +  user ) }}
 {% endmacro %}
 
+{# This renders the right hand side of the navigation bar. If the user is logged in, it links to 
+   manage their account and logout (account routes). Otherwise, it links to register and login.
+#}
 {% macro account_items(current_user) %}
     {% if current_user.is_authenticated() %}
-        <a href="{{ url_for('account.manage') }}" class="item">Your Account</a>
-        <a href="{{ url_for('account.logout') }}" class="item">Log out</a>
+      {% set endpoints = [
+        ('account.manage', 'Your Account', 'settings'),
+        ('account.logout', 'Log out', 'sign out')
+      ] %}
+      {{ render_menu_items(endpoints) }}
     {% else %}
-        <a href="{{ url_for('account.register') }}" class="item">Register</a>
-        <a href="{{ url_for('account.login') }}" class="item">Log in</a>
+      {% set endpoints = [
+        ('account.register', 'Register', 'list layout'),
+        ('account.login', 'Log In', 'sign in')
+      ] %}
+      {{ render_menu_items(endpoints) }}
     {% endif %}
 {% endmacro %}
 
-{% macro mobile_nav(current_user, endpoints=None) %}
+{% macro mobile_nav(current_user, dropdown=None) %}
     <div class="mobile only row">
         <div class="ui fixed inverted black main menu">
             {{ header_items(current_user) }}
@@ -38,41 +60,43 @@
 
         {# The menu items which will be shown when open-nav is clicked #}
         <div class="ui fixed vertical fluid menu">
-            {% if endpoints %}
-                {{ render_menu_items(endpoints) }}
-            {% endif %}
-            {{ account_items(current_user) }}
+          {{ account_items(current_user) }}
+          {{ create_dropdown(dropdown) }}
         </div>
     </div>
 {% endmacro %}
 
-{# If `count` and `endpoints` are specified, the endpoints will be put into a
- # secondary menu. `count` should be the string (e.g. 'four') number of endpoints. #}
-{% macro desktop_nav(current_user, endpoints=None, count=None) %}
+{% macro create_dropdown(dropdown) %}
+  {% for item in dropdown %}
+    {% if item | length == 3 %}
+      {{ render_menu_items([item]) }}
+    {% elif item | length == 2 %}
+      <div class="ui dropdown item" onClick="changeMenu(this)">{{ item[0] }} <i class="dropdown icon"></i>
+        <div class="inverted black menu">
+          {{ create_dropdown(item[1]) }}
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+{% macro desktop_nav(current_user, dropdown=None) %}
     <div class="computer tablet only row">
         <div class="ui fixed inverted black main menu">
             <div class="ui container">
                 {{ header_items(current_user) }}
+                {{ create_dropdown(dropdown) }}
                 <div class="right menu">
                     {{ account_items(current_user) }}
                 </div>
             </div>
         </div>
-
-        {# Endpoints go into a submenu #}
-        {% if endpoints %}
-            <div class="ui fixed {{ count + ' item' }} labeled icon fluid stackable sub menu">
-                <div class="ui stackable container">
-                    {{ render_menu_items(endpoints) }}
-                </div>
-            </div>
-        {% endif %}
     </div>
 {% endmacro %}
 
-{% macro render_nav(current_user, count, endpoints) %}
+{% macro render_nav(current_user, dropdown=[]) %}
     <nav class="ui navigation grid {% if endpoints %}has-submenu{% endif %}">
-        {{ mobile_nav(current_user, endpoints=endpoints) }}
-        {{ desktop_nav(current_user, endpoints=endpoints, count=count) }}
+        {{ mobile_nav(current_user, dropdown=dropdown) }}
+        {{ desktop_nav(current_user, dropdown=dropdown) }}
     </nav>
 {% endmacro %}

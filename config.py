@@ -1,13 +1,38 @@
 import os
 import urlparse
 
+# specify absolute path
+
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+# So lets go through each of the configuring variables.
+#
+# APP_NAME is the name of the app. This is used in templating
+# to make sure that all the pages at least have the same html
+# title
+#
+# SECRET_KEY is a alpha-numeric string that is used for crypto
+# related things in some parts of the application. Set it as an
+# environment variable or default to our insecure one. This is
+# used in password hashing see app/models/user.py for more info.
+# YOU SHOULD SET THIS AS A CONFIG VAR IN PRODUCTION!!!!
+#
+# SQLALCHEMY_COMMIT_ON_TEARDOWN is used to auto-commit any sessions
+# that are open at the end of the 'app context' or basically the
+# current request on the application. But it is best practice
+# to go ahead and commit after any db.session is created
+#
+# SSL_DISABLE I unfortunately do not know much about ;(. But something
+# realated to https
+#
+# MAIL_... is used for basic mailing server connectivity throug the
+# SMTP protocol. This is further described in email.py.
 
 
 class Config:
     APP_NAME = 'Flask-Base'
     SECRET_KEY = os.environ.get('SECRET_KEY') or \
-        'SjefBOa$1FgGco0SkfPO392qqH9%a492'
+        'SECRET_KEY:YOU_SHOULD_NOT_SEE_THIS_IN_PRODUCTION'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
     MAIL_SERVER = 'smtp.googlemail.com'
@@ -34,7 +59,14 @@ class Config:
 
     @staticmethod
     def init_app(app):
+        if os.environ.get('SECRET_KEY') is None:
+            print Config.SECRET_KEY
         pass
+
+# DevelopmentConfig will extend the Config class.
+# It allows for the traditional Flask screen of death when
+# there is an error in the application. It links the database
+# to the data-dev.sqlite file in the flask-base directory
 
 
 class DevelopmentConfig(Config):
@@ -43,6 +75,8 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
     print 'THIS APP IS IN DEBUG MODE. YOU SHOULD NOT SEE THIS IN PRODUCTION.'
+
+# Pretty much the same as above but with CSRF enabled
 
 
 class TestingConfig(Config):
@@ -57,10 +91,14 @@ class ProductionConfig(Config):
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
     SSL_DISABLE = (os.environ.get('SSL_DISABLE') or 'True') == 'True'
 
+    # normally the init_app method doesn't do anything, but in the
+    # production environment, we send all errors to the registered
+    # admin email
+
     @classmethod
     def init_app(cls, app):
         Config.init_app(app)
-
+        assert os.environ.get('SECRET_KEY'), 'SECRET_KEY IS NOT SET!'
         # Email errors to administators
         import logging
         from logging.handlers import SMTPHandler

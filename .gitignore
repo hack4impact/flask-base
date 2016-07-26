@@ -11,3 +11,4 @@ dist
 *.egg-info
 *.sqlite
 .idea
+*.swp
