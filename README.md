@@ -177,7 +177,7 @@ $ foreman start -f Local
 
 ## Contributing
 
-Contributions are welcome! Please check out our [Waffle board](https://waffle.io/hack4impact/flask-base) which automatically syncs with this project's GitHub issues.
+Contributions are welcome! Check out our [Waffle board](https://waffle.io/hack4impact/flask-base) which automatically syncs with this project's GitHub issues. Please refer to our [Code of Conduct](./CONDUCT.md) for more information.
 
 ## License
 [MIT License](LICENSE.md)
