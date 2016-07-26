@@ -26,25 +26,25 @@ Other branches include even more features
 
 ##### Clone the repo
 
-    ```
-    $ git clone https://github.com/hack4impact/flask-base.git
-    $ cd flask-base
-    ```
+```
+$ git clone https://github.com/hack4impact/flask-base.git
+$ cd flask-base
+```
 
 ##### Initialize a virtualenv
 
-    ```
-    $ pip install virtualenv
-    $ virtualenv env
-    $ source env/bin/activate
-    ```
+```
+$ pip install virtualenv
+$ virtualenv env
+$ source env/bin/activate
+```
 
 ##### Install the dependencies
 
-    ```
-    $ pip install -r requirements/common.txt
-    $ pip install -r requirements/dev.txt
-    ```
+```
+$ pip install -r requirements/common.txt
+$ pip install -r requirements/dev.txt
+```
 
 ##### Other dependencies for running locally
 
@@ -68,21 +68,21 @@ $ sudo apt-get install redis-server
 
 ##### Create the database
 
-    ```
-    $ python manage.py recreate_db
-    ```
+```
+$ python manage.py recreate_db
+```
 
 ##### Other setup (e.g. creating roles in database)
 
-    ```
-    $ python manage.py setup_dev
-    ```
+```
+$ python manage.py setup_dev
+```
 
 ##### [Optional] Add fake data to the database
 
-    ```
-    $ python manage.py add_fake_data
-    ```
+```
+$ python manage.py add_fake_data
+```
 
 ##### [Optional. Only valid on `gulp-static-watcher` branch] Use gulp to live compile your files
 
