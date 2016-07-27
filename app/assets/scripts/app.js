@@ -4,7 +4,6 @@ var tabletBreakpoint = '992px';
 var smallMonitorBreakpoint = '1200px';
 
 $(document).ready(function () {
-
     // Enable dismissable flash messages
     $('.message .close').on('click', function () {
         $(this).closest('.message').transition('fade');
@@ -21,9 +20,6 @@ $(document).ready(function () {
     // Enable dropdowns
     $('.dropdown').dropdown();
     $('select').dropdown();
-
-    // mobile dropdown
-    
 });
 
 
@@ -45,14 +41,28 @@ $(document).ready(function () {
             return icontains(elem, match[3]);
         };
 })(jQuery);
- // mobile dropdown menu state change 
-  var currentState = []
-  function changeMenu(e) {
-    var children = $($(e).children()[1]).html();
-    currentState.push($('.mobile.only .vertical.menu').html());
-    children += '<a class="item" onClick="back()">Back</a><i class="back icon"></i>'
-    $('.mobile.only .vertical.menu').html(children);
-  }
-  function back() {
-    $('.mobile.only .vertical.menu').html(currentState.pop());
-  }
+
+
+// mobile dropdown menu state change 
+// This code is used for modeling the state of the mobile dropdown menu. 
+// When a mobile menu item with a dropdown is touched, the changeMenu function
+// is called. It gets all the children of the dropdown and stores them as the
+// children variable. During this time, the state of the dropdown menu is saved
+// into the currentState array for later. A 'back' item that has an onclick attr
+// calling the back() function is appended to the children variable and the
+// html of the mobile dropdown is set to the children variable. 
+// If the back button is clicked, we get the parent menu of the submenu by popping
+// the currentState variable.
+
+var currentState = [];
+
+function changeMenu(e) {
+  var children = $($(e).children()[1]).html();
+  currentState.push($('.mobile.only .vertical.menu').html());
+  children += '<a class="item" onClick="back()">Back</a><i class="back icon"></i>';
+  $('.mobile.only .vertical.menu').html(children);
+}
+
+function back() {
+  $('.mobile.only .vertical.menu').html(currentState.pop());
+}
