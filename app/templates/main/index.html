@@ -1,8 +1,5 @@
 {% extends 'layouts/base.html' %}
-{# Some special functionality here: current_user represents the current user. is_authticated is false for an AnonymousUser
-   i.e. a user that is not logged in. So we just display "Hello World" on load. Otherwise, we get their full_name(). See
-   User model for more information
-#}
+
 {% block content %}
     <div class="ui text container">
       <h1>Hello {% if not (current_user.is_authenticated()) %} world {% else %} {{ current_user.full_name() }} {% endif %},</h1>
