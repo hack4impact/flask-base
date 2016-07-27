@@ -7,7 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     APP_NAME = 'Flask-Base'
     SECRET_KEY = os.environ.get('SECRET_KEY') or \
-        'SjefBOa$1FgGco0SkfPO392qqH9%a492'
+        'SECRET_KEY_ENV_VAR_NOT_SET'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
     MAIL_SERVER = 'smtp.googlemail.com'
