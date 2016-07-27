@@ -58,8 +58,8 @@ var currentState = [];
 
 function changeMenu(e) {
   var children = $($(e).children()[1]).html();
-  currentState.push($('.mobile.only .vertical.menu').html());
   children += '<a class="item" onClick="back()">Back</a><i class="back icon"></i>';
+  currentState.push($('.mobile.only .vertical.menu').html());
   $('.mobile.only .vertical.menu').html(children);
 }
 
