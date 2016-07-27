@@ -5,7 +5,7 @@
 #}
 {% block content %}
     <div class="ui text container">
-      <h1>Hello {% if (current_user.is_authenticated() == false) %} world {% else %} {{ current_user.full_name() }} {% endif %},</h1>
+      <h1>Hello {% if not (current_user.is_authenticated()) %} world {% else %} {{ current_user.full_name() }} {% endif %},</h1>
 
         <p>This is <a href="http://hack4impact.org">Hack4Impact</a>'s web application template. We'll use this as a
         foundation for each of our <a href="http://flask.pocoo.org">Flask</a> projects. The goal is to reduce the work
