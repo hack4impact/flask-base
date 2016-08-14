@@ -6,8 +6,11 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     APP_NAME = 'Flask-Base'
-    SECRET_KEY = os.environ.get('SECRET_KEY') or \
-        'SjefBOa$1FgGco0SkfPO392qqH9%a492'
+    if os.environ.get('SECRET_KEY'):
+        SECRET_KEY = os.environ.get('SECRET_KEY')
+    else:
+        SECRET_KEY = 'SECRET_KEY_ENV_VAR_NOT_SET'
+        print 'SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUDCTION'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
     MAIL_SERVER = 'smtp.googlemail.com'
@@ -60,7 +63,7 @@ class ProductionConfig(Config):
     @classmethod
     def init_app(cls, app):
         Config.init_app(app)
-
+        assert os.environ.get('SECRET_KEY'), 'SECRET_KEY IS NOT SET!'
         # Email errors to administators
         import logging
         from logging.handlers import SMTPHandler
