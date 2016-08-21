@@ -21,8 +21,8 @@ class Config:
 
     ADMIN_EMAIL = 'flask-base-admin@example.com'
     EMAIL_SUBJECT_PREFIX = '[{}]'.format(APP_NAME)
-    EMAIL_SENDER = '{app_name} Admin <{email}>'.format(app_name=APP_NAME,
-                                                       email=MAIL_USERNAME)
+    EMAIL_SENDER = '{app_name} Admin <{email}>'.format(
+        app_name=APP_NAME, email=MAIL_USERNAME)
 
     REDIS_URL = os.getenv('REDISTOGO_URL') or 'http://localhost:6379'
 
@@ -79,8 +79,7 @@ class ProductionConfig(Config):
             toaddrs=[cls.ADMIN_EMAIL],
             subject=cls.EMAIL_SUBJECT_PREFIX + ' Application Error',
             credentials=credentials,
-            secure=secure
-        )
+            secure=secure)
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
 

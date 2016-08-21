@@ -7,14 +7,12 @@ from rq import Worker, Queue, Connection
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 
-
 if os.path.exists('.env'):
     print('Importing environment from .env file')
     for line in open('.env'):
         var = line.strip().split('=')
         if len(var) == 2:
             os.environ[var[0]] = var[1]
-
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
@@ -49,12 +47,13 @@ def recreate_db():
     db.session.commit()
 
 
-@manager.option('-n',
-                '--number-users',
-                default=10,
-                type=int,
-                help='Number of each model type to create',
-                dest='number_users')
+@manager.option(
+    '-n',
+    '--number-users',
+    default=10,
+    type=int,
+    help='Number of each model type to create',
+    dest='number_users')
 def add_fake_data(number_users):
     """
     Adds fake data to the database.
@@ -87,12 +86,12 @@ def run_worker():
         host=app.config['RQ_DEFAULT_HOST'],
         port=app.config['RQ_DEFAULT_PORT'],
         db=0,
-        password=app.config['RQ_DEFAULT_PASSWORD']
-    )
+        password=app.config['RQ_DEFAULT_PASSWORD'])
 
     with Connection(conn):
         worker = Worker(map(Queue, listen))
         worker.work()
+
 
 if __name__ == '__main__':
     manager.run()

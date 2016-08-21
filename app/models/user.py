@@ -23,12 +23,11 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-            'User': (
-                Permission.GENERAL, 'main', True
-            ),
-            'Administrator': (
-                Permission.ADMINISTER, 'admin', False  # grants all permissions
-            )
+            'User': (Permission.GENERAL, 'main', True),
+            'Administrator': (Permission.ADMINISTER,
+                              'admin',
+                              False  # grants all permissions
+                              )
         }
         for r in roles:
             role = Role.query.filter_by(name=r).first()
@@ -168,8 +167,7 @@ class User(UserMixin, db.Model):
                 password=fake.password(),
                 confirmed=True,
                 role=choice(roles),
-                **kwargs
-            )
+                **kwargs)
             db.session.add(u)
             try:
                 db.session.commit()
