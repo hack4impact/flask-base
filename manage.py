@@ -95,11 +95,16 @@ def run_worker():
 
 
 @manager.command
-def yapf():
+def format():
     """Runs the yapf formatter over the project."""
-    cmd = 'yapf -e "./env/* ./venv/* ./ENV/*" -r -i .'
-    print 'Running {}'.format(cmd)
-    subprocess.call(cmd, shell=True)
+    yapf = 'yapf -e "./env/*" -r -i .'
+    isort = 'isort -rc --atomic --skip env .'
+
+    print 'Running {}'.format(isort)
+    subprocess.call(isort, shell=True)
+
+    print 'Running {}'.format(yapf)
+    subprocess.call(yapf, shell=True)
 
 
 if __name__ == '__main__':
