@@ -97,8 +97,8 @@ def run_worker():
 @manager.command
 def format():
     """Runs the yapf formatter over the project."""
+    isort = 'isort -rc --skip env .'
     yapf = 'yapf -e "./env/*" -r -i .'
-    isort = 'isort -rc --atomic --skip env .'
 
     print 'Running {}'.format(isort)
     subprocess.call(isort, shell=True)
