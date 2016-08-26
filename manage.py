@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 import os
 import subprocess
-from app import create_app, db
-from app.models import User, Role
-from redis import Redis
-from rq import Worker, Queue, Connection
-from flask.ext.script import Manager, Shell
+
 from flask.ext.migrate import Migrate, MigrateCommand
+from flask.ext.script import Manager, Shell
+from redis import Redis
+from rq import Connection, Queue, Worker
+
+from app import create_app, db
+from app.models import Role, User
 
 if os.path.exists('.env'):
     print('Importing environment from .env file')
