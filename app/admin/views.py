@@ -1,7 +1,6 @@
 from flask import abort, flash, redirect, render_template, url_for
 from flask.ext.login import current_user, login_required
 from flask.ext.rq import get_queue
-
 from forms import (ChangeAccountTypeForm, ChangeUserEmailForm, InviteUserForm,
                    NewUserForm)
 
