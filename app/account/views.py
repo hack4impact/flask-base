@@ -1,14 +1,15 @@
-from flask import render_template, redirect, request, url_for, flash
-from flask.ext.login import (login_required, login_user, logout_user,
-                             current_user)
+from flask import flash, redirect, render_template, request, url_for
+from flask.ext.login import (current_user, login_required, login_user,
+                             logout_user)
 from flask.ext.rq import get_queue
+
 from . import account
 from .. import db
 from ..email import send_email
 from ..models import User
-from .forms import (LoginForm, RegistrationForm, CreatePasswordForm,
-                    ChangePasswordForm, ChangeEmailForm,
-                    RequestResetPasswordForm, ResetPasswordForm)
+from .forms import (ChangeEmailForm, ChangePasswordForm, CreatePasswordForm,
+                    LoginForm, RegistrationForm, RequestResetPasswordForm,
+                    ResetPasswordForm)
 
 
 @account.route('/login', methods=['GET', 'POST'])

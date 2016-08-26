@@ -1,8 +1,9 @@
 from flask import current_app
-from flask.ext.login import UserMixin, AnonymousUserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, \
-    BadSignature, SignatureExpired
+from flask.ext.login import AnonymousUserMixin, UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import BadSignature, SignatureExpired
+from werkzeug.security import check_password_hash, generate_password_hash
+
 from .. import db, login_manager
 
 

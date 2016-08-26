@@ -1,8 +1,11 @@
 import os
+
 from flask import render_template
 from flask.ext.mail import Message
-from . import mail
+
 from app import create_app
+
+from . import mail
 
 
 def send_email(recipient, subject, template, **kwargs):
