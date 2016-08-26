@@ -98,7 +98,7 @@ def run_worker():
 
 @manager.command
 def format():
-    """Runs the yapf formatter over the project."""
+    """Runs the yapf and isort formatters over the project."""
     isort = 'isort -rc --skip env .'
     yapf = 'yapf -e "./env/*" -r -i .'
 
