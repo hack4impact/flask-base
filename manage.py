@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import subprocess
 from app import create_app, db
 from app.models import User, Role
 from redis import Redis
@@ -91,6 +92,14 @@ def run_worker():
     with Connection(conn):
         worker = Worker(map(Queue, listen))
         worker.work()
+
+
+@manager.command
+def yapf():
+    """Runs the yapf formatter over the project."""
+    cmd = 'yapf -e "./env/* ./venv/* ./ENV/*" -r -i .'
+    print 'Running {}'.format(cmd)
+    subprocess.call(cmd, shell=True)
 
 
 if __name__ == '__main__':
