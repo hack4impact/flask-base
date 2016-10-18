@@ -25,10 +25,11 @@ class Role(db.Model):
     def insert_roles():
         roles = {
             'User': (Permission.GENERAL, 'main', True),
-            'Administrator': (Permission.ADMINISTER,
-                              'admin',
-                              False  # grants all permissions
-                              )
+            'Administrator': (
+                Permission.ADMINISTER,
+                'admin',
+                False  # grants all permissions
+            )
         }
         for r in roles:
             role = Role.query.filter_by(name=r).first()

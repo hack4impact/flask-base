@@ -1,5 +1,4 @@
 from flask.ext.wtf import Form
-
 from wtforms import ValidationError
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields import PasswordField, StringField, SubmitField
@@ -12,9 +11,7 @@ from ..models import Role, User
 
 class ChangeUserEmailForm(Form):
     email = EmailField(
-        'New email', validators=[
-            InputRequired(), Length(1, 64), Email()
-        ])
+        'New email', validators=[InputRequired(), Length(1, 64), Email()])
     submit = SubmitField('Update email')
 
     def validate_email(self, field):
