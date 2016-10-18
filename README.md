@@ -98,6 +98,10 @@ $ source env/bin/activate
 $ foreman start -f Local
 ```
 
+## Formatting code
+
+In order to submit changes to flask-base, you must auto format your code with `python manage.py format`.
+
 ## Project Structure
 
 
