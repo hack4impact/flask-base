@@ -39,6 +39,12 @@ $ virtualenv env
 $ source env/bin/activate
 ```
 
+##### (If you're on a mac) Make sure xcode tools are installed
+
+```
+$ xcode-select --install
+```
+
 ##### Install the dependencies
 
 ```
