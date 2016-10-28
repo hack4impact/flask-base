@@ -39,6 +39,17 @@ $ virtualenv env
 $ source env/bin/activate
 ```
 
+##### Add Environment Variables 
+
+Create a file called `.env` that contains environment variables in the following syntax.`ENVIRONMENT_VARIABLE=value`. For example,
+the mailing enviroment variables can be set as the following
+```
+MAIL_USERNAME=example@domain.com
+MAIL_PASSWORD=SuperSecretPassword
+SECRET_KEY=SuperRandomStringToBeUsedForEncryption
+```
+**Note: do not include the `.env` file in any commits. This should remain private.
+
 ##### Install the dependencies
 
 ```
