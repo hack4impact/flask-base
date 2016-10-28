@@ -41,7 +41,7 @@ $ source env/bin/activate
 
 ##### Add Environment Variables 
 
-Create a file called `.env` that contains environment variables in the following syntax.`ENVIRONMENT_VARIABLE=value`. For example,
+Create a file called `.env` that contains environment variables in the following syntax: `ENVIRONMENT_VARIABLE=value`. For example,
 the mailing enviroment variables can be set as the following
 ```
 MAIL_USERNAME=example@domain.com
