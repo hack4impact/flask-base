@@ -48,7 +48,7 @@ MAIL_USERNAME=example@domain.com
 MAIL_PASSWORD=SuperSecretPassword
 SECRET_KEY=SuperRandomStringToBeUsedForEncryption
 ```
-**Note: do not include the `.env` file in any commits. This should remain private.
+**Note: do not include the `.env` file in any commits. This should remain private.**
 
 ##### Install the dependencies
 
