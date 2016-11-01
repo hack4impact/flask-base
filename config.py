@@ -13,7 +13,7 @@ class Config:
         print 'SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUDCTION'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
-    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_SERVER = 'smtp.sendgrid.net'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
