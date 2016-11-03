@@ -39,6 +39,23 @@ $ virtualenv env
 $ source env/bin/activate
 ```
 
+##### (If you're on a mac) Make sure xcode tools are installed
+
+```
+$ xcode-select --install
+```
+
+##### Add Environment Variables 
+
+Create a file called `.env` that contains environment variables in the following syntax: `ENVIRONMENT_VARIABLE=value`. For example,
+the mailing enviroment variables can be set as the following
+```
+MAIL_USERNAME=example@domain.com
+MAIL_PASSWORD=SuperSecretPassword
+SECRET_KEY=SuperRandomStringToBeUsedForEncryption
+```
+**Note: do not include the `.env` file in any commits. This should remain private.**
+
 ##### Install the dependencies
 
 ```
@@ -97,6 +114,10 @@ $ python manage.py add_fake_data
 $ source env/bin/activate
 $ foreman start -f Local
 ```
+
+## Formatting code
+
+In order to submit changes to flask-base, you must auto format your code with `python manage.py format`.
 
 ## Project Structure
 
