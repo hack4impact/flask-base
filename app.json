@@ -1,0 +1,32 @@
+{
+  "name": "flask-base",
+  "description": "",
+  "scripts": {
+    "postdeploy": "python manage.py recreate_db && python manage.py setup_prod && python manage.py add_fake_data"
+  },
+  "env": {
+    "FLASK_CONFIG": {
+      "required": true
+    },
+    "SECRET_KEY": {
+      "generator": "secret"
+    },
+    "MAIL_USERNAME": {
+      "required": true
+    },
+    "MAIL_PASSWORD": {
+      "required": true
+    },
+    "REDIS_URL": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
