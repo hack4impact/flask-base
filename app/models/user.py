@@ -176,6 +176,26 @@ class User(UserMixin, db.Model):
             except IntegrityError:
                 db.session.rollback()
 
+    @staticmethod
+    def create_confirmed_admin(first_name, last_name, email, password):
+        """Create a confirmed admin with the given input properties."""
+        from sqlalchemy.exc import IntegrityError
+
+        u = User(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            password=password,
+            confirmed=True,
+            role=Role.query.filter_by(
+                permissions=Permission.ADMINISTER).first()
+        )
+        db.session.add(u)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+
     def __repr__(self):
         return '<User \'%s\'>' % self.full_name()
 

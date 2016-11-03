@@ -9,6 +9,7 @@ from rq import Connection, Queue, Worker
 
 from app import create_app, db
 from app.models import Role, User
+from config import Config
 
 if os.path.exists('.env'):
     print('Importing environment from .env file')
@@ -61,6 +62,12 @@ def add_fake_data(number_users):
     """
     Adds fake data to the database.
     """
+    admin_email = Config.ADMIN_EMAIL
+    if User.query.filter_by(email=admin_email).first() is None:
+        User.create_confirmed_admin('Default',
+                                    'Admin',
+                                    admin_email,
+                                    'password')
     User.generate_fake(count=number_users)
 
 
