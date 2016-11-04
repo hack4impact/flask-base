@@ -78,7 +78,7 @@ def setup_prod():
 
 
 def setup_general():
-    """Runs the set-up needed for both local development and production. 
+    """Runs the set-up needed for both local development and production.
        Also sets up first admin user."""
     Role.insert_roles()
     admin_query = Role.query.filter_by(name='Administrator')
