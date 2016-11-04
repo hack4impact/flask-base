@@ -6,7 +6,7 @@ from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager, Shell
 from redis import Redis
 from rq import Connection, Queue, Worker
-
+from config import Config
 from app import create_app, db
 from app.models import Role, User
 
@@ -77,9 +77,21 @@ def setup_prod():
 
 
 def setup_general():
-    """Runs the set-up needed for both local development and production."""
+    """Runs the set-up needed for both local development and production. Also sets up first admin user."""
     Role.insert_roles()
-
+    admin_query = Role.query.filter_by(name='Administrator')
+    if admin_query.first() is not None:
+        admin_role_id = admin_query.first().id
+        if User.query.filter_by(email=Config.ADMIN_EMAIL).first() is None:
+            user = User(first_name="Admin", 
+                        last_name="Account", 
+                        password=Config.ADMIN_PASSWORD,
+                        confirmed=True, 
+                        email=Config.ADMIN_EMAIL, 
+                        role_id = admin_role_id)
+            db.session.add(user)
+            db.session.commit()
+            print "Added administrator {}".format(user.full_name())
 
 @manager.command
 def run_worker():
