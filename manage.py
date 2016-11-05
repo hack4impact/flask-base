@@ -83,18 +83,16 @@ def setup_general():
     Role.insert_roles()
     admin_query = Role.query.filter_by(name='Administrator')
     if admin_query.first() is not None:
-        admin_role_id = admin_query.first().id
         if User.query.filter_by(email=Config.ADMIN_EMAIL).first() is None:
             user = User(
-                first_name="Admin",
-                last_name="Account",
+                first_name='Admin',
+                last_name='Account',
                 password=Config.ADMIN_PASSWORD,
                 confirmed=True,
-                email=Config.ADMIN_EMAIL,
-                role_id=admin_role_id)
+                email=Config.ADMIN_EMAIL)
             db.session.add(user)
             db.session.commit()
-            print "Added administrator {}".format(user.full_name())
+            print 'Added administrator {}'.format(user.full_name())
 
 
 @manager.command
