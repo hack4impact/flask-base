@@ -1,5 +1,6 @@
 .webassets-cache/
 webassets-external/
+node_modules/
 .DS_Store
 *.pyc
 *.pyo
