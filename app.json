@@ -17,14 +17,12 @@
     "MAIL_PASSWORD": {
       "required": true
     },
-    "REDIS_URL": {
-      "required": true
-    }
   },
   "formation": {
   },
   "addons": [
-
+    "heroku-postgresql",
+    "redistogo"
   ],
   "buildpacks": [
 
