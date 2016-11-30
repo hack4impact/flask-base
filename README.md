@@ -48,7 +48,7 @@ $ xcode-select --install
 ##### Add Environment Variables 
 
 Create a file called `.env` that contains environment variables in the following syntax: `ENVIRONMENT_VARIABLE=value`. For example,
-the mailing enviroment variables can be set as the following
+the mailing environment variables can be set as the following
 ```
 MAIL_USERNAME=example@domain.com
 MAIL_PASSWORD=SuperSecretPassword
@@ -117,7 +117,7 @@ $ foreman start -f Local
 
 ## Formatting code
 
-In order to submit changes to flask-base, you must auto format your code with `python manage.py format`.
+Before you submit changes to flask-base, you may want to auto format your code with `python manage.py format`.
 
 ## Project Structure
 
