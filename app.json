@@ -16,7 +16,7 @@
     },
     "MAIL_PASSWORD": {
       "required": true
-    },
+    }
   },
   "formation": {
   },
