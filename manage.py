@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import subprocess
+from config import Config
 
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager, Shell
@@ -77,8 +78,21 @@ def setup_prod():
 
 
 def setup_general():
-    """Runs the set-up needed for both local development and production."""
+    """Runs the set-up needed for both local development and production.
+       Also sets up first admin user."""
     Role.insert_roles()
+    admin_query = Role.query.filter_by(name='Administrator')
+    if admin_query.first() is not None:
+        if User.query.filter_by(email=Config.ADMIN_EMAIL).first() is None:
+            user = User(
+                first_name='Admin',
+                last_name='Account',
+                password=Config.ADMIN_PASSWORD,
+                confirmed=True,
+                email=Config.ADMIN_EMAIL)
+            db.session.add(user)
+            db.session.commit()
+            print 'Added administrator {}'.format(user.full_name())
 
 
 @manager.command

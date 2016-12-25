@@ -95,6 +95,8 @@ $ python manage.py recreate_db
 $ python manage.py setup_dev
 ```
 
+Note that this will create an admin user with email and password specified by the `ADMIN_EMAIL` and `ADMIN_PASSWORD` config variables. If not specified, they are both `flask-base-admin@example.com` and `password` respectively.
+
 ##### [Optional] Add fake data to the database
 
 ```
