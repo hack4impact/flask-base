@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Routing (account routes) - Flask-Base Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Routing (account routes)";
+    var mkdocs_page_input_path = "account.md";
+    var mkdocs_page_url = "/account/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Flask-Base Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../setup/">Setup</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../manage_commands/">Commands</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../config/">Configuration</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../init/">Initialization</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../assets/">Assets and Decorators</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../models/">Models</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Routing (account routes)</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#login">Login</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#logout">Logout</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../templates/">Templating</a>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Flask-Base Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Routing (account routes)</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p>Routing (Account Routes)</p>
+<p>This guide will be explaining the concept of routing by going through a file. We will be using <code>app/account/views.py</code></p>
+<h2 id="login">Login</h2>
+<pre><code>@account.route('/login', methods=['GET', 'POST'])
+def login():
+    &quot;&quot;&quot;Log in an existing user.&quot;&quot;&quot;
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is not None and user.password_hash is not None and \
+                user.verify_password(form.password.data):
+            login_user(user, form.remember_me.data)
+            flash('You are now logged in. Welcome back!', 'success')
+            return redirect(request.args.get('next') or url_for('main.index'))
+        else:
+            flash('Invalid email or password.', 'form-error')
+    return render_template('account/login.html', form=form)
+</code></pre>
+
+<p>All routes are decorated with the name of the associated Blueprint along
+with the .route prop with attributes of (name, methods=[]). For example
+<code>@account.route('/login', method=['GET', 'POST'])</code> creates a route accessible
+at <code>yourdomain.com/account/login</code>.</p>
+<p>This route can accept either <code>POST</code> or <code>GET</code>
+requests which is appropriate since there is a form associated with the
+login process. This form is loaded from the forms.py file (in this case
+the <code>LoginForm()</code> is loaded) and we then check if the form is valid
+(<code>validate_on_submit</code>) in that it is a valid POST request.
+We grab the form field named 'email' and query the User database for the
+user that has that email. Then we call the <code>verify_password</code> method
+from the User class for this specific user instance and check the hashed
+password in the database against the password provided by the user which
+is hashed with the SECRET_KEY. If everything is fine, the Flask-login
+extendion performs a login_user action and sets the <code>SESSION['user_id']</code>
+equivalent to the user id provided from the user instance. If the
+form has remember_me set to True (ie checked) then that is passed along
+as a parameter in login_user.</p>
+<p>If it was redirected to this /login page, their URL will have a parameter
+called <code>next</code> containing the URL they need to be directed to after they
+login. Otherwise, they will just be sent to the main.index route
+This is true for the admin as well. It is best to edit this functionality
+since index pages should differ by user type. There is a flash sent as well
+if the request is successful.</p>
+<p>If there is an error in the user checking process, then the user is kicked
+back to the account/login page with a flashed form error.</p>
+<p>If this is a GET request, only the account/login page is rendered</p>
+<h2 id="logout">Logout</h2>
+<pre><code>@account.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('main.index'))
+</code></pre>
+
+<p>The Flask-login Manager has a built in logout_user function that
+removes the SESSION variables from the user's browser and logs out
+the user completely</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../templates/" class="btn btn-neutral float-right" title="Templating">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../models/" class="btn btn-neutral" title="Models"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../models/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../templates/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>

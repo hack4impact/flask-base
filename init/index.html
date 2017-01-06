@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Initialization - Flask-Base Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Initialization";
+    var mkdocs_page_input_path = "init.md";
+    var mkdocs_page_url = "/init/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Flask-Base Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../setup/">Setup</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../manage_commands/">Commands</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../config/">Configuration</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Initialization</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#__init__py">__init__.py</a></li>
+                
+                    <li><a class="toctree-l4" href="#csrf-protection">CSRF Protection</a></li>
+                
+                    <li><a class="toctree-l4" href="#flask-login">Flask-Login</a></li>
+                
+                    <li><a class="toctree-l4" href="#init_appapp">init_app(app)</a></li>
+                
+                    <li><a class="toctree-l4" href="#set-up-asset-pipeline">Set up Asset Pipeline</a></li>
+                
+                    <li><a class="toctree-l4" href="#blueprints">Blueprints</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../assets/">Assets and Decorators</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../models/">Models</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../account/">Routing (account routes)</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../templates/">Templating</a>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Flask-Base Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Initialization</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="__init__py"><code>__init__.py</code></h1>
+<h2 id="csrf-protection">CSRF Protection</h2>
+<p>Note about CSRF protection. This basically prevents hackers
+from being able to post to our POST routes without having actually
+loaded a form on our website. E.g. they could potentially create
+users if they found out the URL for our register routes and
+the params we expect (its fairly easy to do). But with
+CSRF protection, all forms have a hidden field that is verified on
+our end. This is a bit low level, but there is a SESSION object
+stored on the flask server in memory. Each user has their
+own session containing things like their username, password, etc
+When a form created, a random string called a CSRF token is
+created and is sent along with the form in a hidden field.
+Simultaneously, this string is added to the user session
+stored on the server. When the user submits a form, then
+the server will check to see if the hidden form field with the
+CSRF token matches the CSRF token stored in the user's session
+on the server. If it does, then everything is fine and the
+POST request can proceed normally. If not, then the POST request
+is aborted as a 403 (i think) error is thrown...basically
+the user is not able to POST. This is great for forms, but
+if you want to create a public API that does not require a session,
+then you'll want to include a decorator on your route <code>@csrf.exempt</code></p>
+<h2 id="flask-login">Flask-Login</h2>
+<pre><code class="python">login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'account.login'
+</code></pre>
+
+<p>Flask-login provides us with a bunch of easy ways to do secure and
+simple login techniques. LoginManager() is the main class that
+will handle all of this. Session protection makes sure the
+user session is very secure and login_manager.login_view
+Is the view that the a non-authenticated user will get redirected
+to. Otherwise it is a 401 error.</p>
+<h2 id="init_appapp"><code>init_app(app)</code></h2>
+<pre><code class="python">mail.init_app(app)
+db.init_app(app)
+login_manager.init_app(app)
+csrf.init_app(app)
+compress.init_app(app)
+RQ(app)
+</code></pre>
+
+<p>init_app(app) are methods in each of these packages
+More on init_app. It binds each instance of the respective
+application to the flask app. However, we do need to specify
+an application context while using things like db, mail,
+login_manager, and compress since they are not bound to our
+application <em>exclusively</em>.</p>
+<h2 id="set-up-asset-pipeline">Set up Asset Pipeline</h2>
+<p>This one is a bit complex. First an Environment instance is created
+that holds references to a single path to the 'static' folder. We don't
+really care about that since the url_for() method allows us to specify
+access to resources in the static/ directory. But we then append all the
+folders and files within the 'dirs' array to the environment. This
+action provides context for the subsequence set of register actions.
+Looking in app/assets.py there are some Bundle instances created with
+3 parameters mainly: what type of file(s) to bundle, a type of filter/
+transpiler to apply, and then a final output file. E.g. for the
+app_css bundle, it looks within assets/styles, assets/scripts for any
+*.scss files, converts them to css with the scss transpiler and then
+outputs it to the styles/app.css file.
+See the templates/partials/_head.html
+file for more information on how to actually include the file.</p>
+<h2 id="blueprints">Blueprints</h2>
+<pre><code class="python">from account import account as account_blueprint
+from admin import admin as admin_blueprint
+from main import main as main_blueprint
+
+app.register_blueprint(main_blueprint)
+app.register_blueprint(account_blueprint, url_prefix='/account')
+app.register_blueprint(admin_blueprint, url_prefix='/admin')
+</code></pre>
+
+<p>Blueprints allow us to set up url prefixes for routes contained
+within the views file of each of the divisions we specify to be
+registered with a blueprint. Blueprints are meant to distinguish between
+the variable different bodies within a large application.
+In the case of flask-base, we have 'main', 'account', and 'admin'
+sections. The 'main' section contains error handling and views.
+The other sections contain mainly just views. The folders for each of
+these sections also contain an <strong>init</strong> file which actually creates the
+Blueprint itself with a name and a default <strong>name</strong> param as well.
+After that, the views file and any other files that depend upon the
+blueprint are imported and can use the variable name assigned to the
+blueprint to reference things like decorators for routes. e.g. if my
+blueprint is name 'first_component', I would use the following as
+a decorator for my routes '@first_component.route'. By specifying
+the url_prefix, all of the functions and routes etc of the blueprint
+will be read with the base url_prefix specified. E.g. if I wanted
+to access the '/blah' route within the 'acount' blueprint, I need only
+specify @account.router('/blah') def ... as my method in views.py under
+the account/ directory. But I would be able to access it in the
+browser with yourdomain.com/accounts/blah</p>
+<h1 id="_1"></h1>
+<p>A note on why we are importing here: Because stuff will break...and for
+a good reason! The account import in turn imports the views.py file under
+the account/ directory. The views.py in turn references db
+db is the database instance which was created after the import statements
+If we had included these import statements at the very top, views.py
+under account would have refered to a db instance which was not created!
+hence errors...all the errors (at least in files relying upon a created
+db instance...and any instance created beyond that.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../assets/" class="btn btn-neutral float-right" title="Assets and Decorators">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../config/" class="btn btn-neutral" title="Configuration"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../config/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../assets/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>

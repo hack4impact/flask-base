@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Setup - Flask-Base Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Setup";
+    var mkdocs_page_input_path = "setup.md";
+    var mkdocs_page_url = "/setup/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Flask-Base Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Setup</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#setting-up">Setting up</a></li>
+                
+                    <li><a class="toctree-l4" href="#clone-the-repo">Clone the repo</a></li>
+                
+                    <li><a class="toctree-l4" href="#initialize-a-virtualenv">Initialize a virtualenv</a></li>
+                
+                    <li><a class="toctree-l4" href="#if-youre-on-a-mac-make-sure-xcode-tools-are-installed">(If you're on a mac) Make sure xcode tools are installed</a></li>
+                
+                    <li><a class="toctree-l4" href="#add-environment-variables">Add Environment Variables</a></li>
+                
+                    <li><a class="toctree-l4" href="#install-the-dependencies">Install the dependencies</a></li>
+                
+                    <li><a class="toctree-l4" href="#other-dependencies-for-running-locally">Other dependencies for running locally</a></li>
+                
+                    <li><a class="toctree-l4" href="#create-the-database">Create the database</a></li>
+                
+                    <li><a class="toctree-l4" href="#other-setup-eg-creating-roles-in-database">Other setup (e.g. creating roles in database)</a></li>
+                
+                    <li><a class="toctree-l4" href="#optional-add-fake-data-to-the-database">[Optional] Add fake data to the database</a></li>
+                
+                    <li><a class="toctree-l4" href="#optional-only-valid-on-gulp-static-watcher-branch-use-gulp-to-live-compile-your-files">[Optional. Only valid on gulp-static-watcher branch] Use gulp to live compile your files</a></li>
+                
+                    <li><a class="toctree-l4" href="#running-the-app">Running the app</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../manage_commands/">Commands</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../config/">Configuration</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../init/">Initialization</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../assets/">Assets and Decorators</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../models/">Models</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../account/">Routing (account routes)</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../templates/">Templating</a>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Flask-Base Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Setup</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="setting-up">Setting up</h1>
+<h2 id="clone-the-repo">Clone the repo</h2>
+<pre><code>$ git clone https://github.com/hack4impact/flask-base.git
+$ cd flask-base
+</code></pre>
+
+<h2 id="initialize-a-virtualenv">Initialize a virtualenv</h2>
+<pre><code>$ pip install virtualenv
+$ virtualenv env
+$ source env/bin/activate
+</code></pre>
+
+<h2 id="if-youre-on-a-mac-make-sure-xcode-tools-are-installed">(If you're on a mac) Make sure xcode tools are installed</h2>
+<pre><code>$ xcode-select --install
+</code></pre>
+
+<h2 id="add-environment-variables">Add Environment Variables</h2>
+<p>Create a file called <code>.env</code> that contains environment variables in the following syntax: <code>ENVIRONMENT_VARIABLE=value</code>. For example,
+the mailing environment variables can be set as the following</p>
+<pre><code>MAIL_USERNAME=example@domain.com
+MAIL_PASSWORD=SuperSecretPassword
+SECRET_KEY=SuperRandomStringToBeUsedForEncryption
+</code></pre>
+
+<p><strong>Note: do not include the <code>.env</code> file in any commits. This should remain private.</strong></p>
+<h2 id="install-the-dependencies">Install the dependencies</h2>
+<pre><code>$ pip install -r requirements/common.txt
+$ pip install -r requirements/dev.txt
+</code></pre>
+
+<h2 id="other-dependencies-for-running-locally">Other dependencies for running locally</h2>
+<p>You need to install <a href="https://ddollar.github.io/foreman/">Foreman</a> and <a href="http://redis.io/">Redis</a>. Chances are, these commands will work:</p>
+<pre><code>$ gem install foreman
+</code></pre>
+
+<p>Mac (using <a href="http://brew.sh/">homebrew</a>):</p>
+<pre><code>$ brew install redis
+</code></pre>
+
+<p>Linux:</p>
+<pre><code>$ sudo apt-get install redis-server
+</code></pre>
+
+<h2 id="create-the-database">Create the database</h2>
+<pre><code>$ python manage.py recreate_db
+</code></pre>
+
+<h2 id="other-setup-eg-creating-roles-in-database">Other setup (e.g. creating roles in database)</h2>
+<pre><code>$ python manage.py setup_dev
+</code></pre>
+
+<p>Note that this will create an admin user with email and password specified by the <code>ADMIN_EMAIL</code> and <code>ADMIN_PASSWORD</code> config variables. If not specified, they are both <code>flask-base-admin@example.com</code> and <code>password</code> respectively.</p>
+<h2 id="optional-add-fake-data-to-the-database">[Optional] Add fake data to the database</h2>
+<pre><code>$ python manage.py add_fake_data
+</code></pre>
+
+<h2 id="optional-only-valid-on-gulp-static-watcher-branch-use-gulp-to-live-compile-your-files">[Optional. Only valid on <code>gulp-static-watcher</code> branch] Use gulp to live compile your files</h2>
+<ul>
+<li>Install the Live Reload browser plugin from <a href="http://livereload.com/">here</a></li>
+<li>Run <code>npm install</code></li>
+<li>Run <code>gulp</code></li>
+</ul>
+<h2 id="running-the-app">Running the app</h2>
+<pre><code>$ source env/bin/activate
+$ foreman start -f Local
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../manage_commands/" class="btn btn-neutral float-right" title="Commands">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../manage_commands/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>
