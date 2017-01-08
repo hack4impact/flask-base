@@ -2,7 +2,9 @@
 
 ## Synopsis
 
-A Flask application template with the boilerplate code already done for you.
+A Flask application template with the boilerplate code already done for you. 
+
+**Documentation available at [http://hack4impact.github.io/flask-base](http://hack4impact.github.io/flask-base).**
 
 ## What's included?
 
@@ -20,7 +22,6 @@ A Flask application template with the boilerplate code already done for you.
 Other branches include even more features
 
 * `admin-edit-static-pages`: allow administrators to edit static pages using the [ckeditor](http://ckeditor.com/) WYSIWYG editor 
-* `gulp-static-watcher`: quick and easy webpage refresh as static pages and assets are edited. 
 
 ## Setting up
 
@@ -102,13 +103,6 @@ Note that this will create an admin user with email and password specified by th
 ```
 $ python manage.py add_fake_data
 ```
-
-##### [Optional. Only valid on `gulp-static-watcher` branch] Use gulp to live compile your files
-
-* Install the Live Reload browser plugin from [here](http://livereload.com/)
-* Run `npm install`
-* Run `gulp`
-
 
 ## Running the app
 
@@ -201,6 +195,14 @@ Before you submit changes to flask-base, you may want to auto format your code w
 ## Contributing
 
 Contributions are welcome! Check out our [Waffle board](https://waffle.io/hack4impact/flask-base) which automatically syncs with this project's GitHub issues. Please refer to our [Code of Conduct](./CONDUCT.md) for more information.
+
+## Documentation Changes
+
+To make changes to the documentation refer to the [Mkdocs documentation](http://www.mkdocs.org/#installation) for setup. 
+
+To create a new documentation page, add a file to the `docs/` directory and edit `mkdocs.yml` to reference the file. 
+
+When the new files are merged into `master` and pushed to github. Run `mkdocs gh-deploy` to update the online documentation.
 
 ## License
 [MIT License](LICENSE.md)
