@@ -1,15 +1,14 @@
-from flask import abort, flash, redirect, render_template, url_for
+from flask import abort, flash, redirect, render_template, url_for, request
 from flask.ext.login import current_user, login_required
 from flask.ext.rq import get_queue
 
 from forms import (ChangeAccountTypeForm, ChangeUserEmailForm, InviteUserForm,
                    NewUserForm)
-
 from . import admin
 from .. import db
 from ..decorators import admin_required
 from ..email import send_email
-from ..models import Role, User
+from ..models import Role, User, EditableHTML
 
 
 @admin.route('/')
@@ -162,3 +161,24 @@ def delete_user(user_id):
         db.session.commit()
         flash('Successfully deleted user %s.' % user.full_name(), 'success')
     return redirect(url_for('admin.registered_users'))
+
+
+@admin.route('/_update_editor_contents', methods=['POST'])
+@login_required
+@admin_required
+def update_editor_contents():
+    """Update the contents of an editor."""
+
+    edit_data = request.form.get('edit_data')
+    editor_name = request.form.get('editor_name')
+
+    editor_contents = EditableHTML.query.filter_by(
+        editor_name=editor_name).first()
+    if editor_contents is None:
+        editor_contents = EditableHTML(editor_name=editor_name)
+    editor_contents.value = edit_data
+
+    db.session.add(editor_contents)
+    db.session.commit()
+
+    return 'OK', 200

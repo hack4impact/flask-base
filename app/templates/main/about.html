@@ -1,0 +1,11 @@
+{% import 'macros/page_macros.html' as page %}
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <div class="ui text container">
+        <h1>About</h1>
+        {{ page.render_inline_editor(editable_html_obj, current_user) }}
+    </div>
+
+    <script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+{% endblock %}
