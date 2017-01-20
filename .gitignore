@@ -12,3 +12,4 @@ dist
 *.egg-info
 *.sqlite
 .idea
+dump.rdb
