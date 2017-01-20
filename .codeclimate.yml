@@ -23,5 +23,4 @@ ratings:
   - "**.js"
   - "**.py"
 exclude_paths:
-- tests/
 - app/static/*
