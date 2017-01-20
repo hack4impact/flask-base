@@ -4,7 +4,7 @@
 
 A Flask application template with the boilerplate code already done for you. 
 
-![logo](logo.png "logo") 
+<img src="logo@2x.png" height="150"/>
 
 **Documentation available at [http://hack4impact.github.io/flask-base](http://hack4impact.github.io/flask-base).**
 
