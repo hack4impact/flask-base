@@ -4,7 +4,7 @@ Welcome to {{ config.APP_NAME }}!
 
 To confirm your account, please click on the following link:
 
-{{ url_for('account.confirm', token=token, _external=True) }}
+{{ confirm_link }}
 
 Sincerely,
 

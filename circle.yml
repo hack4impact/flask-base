@@ -1,0 +1,10 @@
+dependencies:
+  pre:
+    - pip install -U flake8
+    - pip install -U isort
+    - pip install -U yapf
+
+test:
+  override:
+    - find . -not -path '*/.eggs/*' -name '*.py' | xargs flake8
+    - python manage.py test

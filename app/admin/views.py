@@ -1,18 +1,14 @@
-from ..decorators import admin_required
+from flask import abort, flash, redirect, render_template, url_for, request
+from flask.ext.login import current_user, login_required
+from flask.ext.rq import get_queue
 
-from flask import render_template, abort, redirect, flash, url_for, request
-from flask.ext.login import login_required, current_user
-
-from forms import (
-    ChangeUserEmailForm,
-    NewUserForm,
-    ChangeAccountTypeForm,
-    InviteUserForm,
-)
+from forms import (ChangeAccountTypeForm, ChangeUserEmailForm, InviteUserForm,
+                   NewUserForm)
 from . import admin
-from ..models import User, Role, EditableHTML
 from .. import db
+from ..decorators import admin_required
 from ..email import send_email
+from ..models import Role, User, EditableHTML
 
 
 @admin.route('/')
@@ -30,11 +26,12 @@ def new_user():
     """Create a new user."""
     form = NewUserForm()
     if form.validate_on_submit():
-        user = User(role=form.role.data,
-                    first_name=form.first_name.data,
-                    last_name=form.last_name.data,
-                    email=form.email.data,
-                    password=form.password.data)
+        user = User(
+            role=form.role.data,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            email=form.email.data,
+            password=form.password.data)
         db.session.add(user)
         db.session.commit()
         flash('User {} successfully created'.format(user.full_name()),
@@ -49,19 +46,26 @@ def invite_user():
     """Invites a new user to create an account and set their own password."""
     form = InviteUserForm()
     if form.validate_on_submit():
-        user = User(role=form.role.data,
-                    first_name=form.first_name.data,
-                    last_name=form.last_name.data,
-                    email=form.email.data)
+        user = User(
+            role=form.role.data,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            email=form.email.data)
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        send_email(user.email,
-                   'You Are Invited To Join',
-                   'account/email/invite',
-                   user=user,
-                   user_id=user.id,
-                   token=token)
+        invite_link = url_for(
+            'account.join_from_invite',
+            user_id=user.id,
+            token=token,
+            _external=True)
+        get_queue().enqueue(
+            send_email,
+            recipient=user.email,
+            subject='You Are Invited To Join',
+            template='account/email/invite',
+            user=user,
+            invite_link=invite_link, )
         flash('User {} successfully invited'.format(user.full_name()),
               'form-success')
     return render_template('admin/new_user.html', form=form)
@@ -74,8 +78,8 @@ def registered_users():
     """View all registered users."""
     users = User.query.all()
     roles = Role.query.all()
-    return render_template('admin/registered_users.html', users=users,
-                           roles=roles)
+    return render_template(
+        'admin/registered_users.html', users=users, roles=roles)
 
 
 @admin.route('/user/<int:user_id>')
@@ -104,13 +108,12 @@ def change_user_email(user_id):
         db.session.add(user)
         db.session.commit()
         flash('Email for user {} successfully changed to {}.'
-              .format(user.full_name(), user.email),
-              'form-success')
+              .format(user.full_name(), user.email), 'form-success')
     return render_template('admin/manage_user.html', user=user, form=form)
 
 
-@admin.route('/user/<int:user_id>/change-account-type',
-             methods=['GET', 'POST'])
+@admin.route(
+    '/user/<int:user_id>/change-account-type', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def change_account_type(user_id):
@@ -129,8 +132,7 @@ def change_account_type(user_id):
         db.session.add(user)
         db.session.commit()
         flash('Role for user {} successfully changed to {}.'
-              .format(user.full_name(), user.role.name),
-              'form-success')
+              .format(user.full_name(), user.role.name), 'form-success')
     return render_template('admin/manage_user.html', user=user, form=form)
 
 

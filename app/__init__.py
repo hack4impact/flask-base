@@ -6,6 +6,8 @@ from flask.ext.login import LoginManager
 from flask.ext.assets import Environment
 from flask.ext.wtf import CsrfProtect
 from flask.ext.compress import Compress
+from flask.ext.rq import RQ
+
 from config import config
 from assets import app_css, app_js, vendor_css, vendor_js
 
@@ -15,10 +17,11 @@ mail = Mail()
 db = SQLAlchemy()
 csrf = CsrfProtect()
 compress = Compress()
-
 # Set up Flask-Login
 login_manager = LoginManager()
-login_manager.session_protection = 'strong'
+# TODO: Ideally this should be strong, but that led to bugs. Once this is
+# fixed, switch protection mode back to 'strong'
+login_manager.session_protection = 'basic'
 login_manager.login_view = 'account.login'
 
 
@@ -33,6 +36,7 @@ def create_app(config_name):
     login_manager.init_app(app)
     csrf.init_app(app)
     compress.init_app(app)
+    RQ(app)
 
     # Register Jinja template functions
     from utils import register_template_utils

@@ -1,0 +1,13 @@
+site_name: Flask-Base Documentation
+pages: 
+  - Home: index.md
+  - Setup: setup.md
+  - Commands: manage_commands.md
+  - Configuration: config.md
+  - Initialization: init.md
+  - Assets and Decorators: assets.md
+  - Models: models.md
+  - Routing (account routes): account.md
+  - Templating: templates.md
+  - Deployment To Heroku: deploy.md
+theme: readthedocs

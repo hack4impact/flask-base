@@ -2,15 +2,39 @@
 
 <!DOCTYPE html>
 <html>
-    {% include 'partials/_head.html' %}
-
+    <head>
+        {% include 'partials/_head.html' %}
+        {# Any templates that extend this template can set custom_head_tags to add scripts to their page #}
+        {% block custom_head_tags %}{% endblock %}
+    </head>
     <body>
+      {# Example dropdown menu setup. Uncomment lines to view
+        {% set dropdown = 
+          [
+            ('account stuff',
+              [
+                ('account.login', 'login', 'sign in'),
+                ('account.logout', 'logout', 'sign out'),
+                ('2nd drop', [
+                  ('account.login', 'login 2', ''),
+                  ('3rd drop', [
+                    ('main.index', 'home 2', '')
+                  ])
+                ])
+              ]
+            ),
+            ('main.index', 'home 1', 'home')
+          ]
+        %}
+      #}
+
         {% block nav %}
-            {{ nav.render_nav(current_user) }}
+          {# add dropdown variable here to the render_nav method to render dropdowns #}
+          {{ nav.render_nav(current_user) }}
         {% endblock %}
 
         {% include 'partials/_flashes.html' %}
-
+        {# When extended, the content block contains all the html of the webpage #}
         {% block content %}
         {% endblock %}
 

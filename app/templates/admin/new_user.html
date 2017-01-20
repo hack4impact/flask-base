@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% import 'macros/form_macros.html' as f %}
+{% import 'macros/check_password.html' as check %}
 
 {% block scripts %}
 {% endblock %}
@@ -53,6 +54,7 @@
                 {% endfor %}
 
             {{ f.end_form() }}
+            {{ check.password_check('password', 0) }}
         </div>
     </div>
 {% endblock %}

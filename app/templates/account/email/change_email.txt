@@ -2,7 +2,7 @@ Dear {{ user.full_name() }},
 
 To confirm your new email address click on the following link:
 
-{{ url_for('account.change_email', token=token, _external=True) }}
+{{ change_email_link }}
 
 Sincerely,
 

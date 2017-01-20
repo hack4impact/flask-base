@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 import os
-from app import create_app, db
-from app.models import User, Role
-from flask.ext.script import Manager, Shell
-from flask.ext.migrate import Migrate, MigrateCommand
+import subprocess
+from config import Config
 
-# Import settings from .env file. Must define FLASK_CONFIG
+from flask.ext.migrate import Migrate, MigrateCommand
+from flask.ext.script import Manager, Shell
+from redis import Redis
+from rq import Connection, Queue, Worker
+
+from app import create_app, db
+from app.models import Role, User
+
 if os.path.exists('.env'):
     print('Importing environment from .env file')
     for line in open('.env'):
@@ -46,12 +51,13 @@ def recreate_db():
     db.session.commit()
 
 
-@manager.option('-n',
-                '--number-users',
-                default=10,
-                type=int,
-                help='Number of each model type to create',
-                dest='number_users')
+@manager.option(
+    '-n',
+    '--number-users',
+    default=10,
+    type=int,
+    help='Number of each model type to create',
+    dest='number_users')
 def add_fake_data(number_users):
     """
     Adds fake data to the database.
@@ -72,8 +78,50 @@ def setup_prod():
 
 
 def setup_general():
-    """Runs the set-up needed for both local development and production."""
+    """Runs the set-up needed for both local development and production.
+       Also sets up first admin user."""
     Role.insert_roles()
+    admin_query = Role.query.filter_by(name='Administrator')
+    if admin_query.first() is not None:
+        if User.query.filter_by(email=Config.ADMIN_EMAIL).first() is None:
+            user = User(
+                first_name='Admin',
+                last_name='Account',
+                password=Config.ADMIN_PASSWORD,
+                confirmed=True,
+                email=Config.ADMIN_EMAIL)
+            db.session.add(user)
+            db.session.commit()
+            print 'Added administrator {}'.format(user.full_name())
+
+
+@manager.command
+def run_worker():
+    """Initializes a slim rq task queue."""
+    listen = ['default']
+    conn = Redis(
+        host=app.config['RQ_DEFAULT_HOST'],
+        port=app.config['RQ_DEFAULT_PORT'],
+        db=0,
+        password=app.config['RQ_DEFAULT_PASSWORD'])
+
+    with Connection(conn):
+        worker = Worker(map(Queue, listen))
+        worker.work()
+
+
+@manager.command
+def format():
+    """Runs the yapf and isort formatters over the project."""
+    isort = 'isort -rc *.py app/'
+    yapf = 'yapf -r -i *.py app/'
+
+    print 'Running {}'.format(isort)
+    subprocess.call(isort, shell=True)
+
+    print 'Running {}'.format(yapf)
+    subprocess.call(yapf, shell=True)
+
 
 if __name__ == '__main__':
     manager.run()

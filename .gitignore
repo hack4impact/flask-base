@@ -4,6 +4,7 @@ webassets-external/
 *.pyc
 *.pyo
 env
+.env
 venv
 env*
 dist
@@ -11,3 +12,4 @@ dist
 *.egg-info
 *.sqlite
 .idea
+dump.rdb

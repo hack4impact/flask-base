@@ -1,23 +1,15 @@
-from flask import render_template, redirect, request, url_for, flash
-from flask.ext.login import (
-    login_required,
-    login_user,
-    logout_user,
-    current_user
-)
+from flask import flash, redirect, render_template, request, url_for
+from flask.ext.login import (current_user, login_required, login_user,
+                             logout_user)
+from flask.ext.rq import get_queue
+
 from . import account
 from .. import db
 from ..email import send_email
 from ..models import User
-from .forms import (
-    LoginForm,
-    RegistrationForm,
-    CreatePasswordForm,
-    ChangePasswordForm,
-    ChangeEmailForm,
-    RequestResetPasswordForm,
-    ResetPasswordForm
-)
+from .forms import (ChangeEmailForm, ChangePasswordForm, CreatePasswordForm,
+                    LoginForm, RegistrationForm, RequestResetPasswordForm,
+                    ResetPasswordForm)
 
 
 @account.route('/login', methods=['GET', 'POST'])
@@ -26,7 +18,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user is not None and user.verify_password(form.password.data):
+        if user is not None and user.password_hash is not None and \
+                user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             flash('You are now logged in. Welcome back!', 'success')
             return redirect(request.args.get('next') or url_for('main.index'))
@@ -40,15 +33,22 @@ def register():
     """Register a new user, and send them a confirmation email."""
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(first_name=form.first_name.data,
-                    last_name=form.last_name.data,
-                    email=form.email.data,
-                    password=form.password.data)
+        user = User(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            email=form.email.data,
+            password=form.password.data)
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        send_email(user.email, 'Confirm Your Account',
-                   'account/email/confirm', user=user, token=token)
+        confirm_link = url_for('account.confirm', token=token, _external=True)
+        get_queue().enqueue(
+            send_email,
+            recipient=user.email,
+            subject='Confirm Your Account',
+            template='account/email/confirm',
+            user=user,
+            confirm_link=confirm_link)
         flash('A confirmation link has been sent to {}.'.format(user.email),
               'warning')
         return redirect(url_for('main.index'))
@@ -81,15 +81,18 @@ def reset_password_request():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             token = user.generate_password_reset_token()
-            send_email(user.email,
-                       'Reset Your Password',
-                       'account/email/reset_password',
-                       user=user,
-                       token=token,
-                       next=request.args.get('next'))
+            reset_link = url_for(
+                'account.reset_password', token=token, _external=True)
+            get_queue().enqueue(
+                send_email,
+                recipient=user.email,
+                subject='Reset Your Password',
+                template='account/email/reset_password',
+                user=user,
+                reset_link=reset_link,
+                next=request.args.get('next'))
         flash('A password reset link has been sent to {}.'
-              .format(form.email.data),
-              'warning')
+              .format(form.email.data), 'warning')
         return redirect(url_for('account.login'))
     return render_template('account/reset_password.html', form=form)
 
@@ -141,11 +144,17 @@ def change_email_request():
         if current_user.verify_password(form.password.data):
             new_email = form.email.data
             token = current_user.generate_email_change_token(new_email)
-            send_email(new_email,
-                       'Confirm Your New Email',
-                       'account/email/change_email',
-                       user=current_user,
-                       token=token)
+            change_email_link = url_for(
+                'account.change_email', token=token, _external=True)
+            get_queue().enqueue(
+                send_email,
+                recipient=new_email,
+                subject='Confirm Your New Email',
+                template='account/email/change_email',
+                # current_user is a LocalProxy, we want the underlying user
+                # object
+                user=current_user._get_current_object(),
+                change_email_link=change_email_link)
             flash('A confirmation link has been sent to {}.'.format(new_email),
                   'warning')
             return redirect(url_for('main.index'))
@@ -170,11 +179,17 @@ def change_email(token):
 def confirm_request():
     """Respond to new user's request to confirm their account."""
     token = current_user.generate_confirmation_token()
-    send_email(current_user.email, 'Confirm Your Account',
-               'account/email/confirm', user=current_user, token=token)
-    flash('A new confirmation link has been sent to {}.'.
-          format(current_user.email),
-          'warning')
+    confirm_link = url_for('account.confirm', token=token, _external=True)
+    get_queue().enqueue(
+        send_email,
+        recipient=current_user.email,
+        subject='Confirm Your Account',
+        template='account/email/confirm',
+        # current_user is a LocalProxy, we want the underlying user object
+        user=current_user._get_current_object(),
+        confirm_link=confirm_link)
+    flash('A new confirmation link has been sent to {}.'.format(
+        current_user.email), 'warning')
     return redirect(url_for('main.index'))
 
 
@@ -191,8 +206,8 @@ def confirm(token):
     return redirect(url_for('main.index'))
 
 
-@account.route('/join-from-invite/<int:user_id>/<token>',
-               methods=['GET', 'POST'])
+@account.route(
+    '/join-from-invite/<int:user_id>/<token>', methods=['GET', 'POST'])
 def join_from_invite(user_id, token):
     """
     Confirm new user's account with provided token and prompt them to set
@@ -211,26 +226,32 @@ def join_from_invite(user_id, token):
         return redirect(url_for('main.index'))
 
     if new_user.confirm_account(token):
-            form = CreatePasswordForm()
-            if form.validate_on_submit():
-                new_user.password = form.password.data
-                db.session.add(new_user)
-                db.session.commit()
-                flash('Your password has been set. After you log in, you can '
-                      'go to the "Your Account" page to review your account '
-                      'information and settings.', 'success')
-                return redirect(url_for('account.login'))
-            return render_template('account/join_invite.html', form=form)
+        form = CreatePasswordForm()
+        if form.validate_on_submit():
+            new_user.password = form.password.data
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Your password has been set. After you log in, you can '
+                  'go to the "Your Account" page to review your account '
+                  'information and settings.', 'success')
+            return redirect(url_for('account.login'))
+        return render_template('account/join_invite.html', form=form)
     else:
         flash('The confirmation link is invalid or has expired. Another '
               'invite email with a new link has been sent to you.', 'error')
         token = new_user.generate_confirmation_token()
-        send_email(new_user.email,
-                   'You Are Invited To Join',
-                   'account/email/invite',
-                   user=new_user,
-                   user_id=new_user.id,
-                   token=token)
+        invite_link = url_for(
+            'account.join_from_invite',
+            user_id=user_id,
+            token=token,
+            _external=True)
+        get_queue().enqueue(
+            send_email,
+            recipient=new_user.email,
+            subject='You Are Invited To Join',
+            template='account/email/invite',
+            user=new_user,
+            invite_link=invite_link)
     return redirect(url_for('main.index'))
 
 

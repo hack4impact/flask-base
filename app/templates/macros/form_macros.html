@@ -30,6 +30,7 @@
         {% for field in form | selectattr('type', 'equalto', 'SubmitField') %}
             {{ render_form_field(field) }}
         {% endfor %}
+
     {{ end_form(form) }}
 {% endmacro %}
 
@@ -108,6 +109,11 @@
         {{ render_form(field) }}
     {% else %}
         {{ field.label }}
+            {% if field.description %}
+                <div class="ui pointing below label">
+                    {{ field.description }}
+                </div>
+            {% endif %}
         {{ field(placeholder=field.label.text) }}
     {% endif %}
 {% endmacro %}

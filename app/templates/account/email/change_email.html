@@ -1,10 +1,10 @@
 <p>Dear {{ user.full_name() }},</p>
 
-<p>To confirm your new email address <a href="{{ url_for('account.change_email', token=token, _external=True) }}">click here</a>.</p>
+<p>To confirm your new email address <a href="{{ change_email_link }}">click here</a>.</p>
 
 <p>Alternatively, you can paste the following link in your browser's address bar:</p>
 
-<p>{{ url_for('account.change_email', token=token, _external=True) }}</p>
+<p>{{ change_email_link }}</p>
 
 <p>Sincerely,</p>
 

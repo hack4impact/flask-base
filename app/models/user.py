@@ -1,8 +1,9 @@
 from flask import current_app
-from flask.ext.login import UserMixin, AnonymousUserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, \
-    BadSignature, SignatureExpired
+from flask.ext.login import AnonymousUserMixin, UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import BadSignature, SignatureExpired
+from werkzeug.security import check_password_hash, generate_password_hash
+
 from .. import db, login_manager
 
 
@@ -23,11 +24,11 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-            'User': (
-                Permission.GENERAL, 'main', True
-            ),
+            'User': (Permission.GENERAL, 'main', True),
             'Administrator': (
-                Permission.ADMINISTER, 'admin', False  # grants all permissions
+                Permission.ADMINISTER,
+                'admin',
+                False  # grants all permissions
             )
         }
         for r in roles:
@@ -113,6 +114,7 @@ class User(UserMixin, db.Model):
             return False
         self.confirmed = True
         db.session.add(self)
+        db.session.commit()
         return True
 
     def change_email(self, token):
@@ -131,6 +133,7 @@ class User(UserMixin, db.Model):
             return False
         self.email = new_email
         db.session.add(self)
+        db.session.commit()
         return True
 
     def reset_password(self, token, new_password):
@@ -144,6 +147,7 @@ class User(UserMixin, db.Model):
             return False
         self.password = new_password
         db.session.add(self)
+        db.session.commit()
         return True
 
     @staticmethod
@@ -165,8 +169,7 @@ class User(UserMixin, db.Model):
                 password=fake.password(),
                 confirmed=True,
                 role=choice(roles),
-                **kwargs
-            )
+                **kwargs)
             db.session.add(u)
             try:
                 db.session.commit()
