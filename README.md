@@ -17,6 +17,9 @@ A Flask application template with the boilerplate code already done for you.
 * gzip compression
 * Redis Queue for handling asynchronous tasks
 * ZXCVBN password strength checker  
+* CKEditor for editing pages
+
+## Demos
 
 Home Page:
 
