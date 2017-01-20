@@ -1,2 +1,11 @@
+---
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+      - python
 exclude_paths:
-- "app/static/*"
+- tests/
+- app/static/*
