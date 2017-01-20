@@ -15,13 +15,24 @@ A Flask application template with the boilerplate code already done for you.
 * Flask-Assets for asset management and SCSS compilation
 * Flask-Mail for sending emails
 * gzip compression
-* gulp autoreload for quick static page debugging
+* Redis Queue for handling asynchronous tasks
+* ZXCVBN password strength checker  
 
-## Extensions
+Home Page and Registering a User:
 
-Other branches include even more features
+![home](home.gif "home") ![registering](register.gif "register")
 
-* `admin-edit-static-pages`: allow administrators to edit static pages using the [ckeditor](http://ckeditor.com/) WYSIWYG editor 
+Admin Homepage and Dashboard:
+
+![admin](admin.gif "admin")
+
+Admin Editing Page and Admin Editing Users
+
+![edit page](editpage.gif "editpage") ![edit user](edituser.gif "edituser")
+
+Admin adding a user: 
+
+![add user](adduser.gif "add user")
 
 ## Setting up
 
@@ -49,10 +60,10 @@ $ xcode-select --install
 ##### Add Environment Variables 
 
 Create a file called `.env` that contains environment variables in the following syntax: `ENVIRONMENT_VARIABLE=value`. For example,
-the mailing environment variables can be set as the following
+the mailing environment variables can be set as the following. We recommend using Sendgrid for a mailing SMTP server. But anything else will work as well.
 ```
-MAIL_USERNAME=example@domain.com
-MAIL_PASSWORD=SuperSecretPassword
+MAIL_USERNAME=SendgridUsername
+MAIL_PASSWORD=SendgridPassword
 SECRET_KEY=SuperRandomStringToBeUsedForEncryption
 ```
 **Note: do not include the `.env` file in any commits. This should remain private.**
@@ -115,82 +126,6 @@ $ foreman start -f Local
 
 Before you submit changes to flask-base, you may want to auto format your code with `python manage.py format`.
 
-## Project Structure
-
-
-```
-├── Procfile
-├── README.md
-├── app
-│   ├── __init__.py
-│   ├── account
-│   │   ├── __init__.py
-│   │   ├── forms.py
-│   │   └── views.py
-│   ├── admin
-│   │   ├── __init__.py
-│   │   ├── forms.py
-│   │   └── views.py
-│   ├── assets
-│   │   ├── scripts
-│   │   │   ├── app.js
-│   │   │   └── vendor
-│   │   │       ├── jquery.min.js
-│   │   │       ├── semantic.min.js
-│   │   │       └── tablesort.min.js
-│   │   └── styles
-│   │       ├── app.scss
-│   │       └── vendor
-│   │           └── semantic.min.css
-│   ├── assets.py
-│   ├── decorators.py
-│   ├── email.py
-│   ├── main
-│   │   ├── __init__.py
-│   │   ├── errors.py
-│   │   ├── forms.py
-│   │   └── views.py
-│   ├── models.py
-│   ├── static
-│   │   ├── fonts
-│   │   │   └── vendor
-│   │   ├── images
-│   │   └── styles
-│   │       └── app.css
-│   ├── templates
-│   │   ├── account
-│   │   │   ├── email
-│   │   │   ├── login.html
-│   │   │   ├── manage.html
-│   │   │   ├── register.html
-│   │   │   ├── reset_password.html
-│   │   │   └── unconfirmed.html
-│   │   ├── admin
-│   │   │   ├── index.html
-│   │   │   ├── manage_user.html
-│   │   │   ├── new_user.html
-│   │   │   └── registered_users.html
-│   │   ├── errors
-│   │   ├── layouts
-│   │   │   └── base.html
-│   │   ├── macros
-│   │   │   ├── form_macros.html
-│   │   │   └── nav_macros.html
-│   │   ├── main
-│   │   │   └── index.html
-│   │   └── partials
-│   │       ├── _flashes.html
-│   │       └── _head.html
-│   └── utils.py
-├── config.py
-├── manage.py
-├── requirements
-│   ├── common.txt
-│   └── dev.txt
-└── tests
-    ├── test_basics.py
-    └── test_user_model.py
-```
 
 ## Contributing
 
