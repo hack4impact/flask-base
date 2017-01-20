@@ -4,6 +4,8 @@
 
 A Flask application template with the boilerplate code already done for you. 
 
+![logo](logo.png "logo") 
+
 **Documentation available at [http://hack4impact.github.io/flask-base](http://hack4impact.github.io/flask-base).**
 
 ## What's included?
