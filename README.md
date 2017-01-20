@@ -18,21 +18,29 @@ A Flask application template with the boilerplate code already done for you.
 * Redis Queue for handling asynchronous tasks
 * ZXCVBN password strength checker  
 
-Home Page and Registering a User:
+Home Page:
 
-![home](home.gif "home") ![registering](register.gif "register")
+![home](readme_gifs/home.gif "home") 
 
-Admin Homepage and Dashboard:
+Registering User:
 
-![admin](admin.gif "admin")
+![registering](readme_gifs/register.gif "register")
 
-Admin Editing Page and Admin Editing Users
+Admin Homepage:
 
-![edit page](editpage.gif "editpage") ![edit user](edituser.gif "edituser")
+![admin](readme_gifs/admin.gif "admin")
 
-Admin adding a user: 
+Admin Editing Page:
 
-![add user](adduser.gif "add user")
+![edit page](readme_gifs/editpage.gif "editpage") 
+
+Admin Editing Users:
+
+![edit user](readme_gifs/edituser.gif "edituser")
+
+Admin Adding a User: 
+
+![add user](readme_gifs/adduser.gif "add user")
 
 ## Setting up
 
