@@ -20,19 +20,19 @@ A Flask application template with the boilerplate code already done for you.
 
 Home Page and Registering a User:
 
-![home](home.gif "home") ![registering](register.gif "register")
+![home](readme_gifs/home.gif "home") ![registering](readme_gifs/register.gif "register")
 
 Admin Homepage and Dashboard:
 
-![admin](admin.gif "admin")
+![admin](readme_gifs/admin.gif "admin")
 
 Admin Editing Page and Admin Editing Users
 
-![edit page](editpage.gif "editpage") ![edit user](edituser.gif "edituser")
+![edit page](readme_gifs/editpage.gif "editpage") ![edit user](readme_gifs/edituser.gif "edituser")
 
 Admin adding a user: 
 
-![add user](adduser.gif "add user")
+![add user](readme_gifs/adduser.gif "add user")
 
 ## Setting up
 
