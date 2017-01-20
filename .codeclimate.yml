@@ -1,11 +1,27 @@
 ---
 engines:
+  csslint:
+    enabled: true
   duplication:
     enabled: true
     config:
       languages:
+      - css
+      - html
       - javascript
       - python
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  radon:
+    enabled: true
+ratings:
+  paths:
+  - "**.html"
+  - "**.css"
+  - "**.js"
+  - "**.py"
 exclude_paths:
 - tests/
 - app/static/*
