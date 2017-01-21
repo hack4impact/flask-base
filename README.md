@@ -82,8 +82,7 @@ SECRET_KEY=SuperRandomStringToBeUsedForEncryption
 ##### Install the dependencies
 
 ```
-$ pip install -r requirements/common.txt
-$ pip install -r requirements/dev.txt
+$ pip install -r requirements.txt
 ```
 
 ##### Other dependencies for running locally
