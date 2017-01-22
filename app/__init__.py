@@ -9,7 +9,7 @@ from flask.ext.compress import Compress
 from flask.ext.rq import RQ
 
 from config import config
-from assets import app_css, app_js, vendor_css, vendor_js
+from .assets import app_css, app_js, vendor_css, vendor_js
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -39,7 +39,7 @@ def create_app(config_name):
     RQ(app)
 
     # Register Jinja template functions
-    from utils import register_template_utils
+    from .utils import register_template_utils
     register_template_utils(app)
 
     # Set up asset pipeline
@@ -60,13 +60,13 @@ def create_app(config_name):
         SSLify(app)
 
     # Create app blueprints
-    from main import main as main_blueprint
+    from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
-    from account import account as account_blueprint
+    from .account import account as account_blueprint
     app.register_blueprint(account_blueprint, url_prefix='/account')
 
-    from admin import admin as admin_blueprint
+    from .admin import admin as admin_blueprint
     app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
     return app

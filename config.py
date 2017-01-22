@@ -1,7 +1,7 @@
 import os
-import urlparse
+import urllib.parse
 
-from raygun4py.middleware import flask as flask_raygun
+#from raygun4py.middleware import flask as flask_raygun
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -12,7 +12,7 @@ class Config:
         SECRET_KEY = os.environ.get('SECRET_KEY')
     else:
         SECRET_KEY = 'SECRET_KEY_ENV_VAR_NOT_SET'
-        print 'SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUDCTION'
+        print('SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUDCTION')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
     MAIL_SERVER = 'smtp.sendgrid.net'
@@ -30,11 +30,11 @@ class Config:
 
     REDIS_URL = os.getenv('REDISTOGO_URL') or 'http://localhost:6379'
 
-    RAYGUN_APIKEY = os.environ.get('RAYGUN_APIKEY')
+    #RAYGUN_APIKEY = os.environ.get('RAYGUN_APIKEY')
 
     # Parse the REDIS_URL to set RQ config variables
-    urlparse.uses_netloc.append('redis')
-    url = urlparse.urlparse(REDIS_URL)
+    urllib.parse.uses_netloc.append('redis')
+    url = urllib.parse.urlparse(REDIS_URL)
 
     RQ_DEFAULT_HOST = url.hostname
     RQ_DEFAULT_PORT = url.port
@@ -51,7 +51,7 @@ class DevelopmentConfig(Config):
     ASSETS_DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
-    print 'THIS APP IS IN DEBUG MODE. YOU SHOULD NOT SEE THIS IN PRODUCTION.'
+    print('THIS APP IS IN DEBUG MODE. YOU SHOULD NOT SEE THIS IN PRODUCTION.')
 
 
 class TestingConfig(Config):
@@ -71,7 +71,7 @@ class ProductionConfig(Config):
         Config.init_app(app)
         assert os.environ.get('SECRET_KEY'), 'SECRET_KEY IS NOT SET!'
 
-        flask_raygun.Provider(app, app.config['RAYGUN_APIKEY']).attach()
+        #flask_raygun.Provider(app, app.config['RAYGUN_APIKEY']).attach()
 
 
 class HerokuConfig(ProductionConfig):
