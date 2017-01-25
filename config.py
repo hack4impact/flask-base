@@ -12,7 +12,7 @@ class Config:
         SECRET_KEY = os.environ.get('SECRET_KEY')
     else:
         SECRET_KEY = 'SECRET_KEY_ENV_VAR_NOT_SET'
-        print 'SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUDCTION'
+        print('SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUDCTION')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
     MAIL_SERVER = 'smtp.sendgrid.net'
@@ -51,7 +51,7 @@ class DevelopmentConfig(Config):
     ASSETS_DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
-    print 'THIS APP IS IN DEBUG MODE. YOU SHOULD NOT SEE THIS IN PRODUCTION.'
+    print('THIS APP IS IN DEBUG MODE. YOU SHOULD NOT SEE THIS IN PRODUCTION.')
 
 
 class TestingConfig(Config):
