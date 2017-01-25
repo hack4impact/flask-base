@@ -92,7 +92,7 @@ def setup_general():
                 email=Config.ADMIN_EMAIL)
             db.session.add(user)
             db.session.commit()
-            print(('Added administrator {}'.format(user.full_name())))
+            print('Added administrator {}'.format(user.full_name()))
 
 
 @manager.command
@@ -116,10 +116,10 @@ def format():
     isort = 'isort -rc *.py app/'
     yapf = 'yapf -r -i *.py app/'
 
-    print(('Running {}'.format(isort)))
+    print('Running {}'.format(isort))
     subprocess.call(isort, shell=True)
 
-    print(('Running {}'.format(yapf)))
+    print('Running {}'.format(yapf))
     subprocess.call(yapf, shell=True)
 
 
