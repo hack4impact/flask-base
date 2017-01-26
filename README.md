@@ -105,6 +105,21 @@ Linux:
 $ sudo apt-get install redis-server
 ```
 
+You will also need to install PostgresQL 
+
+Mac (using homebrew):
+
+```
+brew install postgresql
+```
+
+Linux (based on this [issue](https://github.com/hack4impact/flask-base/issues/96)):
+
+```
+sudo apt-get install libpq-dev
+```
+
+
 ##### Create the database
 
 ```
