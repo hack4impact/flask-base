@@ -70,7 +70,7 @@ $ xcode-select --install
 
 ##### Add Environment Variables 
 
-Create a file called `.env` that contains environment variables in the following syntax: `ENVIRONMENT_VARIABLE=value`. For example,
+Create a file called `config.env` that contains environment variables in the following syntax: `ENVIRONMENT_VARIABLE=value`. For example,
 the mailing environment variables can be set as the following. We recommend using Sendgrid for a mailing SMTP server. But anything else will work as well.
 ```
 MAIL_USERNAME=SendgridUsername
