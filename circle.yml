@@ -6,5 +6,5 @@ dependencies:
 
 test:
   override:
-    - find . -not -path '*/.eggs/*' -name '*.py' | xargs flake8
+    - find . -not -path '*/.eggs/*' -not -path './venv/*' -name '*.py' | xargs flake8 
     - python manage.py test
