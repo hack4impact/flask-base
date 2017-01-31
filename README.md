@@ -1,5 +1,5 @@
 # flask-base [![Circle CI](https://circleci.com/gh/hack4impact/flask-base.svg?style=svg)](https://circleci.com/gh/hack4impact/flask-base) [![Stories in Ready](https://badge.waffle.io/hack4impact/flask-base.png?label=ready&title=Ready)](https://waffle.io/hack4impact/flask-base) [![Code Climate](https://codeclimate.com/github/hack4impact/flask-base/badges/gpa.svg)] (https://codeclimate.com/github/hack4impact/flask-base/coverage) [![Issue Count](https://codeclimate.com/github/hack4impact/flask-base/badges/issue_count.svg)](https://codeclimate.com/github/hack4impact/flask-base)
-<img src="logo@2x.png" width="400"/>
+<img src="readme_media/logo@2x.png" width="400"/>
 
 A Flask application template with the boilerplate code already done for you. 
 
@@ -23,27 +23,27 @@ A Flask application template with the boilerplate code already done for you.
 
 Home Page:
 
-![home](readme_gifs/home.gif "home") 
+![home](readme_media/home.gif "home") 
 
 Registering User:
 
-![registering](readme_gifs/register.gif "register")
+![registering](readme_media/register.gif "register")
 
 Admin Homepage:
 
-![admin](readme_gifs/admin.gif "admin")
+![admin](readme_media/admin.gif "admin")
 
 Admin Editing Page:
 
-![edit page](readme_gifs/editpage.gif "editpage") 
+![edit page](readme_media/editpage.gif "editpage") 
 
 Admin Editing Users:
 
-![edit user](readme_gifs/edituser.gif "edituser")
+![edit user](readme_media/edituser.gif "edituser")
 
 Admin Adding a User: 
 
-![add user](readme_gifs/adduser.gif "add user")
+![add user](readme_media/adduser.gif "add user")
 
 ## Setting up
 
@@ -70,7 +70,7 @@ $ xcode-select --install
 
 ##### Add Environment Variables 
 
-Create a file called `.env` that contains environment variables in the following syntax: `ENVIRONMENT_VARIABLE=value`. For example,
+Create a file called `config.env` that contains environment variables in the following syntax: `ENVIRONMENT_VARIABLE=value`. For example,
 the mailing environment variables can be set as the following. We recommend using Sendgrid for a mailing SMTP server. But anything else will work as well.
 ```
 MAIL_USERNAME=SendgridUsername
