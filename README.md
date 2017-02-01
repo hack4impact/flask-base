@@ -87,33 +87,41 @@ $ pip install -r requirements.txt
 
 ##### Other dependencies for running locally
 
-You need to install [Foreman](https://ddollar.github.io/foreman/) and [Redis](http://redis.io/). Chances are, these commands will work:
+You need to install [Foreman](https://ddollar.github.io/foreman/), [Redis](http://redis.io/), and [Sass](http://sass-lang.com/). Chances are, these commands will work:
 
+
+**Foreman and Sass:**
 ```
 $ gem install foreman
 ```
 
-Mac (using [homebrew](http://brew.sh/)):
+```
+$ gem install sass
+```
+
+**Redis:**
+
+_Mac (using [homebrew](http://brew.sh/)):_
 
 ```
 $ brew install redis
 ```
 
-Linux:
+_Linux:_
 
 ```
 $ sudo apt-get install redis-server
 ```
 
-You will also need to install PostgresQL 
+You will also need to install **PostgresQL**
 
-Mac (using homebrew):
+_Mac (using homebrew):_
 
 ```
 brew install postgresql
 ```
 
-Linux (based on this [issue](https://github.com/hack4impact/flask-base/issues/96)):
+_Linux (based on this [issue](https://github.com/hack4impact/flask-base/issues/96)):_
 
 ```
 sudo apt-get install libpq-dev
