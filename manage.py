@@ -3,8 +3,8 @@ import os
 import subprocess
 from config import Config
 
-from flask.ext.migrate import Migrate, MigrateCommand
-from flask.ext.script import Manager, Shell
+from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager, Shell
 from redis import Redis
 from rq import Connection, Queue, Worker
 

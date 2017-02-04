@@ -1,7 +1,7 @@
 import os
 import urllib.parse
 
-#from raygun4py.middleware import flask as flask_raygun
+from raygun4py.middleware import flask as flask_raygun
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -30,7 +30,7 @@ class Config:
 
     REDIS_URL = os.getenv('REDISTOGO_URL') or 'http://localhost:6379'
 
-    #RAYGUN_APIKEY = os.environ.get('RAYGUN_APIKEY')
+    RAYGUN_APIKEY = os.environ.get('RAYGUN_APIKEY')
 
     # Parse the REDIS_URL to set RQ config variables
     urllib.parse.uses_netloc.append('redis')
@@ -71,7 +71,7 @@ class ProductionConfig(Config):
         Config.init_app(app)
         assert os.environ.get('SECRET_KEY'), 'SECRET_KEY IS NOT SET!'
 
-        #flask_raygun.Provider(app, app.config['RAYGUN_APIKEY']).attach()
+        flask_raygun.Provider(app, app.config['RAYGUN_APIKEY']).attach()
 
 
 class HerokuConfig(ProductionConfig):

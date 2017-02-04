@@ -25,7 +25,7 @@
       ('main.about', 'About', 'info')
     ]%}
     {% set user = [] %}
-    {% if current_user.is_authenticated() %}
+    {% if current_user.is_authenticated %}
       {% set user = ([(current_user.role.index + '.index', current_user.role.name + ' Dashboard', 'user')]) %}
     {% endif %} 
     {{ render_menu_items( endpoints +  user ) }}
@@ -35,7 +35,7 @@
    manage their account and logout (account routes). Otherwise, it links to register and login.
 #}
 {% macro account_items(current_user) %}
-    {% if current_user.is_authenticated() %}
+    {% if current_user.is_authenticated %}
       {% set endpoints = [
         ('account.manage', 'Your Account', 'settings'),
         ('account.logout', 'Log out', 'sign out')
