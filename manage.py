@@ -106,7 +106,7 @@ def run_worker():
         password=app.config['RQ_DEFAULT_PASSWORD'])
 
     with Connection(conn):
-        worker = Worker(list(map(Queue, listen)))
+        worker = Worker(map(Queue, listen))
         worker.work()
 
 
