@@ -1,9 +1,9 @@
 from flask import abort, flash, redirect, render_template, url_for, request
-from flask.ext.login import current_user, login_required
-from flask.ext.rq import get_queue
+from flask_login import current_user, login_required
+from flask_rq import get_queue
 
 from .forms import (ChangeAccountTypeForm, ChangeUserEmailForm, InviteUserForm,
-                   NewUserForm)
+                    NewUserForm)
 from . import admin
 from .. import db
 from ..decorators import admin_required
