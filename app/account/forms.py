@@ -1,5 +1,5 @@
 from flask import url_for
-from flask.ext.wtf import Form
+from flask_wtf import Form
 from wtforms import ValidationError
 from wtforms.fields import (BooleanField, PasswordField, StringField,
                             SubmitField)
