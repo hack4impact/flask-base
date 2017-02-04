@@ -11,9 +11,9 @@ from rq import Connection, Queue, Worker
 from app import create_app, db
 from app.models import Role, User
 
-if os.path.exists('.env'):
+if os.path.exists('config.env'):
     print('Importing environment from .env file')
-    for line in open('.env'):
+    for line in open('config.env'):
         var = line.strip().split('=')
         if len(var) == 2:
             os.environ[var[0]] = var[1]
