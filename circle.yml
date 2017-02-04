@@ -1,3 +1,6 @@
+machine:
+  post:
+    - pyenv global 3.4.2
 dependencies:
   pre:
     - pip install -U flake8
@@ -7,4 +10,4 @@ dependencies:
 test:
   override:
     - find . -not -path '*/.eggs/*' -name '*.py' | xargs flake8
-    - python manage.py test
+    - python3.4 manage.py test
