@@ -1,7 +1,7 @@
 from flask import flash, redirect, render_template, request, url_for
-from flask.ext.login import (current_user, login_required, login_user,
-                             logout_user)
-from flask.ext.rq import get_queue
+from flask_login import (current_user, login_required, login_user,
+                         logout_user)
+from flask_rq import get_queue
 
 from . import account
 from .. import db
@@ -258,7 +258,7 @@ def join_from_invite(user_id, token):
 @account.before_app_request
 def before_request():
     """Force user to confirm email before accessing login-required routes."""
-    if current_user.is_authenticated() \
+    if current_user.is_authenticated \
             and not current_user.confirmed \
             and request.endpoint[:8] != 'account.' \
             and request.endpoint != 'static':

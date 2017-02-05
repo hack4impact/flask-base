@@ -1,5 +1,5 @@
 import os
-import urlparse
+import urllib.parse
 
 from raygun4py.middleware import flask as flask_raygun
 
@@ -33,8 +33,8 @@ class Config:
     RAYGUN_APIKEY = os.environ.get('RAYGUN_APIKEY')
 
     # Parse the REDIS_URL to set RQ config variables
-    urlparse.uses_netloc.append('redis')
-    url = urlparse.urlparse(REDIS_URL)
+    urllib.parse.uses_netloc.append('redis')
+    url = urllib.parse.urlparse(REDIS_URL)
 
     RQ_DEFAULT_HOST = url.hostname
     RQ_DEFAULT_PORT = url.port

@@ -1,4 +1,4 @@
-from flask.ext.assets import Bundle
+from flask_assets import Bundle
 
 app_css = Bundle('*.scss', filters='scss', output='styles/app.css')
 
