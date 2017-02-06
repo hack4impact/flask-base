@@ -87,13 +87,10 @@ $ pip install -r requirements.txt
 
 ##### Other dependencies for running locally
 
-You need to install [Foreman](https://ddollar.github.io/foreman/), [Redis](http://redis.io/), and [Sass](http://sass-lang.com/). Chances are, these commands will work:
+You need to [Redis](http://redis.io/), and [Sass](http://sass-lang.com/). Chances are, these commands will work:
 
 
-**Foreman and Sass:**
-```
-$ gem install foreman
-```
+**Sass:**
 
 ```
 $ gem install sass
@@ -152,7 +149,7 @@ $ python manage.py add_fake_data
 
 ```
 $ source env/bin/activate
-$ foreman start -f Local
+$ honcho start -f Local
 ```
 
 ## Formatting code
