@@ -58,7 +58,14 @@ $ cd flask-base
 
 ```
 $ pip install virtualenv
-$ virtualenv env
+$ virtualenv -p /path/to/python3.x/installation env
+$ source env/bin/activate
+```
+
+For mac users it will most likely be
+```
+$ pip install virtualenv
+$ virtualenv -p python3 env
 $ source env/bin/activate
 ```
 
