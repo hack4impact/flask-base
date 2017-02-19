@@ -213,7 +213,7 @@ def join_from_invite(user_id, token):
     Confirm new user's account with provided token and prompt them to set
     a password.
     """
-    if current_user is not None and current_user.is_authenticated():
+    if current_user is not None and current_user.is_authenticated:
         flash('You are already logged in.', 'error')
         return redirect(url_for('main.index'))
 
