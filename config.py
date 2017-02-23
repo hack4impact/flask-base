@@ -1,14 +1,12 @@
 import os
 import sys
+from raygun4py.middleware import flask as flask_raygun
+
 PYTHON_VERSION = sys.version_info[0]
 if PYTHON_VERSION == 3:
     import urllib.parse
 else:
     import urlparse
- 
-
-
-from raygun4py.middleware import flask as flask_raygun
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -45,8 +43,8 @@ class Config:
         url = urllib.parse.urlparse(REDIS_URL)
     else:
         urlparse.uses_netloc.append('redis')
-        url = urlparse.urlparse(REDIS_URL) 
-        
+        url = urlparse.urlparse(REDIS_URL)
+
     RQ_DEFAULT_HOST = url.hostname
     RQ_DEFAULT_PORT = url.port
     RQ_DEFAULT_PASSWORD = url.password
