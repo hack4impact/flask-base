@@ -1,4 +1,5 @@
-# flask-base [![Circle CI](https://circleci.com/gh/hack4impact/flask-base.svg?style=svg)](https://circleci.com/gh/hack4impact/flask-base) [![Stories in Ready](https://badge.waffle.io/hack4impact/flask-base.png?label=ready&title=Ready)](https://waffle.io/hack4impact/flask-base) [![Code Climate](https://codeclimate.com/github/hack4impact/flask-base/badges/gpa.svg)] (https://codeclimate.com/github/hack4impact/flask-base/coverage) [![Issue Count](https://codeclimate.com/github/hack4impact/flask-base/badges/issue_count.svg)](https://codeclimate.com/github/hack4impact/flask-base) ![python3.x](https://img.shields.io/badge/python-3.x-brightgreen.svg)  ![python2.x](https://img.shields.io/badge/python-2.x-yellow.svg)
+# flask-base 
+[![Circle CI](https://circleci.com/gh/hack4impact/flask-base.svg?style=svg)](https://circleci.com/gh/hack4impact/flask-base) [![Stories in Ready](https://badge.waffle.io/hack4impact/flask-base.png?label=ready&title=Ready)](https://waffle.io/hack4impact/flask-base) [![Code Climate](https://codeclimate.com/github/hack4impact/flask-base/badges/gpa.svg)] (https://codeclimate.com/github/hack4impact/flask-base/coverage) [![Issue Count](https://codeclimate.com/github/hack4impact/flask-base/badges/issue_count.svg)](https://codeclimate.com/github/hack4impact/flask-base) ![python3.x](https://img.shields.io/badge/python-3.x-brightgreen.svg)  ![python2.x](https://img.shields.io/badge/python-2.x-yellow.svg)
 <img src="readme_media/logo@2x.png" width="400"/>
 
 A Flask application template with the boilerplate code already done for you. 
@@ -29,10 +30,6 @@ Registering User:
 
 ![registering](readme_media/register.gif "register")
 
-Admin Homepage:
-
-![admin](readme_media/admin.gif "admin")
-
 Admin Editing Page:
 
 ![edit page](readme_media/editpage.gif "editpage") 
@@ -41,9 +38,6 @@ Admin Editing Users:
 
 ![edit user](readme_media/edituser.gif "edituser")
 
-Admin Adding a User: 
-
-![add user](readme_media/adduser.gif "add user")
 
 ## Setting up
 
@@ -80,11 +74,23 @@ $ xcode-select --install
 
 Create a file called `config.env` that contains environment variables in the following syntax: `ENVIRONMENT_VARIABLE=value`. For example,
 the mailing environment variables can be set as the following. We recommend using Sendgrid for a mailing SMTP server. But anything else will work as well.
+
 ```
 MAIL_USERNAME=SendgridUsername
 MAIL_PASSWORD=SendgridPassword
 SECRET_KEY=SuperRandomStringToBeUsedForEncryption
 ```
+
+Other Key value pairs:
+
+* `ADMIN_EMAIL`: set to the default email for your first admin account (default is `flask-base-admin@example.com`)
+* `ADMIN_PASSWORD`: set to the default password for your first admin account (default is `password`)
+* `DATABASE_URL`: set to a postgresql database url. By default will point to data-dev.sqlite
+* `REDISTOGO_URL`: set to Redis To Go URL or any redis server url (default `http://localhost:6379`)
+* `RAYGUN_APIKEY`: api key for raygun (default is `None`)
+* `FLASK_CONFIG`: can be `development`, `production`, `default`, `heroku`, `unix`, or `testing`. Most of the time you will use `development` or `production`. 
+
+
 **Note: do not include the `config.env` file in any commits. This should remain private.**
 
 ##### Install the dependencies
