@@ -183,5 +183,8 @@ To create a new documentation page, add a file to the `docs/` directory and edit
 
 When the new files are merged into `master` and pushed to github. Run `mkdocs gh-deploy` to update the online documentation.
 
+## Related
+https://medium.freecodecamp.com/how-we-got-a-2-year-old-repo-trending-on-github-in-just-48-hours-12151039d78b#.se9jwnfk5
+
 ## License
 [MIT License](LICENSE.md)
