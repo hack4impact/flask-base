@@ -54,7 +54,9 @@
                 {% endfor %}
 
             {{ f.end_form() }}
-            {{ check.password_check('password', 0) }}
+            {% if form.password %} 
+              {{ check.password_check('password', 0) }} 
+            {% endif %}
         </div>
     </div>
 {% endblock %}
