@@ -85,8 +85,8 @@ Other Key value pairs:
 
 * `ADMIN_EMAIL`: set to the default email for your first admin account (default is `flask-base-admin@example.com`)
 * `ADMIN_PASSWORD`: set to the default password for your first admin account (default is `password`)
-* `DATABASE_URL`: set to a postgresql database url. By default will point to data-dev.sqlite
-* `REDISTOGO_URL`: set to Redis To Go URL or any redis server url (default `http://localhost:6379`)
+* `DATABASE_URL`: set to a postgresql database url (default is `data-dev.sqlite`)
+* `REDISTOGO_URL`: set to Redis To Go URL or any redis server url (default is `http://localhost:6379`)
 * `RAYGUN_APIKEY`: api key for raygun (default is `None`)
 * `FLASK_CONFIG`: can be `development`, `production`, `default`, `heroku`, `unix`, or `testing`. Most of the time you will use `development` or `production`. 
 
