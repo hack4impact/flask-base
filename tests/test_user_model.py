@@ -86,25 +86,23 @@ class UserModelTestCase(unittest.TestCase):
         self.assertTrue(u.change_email(token))
         self.assertTrue(u.email == 'otheruser@example.org')
 
-    def test_invalid_email_change_token(self):
+    def invalid_or_duplicate_email_change_token(self, email):
         u1 = User(email='user@example.com', password='password')
         u2 = User(email='otheruser@example.org', password='notpassword')
         db.session.add(u1)
         db.session.add(u2)
         db.session.commit()
-        token = u1.generate_email_change_token('otherotheruser@example.net')
+        token = u1.generate_email_change_token(email)
         self.assertFalse(u2.change_email(token))
         self.assertTrue(u2.email == 'otheruser@example.org')
 
+    def test_invalid_email_change_token(self):
+        invalid_email = 'otherotheruser@example.net'
+        self.invalid_or_duplicate_email_change_token(invalid_email)
+
     def test_duplicate_email_change_token(self):
-        u1 = User(email='user@example.com', password='password')
-        u2 = User(email='otheruser@example.org', password='notpassword')
-        db.session.add(u1)
-        db.session.add(u2)
-        db.session.commit()
-        token = u2.generate_email_change_token('user@example.com')
-        self.assertFalse(u2.change_email(token))
-        self.assertTrue(u2.email == 'otheruser@example.org')
+        duplicate_email = 'user@example.com'
+        self.invalid_or_duplicate_email_change_token(duplicate_email)
 
     def test_roles_and_permissions(self):
         Role.insert_roles()
