@@ -103,15 +103,18 @@ class User(UserMixin, db.Model):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'reset': self.id})
 
-    def confirm_account(self, token):
+    def verify_token_for_user(self, token, confirm_or_reset):
         """Verify that the provided token is for this user's id."""
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
         except (BadSignature, SignatureExpired):
             return False
-        if data.get('confirm') != self.id:
+        if data.get(confirm_or_reset) != self.id:
             return False
+
+    def confirm_account(self, token):
+        self.verify_token_for_user(token, 'confirm')
         self.confirmed = True
         db.session.add(self)
         db.session.commit()
@@ -137,14 +140,7 @@ class User(UserMixin, db.Model):
         return True
 
     def reset_password(self, token, new_password):
-        """Verify the new password for this user."""
-        s = Serializer(current_app.config['SECRET_KEY'])
-        try:
-            data = s.loads(token)
-        except (BadSignature, SignatureExpired):
-            return False
-        if data.get('reset') != self.id:
-            return False
+        self.verify_token_for_user(token, 'reset')
         self.password = new_password
         db.session.add(self)
         db.session.commit()
