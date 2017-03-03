@@ -74,7 +74,7 @@ def manage():
 @account.route('/reset-password', methods=['GET', 'POST'])
 def reset_password_request():
     """Respond to existing user's request to reset their password."""
-    if not current_user.is_anonymous():
+    if not current_user.is_anonymous:
         return redirect(url_for('main.index'))
     form = RequestResetPasswordForm()
     if form.validate_on_submit():
@@ -100,7 +100,7 @@ def reset_password_request():
 @account.route('/reset-password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     """Reset an existing user's password."""
-    if not current_user.is_anonymous():
+    if not current_user.is_anonymous:
         return redirect(url_for('main.index'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
@@ -255,7 +255,7 @@ def join_from_invite(user_id, token):
     return redirect(url_for('main.index'))
 
 
-@account.before_app_request
+@account.before_app_requestis
 def before_request():
     """Force user to confirm email before accessing login-required routes."""
     if current_user.is_authenticated \
