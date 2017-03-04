@@ -255,7 +255,7 @@ def join_from_invite(user_id, token):
     return redirect(url_for('main.index'))
 
 
-@account.before_app_requestis
+@account.before_app_request
 def before_request():
     """Force user to confirm email before accessing login-required routes."""
     if current_user.is_authenticated \
