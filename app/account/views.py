@@ -268,6 +268,6 @@ def before_request():
 @account.route('/unconfirmed')
 def unconfirmed():
     """Catch users with unconfirmed emails."""
-    if current_user.is_anonymous() or current_user.confirmed:
+    if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
     return render_template('account/unconfirmed.html')
