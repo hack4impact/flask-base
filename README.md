@@ -168,6 +168,8 @@ $ source env/bin/activate
 $ honcho start -f Local
 ```
 
+For Windows users having issues with binding to a redis port locally, refer to [this issue](https://github.com/hack4impact/flask-base/issues/132).
+
 ## Formatting code
 
 Before you submit changes to flask-base, you may want to auto format your code with `python manage.py format`.
