@@ -103,7 +103,7 @@ $ pip install -r requirements.txt
 
 ##### Other dependencies for running locally
 
-You need to [Redis](http://redis.io/), and [Sass](http://sass-lang.com/). Chances are, these commands will work:
+You need [Redis](http://redis.io/), and [Sass](http://sass-lang.com/). Chances are, these commands will work:
 
 
 **Sass:**
@@ -172,7 +172,7 @@ For Windows users having issues with binding to a redis port locally, refer to [
 
 ## Formatting code
 
-Before you submit changes to flask-base, you may want to auto format your code with `python manage.py format`.
+Before you submit changes to flask-base, you may want to autoformat your code with `python manage.py format`.
 
 
 ## Contributing
