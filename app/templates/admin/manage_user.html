@@ -7,6 +7,7 @@
     ('admin.user_info', 'User information'),
     ('admin.change_user_email', 'Change email address'),
     ('admin.change_account_type', 'Change account type'),
+    ('admin.change_user_applicant_id', 'Change applicant ID'),
     (deletion_endpoint, 'Delete user')
 ] %}
 
@@ -26,6 +27,7 @@
         <tr><td>Full name</td><td>{{ '%s %s' % (user.first_name, user.last_name) }}</td></tr>
         <tr><td>Email address</td><td>{{ user.email }}</td></tr>
         <tr><td>Account type</td><td>{{ user.role.name }}</td></tr>
+        <tr><td>Applicant ID</td><td>{{ user.applicant_id }}</td></tr>
     </table>
 {% endmacro %}
 

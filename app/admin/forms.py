@@ -19,6 +19,12 @@ class ChangeUserEmailForm(Form):
             raise ValidationError('Email already registered.')
 
 
+class ChangeUserApplicantIDForm(Form):
+    applicant_id = StringField(
+        'New Applicant Id', validators=[InputRequired(), Length(1, 64)])
+    submit = SubmitField('Update Applicant ID')
+
+
 class ChangeAccountTypeForm(Form):
     role = QuerySelectField(
         'New account type',
@@ -40,6 +46,8 @@ class InviteUserForm(Form):
         'Last name', validators=[InputRequired(), Length(1, 64)])
     email = EmailField(
         'Email', validators=[InputRequired(), Length(1, 64), Email()])
+    id = StringField(
+        'Applicant ID', validators=[InputRequired()])
     submit = SubmitField('Invite')
 
     def validate_email(self, field):

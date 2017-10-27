@@ -45,6 +45,7 @@
                             <th class="sorted ascending">Last name</th>
                             <th>Email address</th>
                             <th>Account type</th>
+                            <th>Applicant ID</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,6 +56,7 @@
                             <td>{{ u.last_name }}</td>
                             <td>{{ u.email }}</td>
                             <td class="user role">{{ u.role.name }}</td>
+                            <td>{{ u.applicant_id }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
