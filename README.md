@@ -1,10 +1,10 @@
-# flask-base 
-[![Circle CI](https://circleci.com/gh/hack4impact/flask-base.svg?style=svg)](https://circleci.com/gh/hack4impact/flask-base) [![Stories in Ready](https://badge.waffle.io/hack4impact/flask-base.png?label=ready&title=Ready)](https://waffle.io/hack4impact/flask-base) 
-[![Code Climate](https://codeclimate.com/github/hack4impact/flask-base/badges/gpa.svg)](https://codeclimate.com/github/hack4impact/flask-base/coverage) 
+# flask-base
+[![Circle CI](https://circleci.com/gh/hack4impact/flask-base.svg?style=svg)](https://circleci.com/gh/hack4impact/flask-base) [![Stories in Ready](https://badge.waffle.io/hack4impact/flask-base.png?label=ready&title=Ready)](https://waffle.io/hack4impact/flask-base)
+[![Code Climate](https://codeclimate.com/github/hack4impact/flask-base/badges/gpa.svg)](https://codeclimate.com/github/hack4impact/flask-base/coverage)
 [![Issue Count](https://codeclimate.com/github/hack4impact/flask-base/badges/issue_count.svg)](https://codeclimate.com/github/hack4impact/flask-base) ![python3.x](https://img.shields.io/badge/python-3.x-brightgreen.svg)  ![python2.x](https://img.shields.io/badge/python-2.x-yellow.svg)
 <img src="readme_media/logo@2x.png" width="400"/>
 
-A Flask application template with the boilerplate code already done for you. 
+A Flask application template with the boilerplate code already done for you.
 
 
 **Documentation available at [http://hack4impact.github.io/flask-base](http://hack4impact.github.io/flask-base).**
@@ -19,14 +19,14 @@ A Flask application template with the boilerplate code already done for you.
 * Flask-Mail for sending emails
 * gzip compression
 * Redis Queue for handling asynchronous tasks
-* ZXCVBN password strength checker  
+* ZXCVBN password strength checker
 * CKEditor for editing pages
 
 ## Demos
 
 Home Page:
 
-![home](readme_media/home.gif "home") 
+![home](readme_media/home.gif "home")
 
 Registering User:
 
@@ -34,7 +34,7 @@ Registering User:
 
 Admin Editing Page:
 
-![edit page](readme_media/editpage.gif "editpage") 
+![edit page](readme_media/editpage.gif "editpage")
 
 Admin Editing Users:
 
@@ -72,10 +72,12 @@ Note: if you are using a python2.x version, point the -p value towards your pyth
 $ xcode-select --install
 ```
 
-##### Add Environment Variables 
+##### Add Environment Variables
 
-Create a file called `config.env` that contains environment variables in the following syntax: `ENVIRONMENT_VARIABLE=value`. For example,
-the mailing environment variables can be set as the following. We recommend using Sendgrid for a mailing SMTP server. But anything else will work as well.
+Create a file called `config.env` that contains environment variables in the following syntax: `ENVIRONMENT_VARIABLE=value`.
+You may also wrap values in double quotes like `ENVIRONMENT_VARIABLE="value with spaces"`.
+For example, the mailing environment variables can be set as the following.
+We recommend using Sendgrid for a mailing SMTP server, but anything else will work as well.
 
 ```
 MAIL_USERNAME=SendgridUsername
@@ -90,7 +92,7 @@ Other Key value pairs:
 * `DATABASE_URL`: set to a postgresql database url (default is `data-dev.sqlite`)
 * `REDISTOGO_URL`: set to Redis To Go URL or any redis server url (default is `http://localhost:6379`)
 * `RAYGUN_APIKEY`: api key for raygun (default is `None`)
-* `FLASK_CONFIG`: can be `development`, `production`, `default`, `heroku`, `unix`, or `testing`. Most of the time you will use `development` or `production`. 
+* `FLASK_CONFIG`: can be `development`, `production`, `default`, `heroku`, `unix`, or `testing`. Most of the time you will use `development` or `production`.
 
 
 **Note: do not include the `config.env` file in any commits. This should remain private.**
@@ -181,9 +183,9 @@ Contributions are welcome! Check out our [Waffle board](https://waffle.io/hack4i
 
 ## Documentation Changes
 
-To make changes to the documentation refer to the [Mkdocs documentation](http://www.mkdocs.org/#installation) for setup. 
+To make changes to the documentation refer to the [Mkdocs documentation](http://www.mkdocs.org/#installation) for setup.
 
-To create a new documentation page, add a file to the `docs/` directory and edit `mkdocs.yml` to reference the file. 
+To create a new documentation page, add a file to the `docs/` directory and edit `mkdocs.yml` to reference the file.
 
 When the new files are merged into `master` and pushed to github. Run `mkdocs gh-deploy` to update the online documentation.
 

@@ -15,7 +15,7 @@ if os.path.exists('config.env'):
     for line in open('config.env'):
         var = line.strip().split('=')
         if len(var) == 2:
-            os.environ[var[0]] = var[1]
+            os.environ[var[0]] = var[1].replace("\"", "")
 
 
 class Config:
