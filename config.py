@@ -19,7 +19,8 @@ if os.path.exists('config.env'):
 
 
 class Config:
-    APP_NAME = 'Flask-Base'
+    APP_NAME = os.environ.get('APP_NAME') or 'Flask-Base'
+
     if os.environ.get('SECRET_KEY'):
         SECRET_KEY = os.environ.get('SECRET_KEY')
     else:
