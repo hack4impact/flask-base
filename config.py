@@ -15,11 +15,12 @@ if os.path.exists('config.env'):
     for line in open('config.env'):
         var = line.strip().split('=')
         if len(var) == 2:
-            os.environ[var[0]] = var[1]
+            os.environ[var[0]] = var[1].replace("\"", "")
 
 
 class Config:
-    APP_NAME = 'Flask-Base'
+    APP_NAME = os.environ.get('APP_NAME') or 'Flask-Base'
+
     if os.environ.get('SECRET_KEY'):
         SECRET_KEY = os.environ.get('SECRET_KEY')
     else:
