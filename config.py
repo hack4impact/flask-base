@@ -28,6 +28,7 @@ class Config:
         print('SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUCTION')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
+    # Email
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.sendgrid.net'
     MAIL_PORT = os.environ.get('MAIL_PORT') or 587
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') or True
@@ -35,8 +36,12 @@ class Config:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
-    GOOGLE_ANALYTICS_ID = os.environ.get('GOOGLE_ANALYTICS_ID') or ''
 
+    # Analytics
+    GOOGLE_ANALYTICS_ID = os.environ.get('GOOGLE_ANALYTICS_ID') or ''
+    SEGMENT_API_KEY = os.environ.get('SEGMENT_API_KEY') or ''
+
+    # Admin account
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'password'
     ADMIN_EMAIL = os.environ.get(
         'ADMIN_EMAIL') or 'flask-base-admin@example.com'
