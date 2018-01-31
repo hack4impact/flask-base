@@ -35,6 +35,7 @@ class Config:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
+    GOOGLE_ANALYTICS_ID = os.environ.get('GOOGLE_ANALYTICS_ID') or ''
 
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'password'
     ADMIN_EMAIL = os.environ.get(
