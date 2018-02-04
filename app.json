@@ -6,7 +6,7 @@
   },
   "env": {
     "FLASK_CONFIG": {
-      "required": true
+      "value": "production"
     },
     "SECRET_KEY": {
       "generator": "secret"
@@ -19,6 +19,12 @@
     }
   },
   "formation": {
+    "web": {
+      "quantity": 1
+    },
+    "worker": {
+      "quantity": 1
+    }
   },
   "addons": [
     "heroku-postgresql",
