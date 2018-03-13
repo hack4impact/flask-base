@@ -98,6 +98,7 @@
         </div>
     {% elif field.type == 'RadioField' %}
         {% for item in field %}
+            {{ field.label }}
             <div class="ui radio checkbox">
                 {{ item }}
                 {{ item.label }}
