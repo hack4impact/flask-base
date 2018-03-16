@@ -93,13 +93,15 @@
             {% endfor %}
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('div#{{field.name}}').dropdown({
-              allowAdditions: true
-            })
-        });
-    </script>
+    {% if field.allow_custom %}
+        <script>
+            $(document).ready(function() {
+                $('div#{{field.name}}').dropdown({
+                  allowAdditions: true
+                })
+            });
+        </script>
+    {% endif %}
 {% endmacro %}
 
 {# Render a field for the form #}
