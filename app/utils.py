@@ -26,7 +26,7 @@ def index_for_role(role):
 class CustomSelectField(Field):
     widget = HiddenInput()
 
-    def __init__(self, label='', validators=None, multiple=False, 
+    def __init__(self, label='', validators=None, multiple=False,
                  choices=[], allow_custom=True, **kwargs):
         super(CustomSelectField, self).__init__(label, validators, **kwargs)
         self.multiple = multiple
