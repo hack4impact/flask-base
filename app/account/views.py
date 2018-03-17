@@ -1,6 +1,5 @@
 from flask import flash, redirect, render_template, request, url_for
-from flask_login import (current_user, login_required, login_user,
-                         logout_user)
+from flask_login import current_user, login_required, login_user, logout_user
 from flask_rq import get_queue
 
 from . import account
@@ -91,8 +90,8 @@ def reset_password_request():
                 user=user,
                 reset_link=reset_link,
                 next=request.args.get('next'))
-        flash('A password reset link has been sent to {}.'
-              .format(form.email.data), 'warning')
+        flash('A password reset link has been sent to {}.'.format(
+            form.email.data), 'warning')
         return redirect(url_for('account.login'))
     return render_template('account/reset_password.html', form=form)
 

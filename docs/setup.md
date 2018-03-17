@@ -11,9 +11,17 @@ $ cd flask-base
 
 ```
 $ pip install virtualenv
-$ virtualenv env
+$ virtualenv -p /path/to/python3.x/installation env
 $ source env/bin/activate
 ```
+
+For mac users it will most likely be
+```
+$ pip install virtualenv
+$ virtualenv -p python3 env
+$ source env/bin/activate
+```
+Note: if you are using a python2.x version, point the -p value towards your python2.x path
 
 ## (If you're on a mac) Make sure xcode tools are installed
 
@@ -40,12 +48,6 @@ $ pip install -r requirements/dev.txt
 ```
 
 ## Other dependencies for running locally
-
-You need to install [Foreman](https://ddollar.github.io/foreman/) and [Redis](http://redis.io/). Chances are, these commands will work:
-
-```
-$ gem install foreman
-```
 
 Mac (using [homebrew](http://brew.sh/)):
 
@@ -90,6 +92,6 @@ $ python manage.py add_fake_data
 
 ```
 $ source env/bin/activate
-$ foreman start -f Local
+$ honcho start -f Local
 ```
 

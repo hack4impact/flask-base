@@ -1,7 +1,7 @@
 ---
 engines:
   csslint:
-    enabled: true
+    enabled: false
   duplication:
     enabled: true
     config:
@@ -24,3 +24,7 @@ ratings:
   - "**.py"
 exclude_paths:
 - app/static/*
+checks:
+  argument-count:
+    config:
+      threshold: 6

@@ -1,5 +1,6 @@
 import os
 import sys
+
 from raygun4py.middleware import flask as flask_raygun
 
 PYTHON_VERSION = sys.version_info[0]
@@ -15,11 +16,12 @@ if os.path.exists('config.env'):
     for line in open('config.env'):
         var = line.strip().split('=')
         if len(var) == 2:
-            os.environ[var[0]] = var[1]
+            os.environ[var[0]] = var[1].replace("\"", "")
 
 
 class Config:
-    APP_NAME = 'Flask-Base'
+    APP_NAME = os.environ.get('APP_NAME') or 'Flask-Base'
+
     if os.environ.get('SECRET_KEY'):
         SECRET_KEY = os.environ.get('SECRET_KEY')
     else:
@@ -27,12 +29,20 @@ class Config:
         print('SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUCTION')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
-    MAIL_SERVER = 'smtp.sendgrid.net'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
+    # Email
+    MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.sendgrid.net'
+    MAIL_PORT = os.environ.get('MAIL_PORT') or 587
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') or True
+    MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL') or False
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
 
+    # Analytics
+    GOOGLE_ANALYTICS_ID = os.environ.get('GOOGLE_ANALYTICS_ID') or ''
+    SEGMENT_API_KEY = os.environ.get('SEGMENT_API_KEY') or ''
+
+    # Admin account
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'password'
     ADMIN_EMAIL = os.environ.get(
         'ADMIN_EMAIL') or 'flask-base-admin@example.com'
