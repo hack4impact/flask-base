@@ -24,3 +24,7 @@ ratings:
   - "**.py"
 exclude_paths:
 - app/static/*
+checks:
+  argument-count:
+    config:
+      threshold: 6
