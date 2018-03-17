@@ -76,6 +76,35 @@
 {% endmacro %}
 
 {# Render a field for the form #}
+{% macro render_custom_select(field) %}
+    {{ field.label }}
+    {% if field.description %}
+        <div class="ui pointing below label">
+            {{ field.description }}
+        </div>
+    {% endif %}
+    <div id="{{field.name}}" class="ui fluid {% if field.multiple %}multiple {% endif %}search selection dropdown">
+        {{ field() }}
+        <i class="dropdown icon"></i>
+        <div class="default text">{{field.label.text}}</div>
+        <div class="menu">
+            {% for choice in field.choices %}
+                <div class="item">{{choice}}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if field.allow_custom %}
+        <script>
+            $(document).ready(function() {
+                $('div#{{field.name}}').dropdown({
+                  allowAdditions: true
+                })
+            });
+        </script>
+    {% endif %}
+{% endmacro %}
+
+{# Render a field for the form #}
 {% macro render_form_field(field, extra_classes='') %}
     {% if field.type == 'Radio Field' %}
         {% set extra_classes = extra_classes + ' grouped fields' %}
@@ -97,8 +126,8 @@
             {{ field.label }}
         </div>
     {% elif field.type == 'RadioField' %}
+        {{ field.label }}
         {% for item in field %}
-            {{ field.label }}
             <div class="ui radio checkbox">
                 {{ item }}
                 {{ item.label }}
@@ -108,13 +137,15 @@
         {{ field(class='ui button') }}
     {% elif field.type == 'FormField' %}
         {{ render_form(field) }}
+    {% elif field.type == 'CustomSelectField' %}
+        {{ render_custom_select(field) }}
     {% else %}
         {{ field.label }}
-            {% if field.description %}
-                <div class="ui pointing below label">
-                    {{ field.description }}
-                </div>
-            {% endif %}
+        {% if field.description %}
+            <div class="ui pointing below label">
+                {{ field.description }}
+            </div>
+        {% endif %}
         {{ field(placeholder=field.label.text) }}
     {% endif %}
 {% endmacro %}
