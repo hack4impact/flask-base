@@ -67,7 +67,6 @@ class Config:
     RQ_DEFAULT_PASSWORD = url.password
     RQ_DEFAULT_DB = 0
 
-
     @staticmethod
     def init_app(app):
         pass
@@ -79,10 +78,10 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
-
     @classmethod
     def init_app(cls, app):
-        print('THIS APP IS IN DEBUG MODE. YOU SHOULD NOT SEE THIS IN PRODUCTION.')
+        print('THIS APP IS IN DEBUG MODE. \
+                YOU SHOULD NOT SEE THIS IN PRODUCTION.')
 
 
 class TestingConfig(Config):
@@ -91,10 +90,10 @@ class TestingConfig(Config):
         'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')
     WTF_CSRF_ENABLED = False
 
-
     @classmethod
     def init_app(cls, app):
-        print('THIS APP IS IN TESTING MODE. YOU SHOULD NOT SEE THIS IN PRODUCTION.')
+        print('THIS APP IS IN TESTING MODE.  \
+                YOU SHOULD NOT SEE THIS IN PRODUCTION.')
 
 
 class ProductionConfig(Config):
