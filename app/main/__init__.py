@@ -1,5 +1,2 @@
-from flask import Blueprint
-
-main = Blueprint('main', __name__)
-
-from . import views, errors  # noqa
+from app.main import errors  # noqa
+from app.main.views import main
