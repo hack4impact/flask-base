@@ -4,8 +4,7 @@ from flask import render_template
 from flask_mail import Message
 
 from app import create_app
-
-from . import mail
+from app import mail
 
 
 def send_email(recipient, subject, template, **kwargs):
