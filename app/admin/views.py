@@ -1,14 +1,27 @@
-from flask import abort, flash, redirect, render_template, request, url_for
+from flask import (
+    Blueprint,
+    abort,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_login import current_user, login_required
 from flask_rq import get_queue
 
-from . import admin
-from .. import db
-from ..decorators import admin_required
-from ..email import send_email
-from ..models import EditableHTML, Role, User
-from .forms import (ChangeAccountTypeForm, ChangeUserEmailForm, InviteUserForm,
-                    NewUserForm)
+from app import db
+from app.admin.forms import (
+    ChangeAccountTypeForm,
+    ChangeUserEmailForm,
+    InviteUserForm,
+    NewUserForm,
+)
+from app.decorators import admin_required
+from app.email import send_email
+from app.models import EditableHTML, Role, User
+
+admin = Blueprint('admin', __name__)
 
 
 @admin.route('/')

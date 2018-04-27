@@ -1,5 +1,1 @@
-from flask import Blueprint
-
-admin = Blueprint('admin', __name__)
-
-from . import views  # noqa
+from app.admin.views import admin  # noqa

@@ -1,7 +1,8 @@
-from flask import render_template
+from flask import Blueprint, render_template
 
-from . import main
-from ..models import EditableHTML
+from app.models import EditableHTML
+
+main = Blueprint('main', __name__)
 
 
 @main.route('/')
