@@ -14,3 +14,6 @@ dist
 .idea
 dump.rdb
 .vscode/
+app/static/scripts/app.js
+app/static/scripts/vendor.js
+app/static/styles/vendor.css
