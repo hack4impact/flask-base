@@ -1,1 +1,1 @@
-from app.account.views import account
+from app.account.views import account # noqa
