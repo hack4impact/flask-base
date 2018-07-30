@@ -47,7 +47,7 @@ class RegistrationForm(Form):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Email already registered. (Did you mean to '
                                   '<a href="{}">log in</a> instead?)'.format(
-                url_for('account.login')))
+                                    url_for('account.login')))
 
 
 class RequestResetPasswordForm(Form):
