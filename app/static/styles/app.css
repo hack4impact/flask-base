@@ -5,7 +5,7 @@ nav {
 
 @media -sass-debug-info{filename{}line{font-family:\0000312}}
 .ui.fixed.main.menu .right.menu > .item:last-of-type {
-  border-right: 1px solid rgba(34, 36, 38, 0.09804);
+  border-right: 1px solid rgba(34, 36, 38, 0.0980392);
 }
 
 @media -sass-debug-info{filename{}line{font-family:\0000318}}
