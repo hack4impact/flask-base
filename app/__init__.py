@@ -59,7 +59,7 @@ def create_app(config_name):
 
     # Configure SSL if platform supports it
     if not app.debug and not app.testing and not app.config['SSL_DISABLE']:
-        from flask.ext.sslify import SSLify
+        from flask_sslify import SSLify
         SSLify(app)
 
     # Create app blueprints
