@@ -44,7 +44,7 @@ Admin Editing Users:
 
 ## Setting up
 
-##### Clone the repo
+##### Clone the Repository 
 
 ```
 $ git clone https://github.com/hack4impact/flask-base.git
