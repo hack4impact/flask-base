@@ -180,7 +180,7 @@ Before you submit changes to flask-base, you may want to autoformat your code wi
 
 ## Contributing
 
-Contributions are welcome! Check out our [Waffle board](https://waffle.io/hack4impact/flask-base) which automatically syncs with this project's GitHub issues. Please refer to our [Code of Conduct](./CONDUCT.md) for more information.
+Contributions are welcome! Please refer to our [Code of Conduct](./CONDUCT.md) for more information.
 
 ## Documentation Changes
 
