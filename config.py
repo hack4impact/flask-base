@@ -99,7 +99,7 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL',
         'sqlite:///' + os.path.join(basedir, 'data.sqlite'))
-    SSL_DISABLE = (os.environ.get('SSL_DISABLE', 'True') == 'True'
+    SSL_DISABLE = (os.environ.get('SSL_DISABLE', 'True') == 'True')
 
     @classmethod
     def init_app(cls, app):
