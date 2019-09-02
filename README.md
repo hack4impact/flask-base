@@ -44,30 +44,35 @@ Admin Editing Users:
 
 ## Setting up
 
-##### Clone the Repository 
+##### Create your own repository from this Template
+
+Navigate to the [main project page](https://github.com/hack4impact/flask-base) and click the big, green "Use this template" button at the top right of the page. Give your new repository a name and save it.
+
+##### Clone the repository 
 
 ```
-$ git clone https://github.com/hack4impact/flask-base.git
-$ cd flask-base
+$ git clone https://github.com/YOUR_USERNAME/REPO_NAME.git
+$ cd REPO_NAME
 ```
 
-##### Initialize a virtualenv
+##### Initialize a virtual environment
 
+Windows:
 ```
-$ pip install virtualenv
-$ virtualenv -p /path/to/python3.x/installation env
-$ source env/bin/activate
+$ python3 -m venv venv
+$ venv\Scripts\activate.bat
 ```
 
-For mac users it will most likely be
+Unix/MacOS:
 ```
-$ pip install virtualenv
-$ virtualenv -p python3 env
-$ source env/bin/activate
+$ python3 -m venv venv
+$ source venv/bin/activate
 ```
-Note: if you are using a python2.x version, point the -p value towards your python2.x path
+Learn more in [the documentation](https://docs.python.org/3/library/venv.html#creating-virtual-environments).
 
-##### (If you're on a mac) Make sure xcode tools are installed
+Note: if you are using a python before 3.3, it doesn't come with venv. Install [virtualenv](https://docs.python-guide.org/dev/virtualenvs/#lower-level-virtualenv) with pip instead.
+
+##### (If you're on a Mac) Make sure xcode tools are installed
 
 ```
 $ xcode-select --install
