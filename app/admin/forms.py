@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import ValidationError
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields import (
@@ -18,7 +18,7 @@ from app import db
 from app.models import Role, User
 
 
-class ChangeUserEmailForm(Form):
+class ChangeUserEmailForm(FlaskForm):
     email = EmailField(
         'New email', validators=[InputRequired(),
                                  Length(1, 64),
@@ -30,7 +30,7 @@ class ChangeUserEmailForm(Form):
             raise ValidationError('Email already registered.')
 
 
-class ChangeAccountTypeForm(Form):
+class ChangeAccountTypeForm(FlaskForm):
     role = QuerySelectField(
         'New account type',
         validators=[InputRequired()],
@@ -39,7 +39,7 @@ class ChangeAccountTypeForm(Form):
     submit = SubmitField('Update role')
 
 
-class InviteUserForm(Form):
+class InviteUserForm(FlaskForm):
     role = QuerySelectField(
         'Account type',
         validators=[InputRequired()],
