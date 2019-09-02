@@ -1,7 +1,7 @@
 {% macro render_flashes(class) %}
     {% with msgs = get_flashed_messages(category_filter=[class]) %}
         {% for msg in msgs %}
-            <div class="ui {{ class }} message">
+            <div class="ui {{ class }} message" data-autohide="5">
                 <i class="close icon"></i>
                 {{ msg }}
             </div>
@@ -17,3 +17,16 @@
         {{ render_flashes('success') }}
     </div>
 </div>
+
+<script>
+  $('.message').each((i, el) => {
+    const $el = $(el);
+    const $xx = $el.find('.close');
+    const sec = $el.data('autohide');
+    const triggerRemove = () => clearTimeout($el.trigger('remove').T);
+
+    $el.one('remove', () => $el.remove());
+    $xx.one('click', triggerRemove);
+    if (sec) $el.T = setTimeout(triggerRemove, sec * 1000);
+  });
+</script>
