@@ -97,6 +97,8 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
+    DEBUG = False
+    USE_RELOADER = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL',
         'sqlite:///' + os.path.join(basedir, 'data.sqlite'))
     SSL_DISABLE = (os.environ.get('SSL_DISABLE', 'True') == 'True')
