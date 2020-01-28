@@ -6,7 +6,7 @@ A note about python manage.py runserver. Runserver is
 actually located in flask.ext.script. Since we
 have not specified a runserver command, it defaults to
 flask.ext.script's Server() method which calls the native
-flask method app.run(). You can pass in some arguemnts such
+flask method app.run(). You can pass in some arguments such
 as changing the port on which the server is run.
 
 ## `.env`
@@ -83,7 +83,7 @@ $ me.id
 ```
 
 This basically creates a new user object, commits it to the database gives
-it a id. The db specific shell exposes the native MigrateCommands...
+it an id. The db specific shell exposes the native MigrateCommands...
 honestly you won't have to worry about these and future info can
 be found the Flask-Migrate documentation.
 
@@ -137,7 +137,7 @@ def run_worker():
 
 
 You may/may not know this but the whole
-if __name__ == '__main__' check is to see if this file is being executed
+`if __name__ == '__main__'` check is to see if this file is being executed
 directly rather than indirectly (by being imported through another file).
 So when we execute this file directly (by running python manage.py SOMECMD)
 we get the option of instatiating the manager instance
