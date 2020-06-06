@@ -198,10 +198,11 @@ Currently we have a `Dockerfile` intended for testing purposes and it automates 
 
 
 ##### How to use the docker file 
-In only two simple steps :
+In only three simple steps :
+- change the variables `MAIL_USERNAME` , `MAIL_PASSWORD` and `SECRET_KEY`
 - `docker build -t <image_name> . 
 - `docker run -it -d -p 5000:5000 --name <container name> <image_name> /bin/bash`
-- to run in foreground mode `docker run -it -p 5000:5000 --name <container name> <image_name> /bin/bash`
+- To run in foreground mode `docker run -it -p 5000:5000 --name <container name> <image_name> /bin/bash`
 
 ##### Note
 
