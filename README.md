@@ -191,6 +191,22 @@ $ honcho start -e config.env -f Local
 
 For Windows users having issues with binding to a redis port locally, refer to [this issue](https://github.com/hack4impact/flask-base/issues/132).
 
+
+## Gettin up and running with Docker
+
+Currently we have a `Dockerfile` intended for testing purposes and it automates the whole cycle of running the application, setting up the database and redis. 
+
+
+##### How to use the docker file 
+In only two simple steps :
+- `docker build -t <image_name> . 
+- `docker run -it -d -p 5000:5000 --name <container name> <image_name> /bin/bash`
+- to run in foreground mode `docker run -it -p 5000:5000 --name <container name> <image_name> /bin/bash`
+
+##### Note
+
+A more robust version with docker-compose is being developed to separate redis in separate container and allow the deployment of production-level applications automatically without the need of manual provisioning
+
 ## Formatting code
 
 Before you submit changes to flask-base, you may want to autoformat your code with `python manage.py format`.
