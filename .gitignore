@@ -14,3 +14,7 @@ dist
 .idea
 dump.rdb
 .vscode/
+
+# optic files
+.optic/captures
+.optic-daemon.log

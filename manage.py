@@ -3,7 +3,7 @@ import os
 import subprocess
 
 from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager, Shell
+from flask_script import Manager, Shell, Server
 from redis import Redis
 from rq import Connection, Queue, Worker
 
@@ -117,4 +117,5 @@ def format():
 
 
 if __name__ == '__main__':
+    manager.add_command('runserver', Server(port=os.environ['OPTIC_API_PORT'] if 'OPTIC_API_PORT' in os.environ else 5000))
     manager.run()

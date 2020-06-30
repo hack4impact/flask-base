@@ -22,6 +22,7 @@ A Flask application template with the boilerplate code already done for you.
 * Redis Queue for handling asynchronous tasks
 * ZXCVBN password strength checker
 * CKEditor for editing pages
+* Optic for Automatic Documentation
 
 ## Demos
 
@@ -224,6 +225,14 @@ To make changes to the documentation refer to the [Mkdocs documentation](http://
 To create a new documentation page, add a file to the `docs/` directory and edit `mkdocs.yml` to reference the file.
 
 When the new files are merged into `master` and pushed to github. Run `mkdocs gh-deploy` to update the online documentation.
+
+## API Documentation Changes
+
+As you make changes to the core api functionality, you can leverage [Optic](https://github.com/opticdev/optic) to automatically notice changes and document them. To enable Optic, you'll need to install it. (`npm install -g @useoptic/cli`)
+
+After installing optic, you can monitor changes to api by running `api start`. This will start serving the app on [localhost:4000](http://localhost:4000), where requests will be diffed against the documentation. You can then view and approve changes to the API, generating documentation for expected behavior for the app. 
+
+You can also view the current documentation for the api by running `api spec`. For more information, see [Optic's Docs](https://docs.useoptic.com)
 
 ## Related
 https://medium.freecodecamp.com/how-we-got-a-2-year-old-repo-trending-on-github-in-just-48-hours-12151039d78b#.se9jwnfk5

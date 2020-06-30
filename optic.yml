@@ -1,0 +1,10 @@
+name: Flask Base
+tasks:
+  # The default task, invoke using `api run start`
+  # Learn how to finish setting up Optic at http://docs.useoptic.com/setup
+  start:
+    command: honcho start -e config.env -f Local
+    baseUrl: http://localhost:4000
+ignoreRequests:
+- OPTIONS *
+- GET /static/*
