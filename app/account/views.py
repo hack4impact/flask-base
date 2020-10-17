@@ -42,7 +42,7 @@ def login():
             flash('You are now logged in. Welcome back!', 'success')
             return redirect(request.args.get('next') or url_for('main.index'))
         else:
-            flash('Invalid email or password.', 'form-error')
+            flash('Invalid email or password.', 'error')
     return render_template('account/login.html', form=form)
 
 
