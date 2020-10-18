@@ -30,12 +30,7 @@ class Config:
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
     # Email
-    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.sendgrid.net')
-    MAIL_PORT = os.environ.get('MAIL_PORT', 587)
-    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', True)
-    MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL', False)
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_SENDGRID_API_KEY = os.environ.get('MAIL_SENDGRID_API_KEY')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
 
     # Analytics
@@ -48,7 +43,7 @@ class Config:
         'ADMIN_EMAIL', 'flask-base-admin@example.com')
     EMAIL_SUBJECT_PREFIX = '[{}]'.format(APP_NAME)
     EMAIL_SENDER = '{app_name} Admin <{email}>'.format(
-        app_name=APP_NAME, email=MAIL_USERNAME)
+        app_name=APP_NAME, email=MAIL_DEFAULT_SENDER)
 
     REDIS_URL = os.getenv('REDISTOGO_URL', 'http://localhost:6379')
 

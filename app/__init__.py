@@ -4,7 +4,7 @@ from flask import Flask
 from flask_assets import Environment
 from flask_compress import Compress
 from flask_login import LoginManager
-from flask_mail import Mail
+from flask_mail_sendgrid import MailSendGrid as Mail
 from flask_rq import RQ
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect

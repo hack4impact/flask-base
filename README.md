@@ -17,7 +17,7 @@ A Flask application template with the boilerplate code already done for you.
 * Flask-SQLAlchemy for databases
 * Flask-WTF for forms
 * Flask-Assets for asset management and SCSS compilation
-* Flask-Mail for sending emails
+* Flask-Mail-SendGrid for sending emails
 * gzip compression
 * Redis Queue for handling asynchronous tasks
 * ZXCVBN password strength checker
@@ -97,11 +97,11 @@ Variables declared in file have the following format: `ENVIRONMENT_VARIABLE=valu
    ```
 
 2. The mailing environment variables can be set as the following.
-   We recommend using [Sendgrid](https://sendgrid.com) for a mailing SMTP server, but anything else will work as well.
+   We recommend using [Sendgrid](https://sendgrid.com).
 
    ```
-   MAIL_USERNAME=SendgridUsername
-   MAIL_PASSWORD=SendgridPassword
+   MAIL_SENDGRID_API_KEY=YourSendGridAPIKey
+   MAIL_DEFAULT_SENDER=noreply@example.com
    ```
 
 Other useful variables include:
