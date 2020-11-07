@@ -1,0 +1,49 @@
+version: '3.4'
+services:
+  server:
+    build:
+      context: .
+    ports:
+      - '5000:5000'
+    volumes: 
+      - './:/app'
+    environment: 
+      # set environment variables
+      REDISTOGO_URL: http://redis:6379
+      DEV_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      TEST_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+  
+  worker:
+    build:
+      dockerfile: Dockerfile.worker
+      context: .
+    volumes: 
+      - './:/app'
+    environment: 
+      # set environment variables
+      REDISTOGO_URL: http://redis:6379
+      DEV_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      TEST_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: mydatabase
+    volumes:
+    - db-data:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  redis:
+    image:
+      redis:6-alpine
+
+volumes:
+  db-data:

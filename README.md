@@ -41,6 +41,33 @@ Admin Editing Users:
 
 ![edit user](readme_media/edituser.gif "edituser")
 
+## Gettin up and running with Docker and docker-compose:
+
+##### Clone the repository 
+```
+$ git clone https://github.com/YOUR_USERNAME/REPO_NAME.git
+$ cd REPO_NAME
+```
+##### Create and run the images:
+
+```
+$ docker-compose up
+```
+
+##### Create database and initial data for development:
+
+```
+$ docker-compose exec server ./init_database.sh
+```
+
+It will deploy 5 docker images:
+
+- server: Flask app running in [http://localhost:5000](http://localhost:5000).
+- worker: Worker ready to get tasks.
+- postgres: Postgres SQL isolated from the app.
+- adminer: Web client for database management, running in [http://localhost:8080](http://localhost:8080).
+- redis: Redis SQL isolated from the app
+
 
 ## Setting up
 
@@ -190,23 +217,6 @@ $ honcho start -e config.env -f Local
 ```
 
 For Windows users having issues with binding to a redis port locally, refer to [this issue](https://github.com/hack4impact/flask-base/issues/132).
-
-
-## Gettin up and running with Docker
-
-Currently we have a `Dockerfile` intended for testing purposes and it automates the whole cycle of running the application, setting up the database and redis. 
-
-
-##### How to use the docker file 
-In only three simple steps :
-- change the variables `MAIL_USERNAME` , `MAIL_PASSWORD` and `SECRET_KEY`
-- `docker build -t <image_name> . 
-- `docker run -it -d -p 5000:5000 --name <container name> <image_name> /bin/bash`
-- To run in foreground mode `docker run -it -p 5000:5000 --name <container name> <image_name> /bin/bash`
-
-##### Note
-
-A more robust version with docker-compose is being developed to separate redis in separate container and allow the deployment of production-level applications automatically without the need of manual provisioning
 
 ## Formatting code
 
