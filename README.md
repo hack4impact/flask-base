@@ -41,33 +41,6 @@ Admin Editing Users:
 
 ![edit user](readme_media/edituser.gif "edituser")
 
-## Gettin up and running with Docker and docker-compose:
-
-##### Clone the repository 
-```
-$ git clone https://github.com/YOUR_USERNAME/REPO_NAME.git
-$ cd REPO_NAME
-```
-##### Create and run the images:
-
-```
-$ docker-compose up
-```
-
-##### Create database and initial data for development:
-
-```
-$ docker-compose exec server ./init_database.sh
-```
-
-It will deploy 5 docker images:
-
-- server: Flask app running in [http://localhost:5000](http://localhost:5000).
-- worker: Worker ready to get tasks.
-- postgres: Postgres SQL isolated from the app.
-- adminer: Web client for database management, running in [http://localhost:8080](http://localhost:8080).
-- redis: Redis SQL isolated from the app
-
 
 ## Setting up
 
@@ -217,6 +190,34 @@ $ honcho start -e config.env -f Local
 ```
 
 For Windows users having issues with binding to a redis port locally, refer to [this issue](https://github.com/hack4impact/flask-base/issues/132).
+
+## Gettin up and running with Docker and docker-compose:
+
+##### Clone the repository 
+```
+$ git clone https://github.com/YOUR_USERNAME/REPO_NAME.git
+$ cd REPO_NAME
+```
+##### Create and run the images:
+
+```
+$ docker-compose up
+```
+
+##### Create database and initial data for development:
+
+```
+$ docker-compose exec server ./init_database.sh
+```
+
+It will deploy 5 docker images:
+
+- server: Flask app running in [http://localhost:5000](http://localhost:5000).
+- worker: Worker ready to get tasks.
+- postgres: Postgres SQL isolated from the app.
+- adminer: Web client for database management, running in [http://localhost:8080](http://localhost:8080).
+- redis: Redis SQL isolated from the app
+
 
 ## Formatting code
 
