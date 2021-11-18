@@ -14,3 +14,4 @@ dist
 .idea
 dump.rdb
 .vscode/
+.history/
