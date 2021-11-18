@@ -19,9 +19,8 @@
    render_menu_items.
 #}
 
-{% macro header_items(current_user) %}
+{% macro menu_items(current_user) %}
     {% set endpoints = [
-      ('main.index', config.APP_NAME, 'home'),
       ('main.about', 'About', 'info')
     ]%}
     {% set user = [] %}
@@ -30,6 +29,13 @@
     {% endif %} 
     {{ render_menu_items( endpoints +  user ) }}
 {% endmacro %}
+
+{% macro header_items(current_user) %}
+       {% set endpoints = [
+        ('main.index', config.APP_NAME, 'home'),
+      ] %}
+     {{ render_menu_items( endpoints ) }}
+ {% endmacro %}
 
 {# This renders the right hand side of the navigation bar. If the user is logged in, it links to 
    manage their account and logout (account routes). Otherwise, it links to register and login.
@@ -54,6 +60,7 @@
     <div class="mobile only row">
         <div class="ui fixed inverted black main menu">
             {{ header_items(current_user) }}
+            {{ create_dropdown(dropdown) }}
             <div class="right menu">
                 <a class="icon item" id="open-nav"><i class="sidebar icon"></i></a>
             </div>
@@ -61,6 +68,7 @@
 
         {# The menu items which will be shown when open-nav is clicked #}
         <div class="ui fixed vertical fluid menu">
+          {{ menu_items(current_user) }}
           {{ account_items(current_user) }}
           {{ create_dropdown(dropdown) }}
         </div>
@@ -86,6 +94,7 @@
         <div class="ui fixed inverted black main menu">
             <div class="ui container">
                 {{ header_items(current_user) }}
+                {{ menu_items(current_user) }}
                 {{ create_dropdown(dropdown) }}
                 <div class="right menu">
                     {{ account_items(current_user) }}
