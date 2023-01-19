@@ -4,6 +4,10 @@ FROM python:3.8-alpine
 # Packages required for psycopg2
 RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
 
+# Ruby sass
+RUN apk add make ruby-dev
+RUN gem install sass
+
 #MAINTANER Your Name "youremail@domain.tld"
 ENV MAIL_USERNAME=yourmail@test.com
 ENV MAIL_PASSWORD=testpass
